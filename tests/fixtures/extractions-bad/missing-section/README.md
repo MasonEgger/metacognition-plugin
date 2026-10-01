@@ -4,4 +4,4 @@
 
 | design | interview n/floor | compile tokens | calibrate rounds, last count | skillify -> plugin:skill (mode) |
 |---|---|---|---|---|
-| 2026-09-21 | 7/9 | 1860 | 1 round, last 2 | |
+| 2026-09-21 | 7/9 | 1817 | 1 round, last 2 | |

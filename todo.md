@@ -25,9 +25,9 @@ Check a step only when every sub-step under it is done.
   - [x] woodshop plugin fixture
   - [x] extractions README (port rules applied)
   - [x] Verify: every listed fixture file exists
-- [ ] Step 4: Port the Bad-Extraction Cases (task)
-  - [ ] bad-yaml, missing-section, noncontiguous-rounds, numbering-gap, oversize-profile
-  - [ ] Verify: all five case directories complete
+- [x] Step 4: Port the Bad-Extraction Cases (task)
+  - [x] bad-yaml, missing-section, noncontiguous-rounds, numbering-gap, oversize-profile
+  - [x] Verify: all five case directories complete
 
 ## Section 3: YAML Subset Parser
 

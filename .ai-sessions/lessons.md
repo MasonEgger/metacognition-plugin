@@ -2,6 +2,7 @@
 
 ## Recent
 <!-- 10 most recent lessons, newest first -->
+- When a port rule targets a kind of file (such as each extraction's own README status table), check every file of that kind, not only the one top-level file; in a plan section with Tools: none nothing downstream catches a missed rule, so grep for the rule's target across the whole ported tree before finalizing (2026-10-01)
 - `/bpe:goal` pre-flight needs four things in place: a feature branch, a clean tree with the planning files committed, `goal.md` in `.gitignore`, and a verification command (2026-10-01)
 - pytest exits 5 when it collects no tests; a goal run whose early steps have no tests needs a verification command that accepts exit 5 (2026-10-01)
 - Before the repo has a `pyproject.toml`, `/bpe:goal` cannot autodetect a test runner; put a `**Verification command:**` line in spec.md's `## Available tooling` section (2026-10-01)
@@ -12,6 +13,7 @@
 - A review ruling that contradicts a spec invariant needs a spec edit in the same pass, then `/bpe:plan --regen`, or plan and spec drift (2026-10-01)
 
 ## Workflow
+- When a port rule targets a kind of file (such as each extraction's own README status table), check every file of that kind, not only the one top-level file; in a plan section with Tools: none nothing downstream catches a missed rule, so grep for the rule's target across the whole ported tree before finalizing (2026-10-01)
 - `/bpe:goal` pre-flight needs four things in place: a feature branch, a clean tree with the planning files committed, `goal.md` in `.gitignore`, and a verification command (2026-10-01)
 - Before the repo has a `pyproject.toml`, `/bpe:goal` cannot autodetect a test runner; put a `**Verification command:**` line in spec.md's `## Available tooling` section (2026-10-01)
 - A review ruling that contradicts a spec invariant needs a spec edit in the same pass, then `/bpe:plan --regen`, or plan and spec drift (2026-10-01)
