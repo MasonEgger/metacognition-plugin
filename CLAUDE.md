@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## State of the Repo
 
-The repo holds planning documents, the Python toolchain, the plugin and marketplace manifests, the directory skeleton, and a placeholder docs site.
+The repo holds planning documents, the Python toolchain, the plugin and marketplace manifests, the directory skeleton, a placeholder docs site, and the first shipped script.
 `tests/fixtures/` holds the ported woodworking extractions and the woodshop plugin fixture; they are verbatim data, so do not edit them or lint their prose.
-Skills, scripts, and tools are still to come; their directories hold only `.gitkeep` placeholders.
+`src/scripts/yaml_subset.py` and `tests/test_yaml_subset.py` exist; the remaining skills, scripts, and tools are still to come, and their directories hold only `.gitkeep` placeholders.
 `spec.md` is the authority for what gets built, `plan.md` is the 22-step build order, and `todo.md` tracks progress.
 Read the spec's Invariants, Non-goals, and Deferred list before changing anything: they are hard constraints, and a step that crosses one needs a spec change first.
 
@@ -48,6 +48,7 @@ These recipes exist in the `justfile`.
 `sync` and `release-dry` depend on files that later plan steps add, so they fail until those steps land.
 
 - `just check`: the full gate (ruff format check, ruff check, mypy strict, pytest, `mkdocs build --strict`).
+  Its mypy line covers `src/scripts tests` until `tools/` has Python files, because mypy exits 2 on an empty configured directory; restore the full target in Step 14.
 - `just test`: pytest only.
 - `uv run pytest tests/test_yaml_subset.py::test_name`: a single test.
 - `just fmt`: format and autofix.

@@ -31,15 +31,15 @@ Check a step only when every sub-step under it is done.
 
 ## Section 3: YAML Subset Parser
 
-- [ ] Step 5: Implement yaml_subset.py
-  - [ ] RED: parser unit tests (inline strings)
-  - [ ] Document: module docstring construct list
-  - [ ] GREEN: parse() and CLI, stdlib only
-  - [ ] RED: edge-case tests
-  - [ ] GREEN: extend parser
-  - [ ] REFACTOR: tokenizer and coercion helpers
-  - [ ] Update docstring
-  - [ ] Verify coverage and just check
+- [x] Step 5: Implement yaml_subset.py
+  - [x] RED: parser unit tests (inline strings)
+  - [x] Document: module docstring construct list
+  - [x] GREEN: parse() and CLI, stdlib only
+  - [x] RED: edge-case tests
+  - [x] GREEN: extend parser
+  - [x] REFACTOR: tokenizer and coercion helpers
+  - [x] Update docstring
+  - [x] Verify coverage and just check
 - [ ] Step 6: YAML Parity Test Over Fixtures
   - [ ] RED: parity test vs pyyaml over all fixture frontmatter
   - [ ] GREEN: grow parser if a construct is uncovered, update docstring
