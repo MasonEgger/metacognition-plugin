@@ -5,11 +5,11 @@ Check a step only when every sub-step under it is done.
 
 ## Section 1: Repo Scaffold and Toolchain
 
-- [ ] Step 1: Python Toolchain and Justfile (task)
-  - [ ] Scope: pyproject.toml and justfile
-  - [ ] Write pyproject.toml (requires-python >=3.11, dev group, ruff, mypy, pytest config)
-  - [ ] Write justfile (check, fmt, test, sync, docs-build, docs-serve, release-dry)
-  - [ ] Verify: uv sync exits 0
+- [x] Step 1: Python Toolchain and Justfile (task)
+  - [x] Scope: pyproject.toml and justfile
+  - [x] Write pyproject.toml (requires-python >=3.11, dev group, ruff, mypy, pytest config)
+  - [x] Write justfile (check, fmt, test, sync, docs-build, docs-serve, release-dry)
+  - [x] Verify: uv sync exits 0
 - [ ] Step 2: Manifests, Directory Skeleton, and Minimal Docs (task)
   - [ ] marketplace.json (version 0.1.0)
   - [ ] plugin.json (version 0.1.0)

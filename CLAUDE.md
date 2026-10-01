@@ -41,7 +41,8 @@ Never commit the private repo's filesystem path.
 
 ## Commands
 
-These recipes are defined by plan Step 1 and do not exist until it lands.
+These recipes exist in the `justfile`.
+`sync`, `release-dry`, and the docs recipes depend on files that later plan steps add, so they fail until those steps land.
 
 - `just check`: the full gate (ruff format check, ruff check, mypy strict, pytest, `mkdocs build --strict`).
 - `just test`: pytest only.
