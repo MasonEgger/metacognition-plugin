@@ -20,11 +20,11 @@ Check a step only when every sub-step under it is done.
 
 ## Section 2: Fixtures and Bad-Extraction Cases
 
-- [ ] Step 3: Port the Good Fixtures (task)
-  - [ ] woodworking, woodworking-augment, woodworking-truncated
-  - [ ] woodshop plugin fixture
-  - [ ] extractions README (port rules applied)
-  - [ ] Verify: every listed fixture file exists
+- [x] Step 3: Port the Good Fixtures (task)
+  - [x] woodworking, woodworking-augment, woodworking-truncated
+  - [x] woodshop plugin fixture
+  - [x] extractions README (port rules applied)
+  - [x] Verify: every listed fixture file exists
 - [ ] Step 4: Port the Bad-Extraction Cases (task)
   - [ ] bad-yaml, missing-section, noncontiguous-rounds, numbering-gap, oversize-profile
   - [ ] Verify: all five case directories complete

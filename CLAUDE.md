@@ -5,6 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## State of the Repo
 
 The repo holds planning documents, the Python toolchain, the plugin and marketplace manifests, the directory skeleton, and a placeholder docs site.
+`tests/fixtures/` holds the ported woodworking extractions and the woodshop plugin fixture; they are verbatim data, so do not edit them or lint their prose.
 Skills, scripts, and tools are still to come; their directories hold only `.gitkeep` placeholders.
 `spec.md` is the authority for what gets built, `plan.md` is the 22-step build order, and `todo.md` tracks progress.
 Read the spec's Invariants, Non-goals, and Deferred list before changing anything: they are hard constraints, and a step that crosses one needs a spec change first.

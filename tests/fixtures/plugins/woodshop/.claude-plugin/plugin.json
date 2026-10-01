@@ -1,0 +1,12 @@
+{
+  "name": "woodshop",
+  "version": "2026.09.21",
+  "description": "Synthetic fixture plugin for the metacognition pipeline tests, not a real plugin",
+  "author": {
+    "name": "Fixture Author",
+    "url": "https://example.com"
+  },
+  "repository": "https://example.com/woodshop",
+  "license": "MIT",
+  "keywords": ["fixture", "woodworking"]
+}
