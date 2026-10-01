@@ -1,3 +1,9 @@
 commit-msg.md
 .claude/settings.local.json
 goal.md
+dist/
+site/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/

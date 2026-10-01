@@ -4,7 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## State of the Repo
 
-The repo holds planning documents only; no code has landed yet.
+The repo holds planning documents, the Python toolchain, the plugin and marketplace manifests, the directory skeleton, and a placeholder docs site.
+Skills, scripts, and tools are still to come; their directories hold only `.gitkeep` placeholders.
 `spec.md` is the authority for what gets built, `plan.md` is the 22-step build order, and `todo.md` tracks progress.
 Read the spec's Invariants, Non-goals, and Deferred list before changing anything: they are hard constraints, and a step that crosses one needs a spec change first.
 
@@ -42,7 +43,8 @@ Never commit the private repo's filesystem path.
 ## Commands
 
 These recipes exist in the `justfile`.
-`sync`, `release-dry`, and the docs recipes depend on files that later plan steps add, so they fail until those steps land.
+`just docs-build` works now.
+`sync` and `release-dry` depend on files that later plan steps add, so they fail until those steps land.
 
 - `just check`: the full gate (ruff format check, ruff check, mypy strict, pytest, `mkdocs build --strict`).
 - `just test`: pytest only.

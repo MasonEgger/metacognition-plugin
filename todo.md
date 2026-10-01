@@ -10,13 +10,13 @@ Check a step only when every sub-step under it is done.
   - [x] Write pyproject.toml (requires-python >=3.11, dev group, ruff, mypy, pytest config)
   - [x] Write justfile (check, fmt, test, sync, docs-build, docs-serve, release-dry)
   - [x] Verify: uv sync exits 0
-- [ ] Step 2: Manifests, Directory Skeleton, and Minimal Docs (task)
-  - [ ] marketplace.json (version 0.1.0)
-  - [ ] plugin.json (version 0.1.0)
-  - [ ] Directory skeleton plus src/scripts/__init__.py
-  - [ ] .gitignore additions
-  - [ ] Minimal mkdocs.yml and docs/index.md
-  - [ ] Verify: just docs-build and claude plugin validate pass
+- [x] Step 2: Manifests, Directory Skeleton, and Minimal Docs (task)
+  - [x] marketplace.json (version 0.1.0)
+  - [x] plugin.json (version 0.1.0)
+  - [x] Directory skeleton plus src/scripts/__init__.py
+  - [x] .gitignore additions
+  - [x] Minimal mkdocs.yml and docs/index.md
+  - [x] Verify: just docs-build and claude plugin validate pass
 
 ## Section 2: Fixtures and Bad-Extraction Cases
 
