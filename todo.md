@@ -142,14 +142,14 @@ Check a step only when every sub-step under it is done.
   - [x] GREEN: minimal
   - [x] REFACTOR: named refusal predicates
   - [x] Verify happy path and refusals, just check
-- [ ] Step 18: Port prose_scrub.py and Run It Over the Repo
-  - [ ] RED: test_prose_scrub (clean passes, dirty fails, allowlist, reporting)
-  - [ ] Document: allowlist docstring
-  - [ ] GREEN: port prose_scrub with cut-down allowlist
-  - [ ] RED: test_repo_prose over own prose
-  - [ ] GREEN: fix any real violation
-  - [ ] REFACTOR: share file walker
-  - [ ] Verify fixtures, allowlist, clean repo prose, just check
+- [x] Step 18: Port prose_scrub.py and Run It Over the Repo
+  - [x] RED: test_prose_scrub (clean passes, dirty fails, allowlist, reporting)
+  - [x] Document: allowlist docstring
+  - [x] GREEN: port prose_scrub with cut-down allowlist
+  - [x] RED: test_repo_prose over own prose
+  - [x] GREEN: fix any real violation
+  - [x] REFACTOR: share file walker
+  - [x] Verify fixtures, allowlist, clean repo prose, just check
 - [ ] Step 19: CI and Release Workflows (task)
   - [ ] ci.yml (matrix 3.11 and 3.13, just check, docs deploy on main, SHA-pinned)
   - [ ] release.yml (version read, tag guard, gate, zip, tag, pre-release during 0.x, SHA-pinned)

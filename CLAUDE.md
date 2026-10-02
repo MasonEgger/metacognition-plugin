@@ -75,4 +75,7 @@ A failing `release-dry` names the file to fix.
 - The profile token ceiling is 5,000 in this phase.
 - Prose follows `.claude/rules/vendored/writing.md`: no em-dash or en-dash, straight quotes, Title Case headings, one sentence per line in committed Markdown.
 - Test-first for anything under `src/scripts/` and `tools/`; tests assert behavior, not the presence of a mechanism.
+- A prose gate lives at `tools/prose_scrub.py`; run `python3 tools/prose_scrub.py` from the repo root and it prints nothing and exits 0 when clean.
+  `tests/test_repo_prose.py` runs it over the repo's own prose, so new docs, session files, and skills must pass it.
+  Describe a finding by its rule name; never quote the banned list or the dirty fixture's lines.
 - GitHub Actions are pinned to commit SHAs.
