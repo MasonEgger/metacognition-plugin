@@ -17,7 +17,8 @@ The design, interview, compile, calibrate, and skillify skills each have a `SKIL
 `tools/sync_skills.py` exists with `tests/test_sync_drift.py` and `tests/test_sync_manifest.py`; `tests/conftest.py` puts `tools/` on `sys.path`.
 `tools/build_zips.py` exists with `tests/test_build_zips.py`; it builds `dist/metacognition-<version>.zip` and refuses, naming each offending file, on version mismatch, oversized or angle-bracket descriptions, bad frontmatter, drifted synced copies, a top-level `bin/`, or any symlink.
 `tools/prose_scrub.py` is the prose gate and runs inside the test suite over the repo's own prose, so run it before committing.
-The two workflows under `.github/workflows/` have never run; the pull request is their first test.
+The CI workflow has run on a pull request and on `main`, including the docs deploy, which created the `gh-pages` branch.
+GitHub runs each `run:` step under `bash -e`, so a step that needs a command's exit code must capture it in the same command (`cmd || rc=$?`); test a step's script locally with `bash -e` before relying on it.
 `docs/surface-check.md` is the checklist and record for the manual check on Claude Code, claude.ai chat, and Cowork.
 That check has not been run; every result slot reads "Not yet run", and filling them in is the maintainer's job.
 The docs site lives under `docs/` (sixteen pages) and builds with `just docs-build`.

@@ -55,8 +55,10 @@ jobs:
         run: |
           set -uo pipefail
           # Ask the remote, not only the local clone.
-          git ls-remote --exit-code --tags origin "refs/tags/v${VERSION}" > /dev/null
-          rc=$?
+          # The runner's shell is bash -e, so capture the exit code in the same
+          # command; a bare non-zero exit would end the script before it is read.
+          rc=0
+          git ls-remote --exit-code --tags origin "refs/tags/v${VERSION}" > /dev/null || rc=$?
           if [ "$rc" -eq 0 ]; then
             echo "Tag v${VERSION} already exists on the remote. Nothing to release."
             echo "exists=true" >> "$GITHUB_OUTPUT"
