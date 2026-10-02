@@ -80,10 +80,10 @@ Check a step only when every sub-step under it is done.
   - [x] design/SKILL.md ported (four-field frontmatter at 0.1.0, settings-first, research dispatch, ends and stops)
   - [x] interview/SKILL.md ported (one question per turn, verbatim, generic dictation note)
   - [x] Verify: grep checks pass, inputs and outputs by path
-- [ ] Step 11: Port compile and calibrate (task)
-  - [ ] compile/SKILL.md ported (never resolves a tension, logs every cut)
-  - [ ] calibrate/SKILL.md ported (reads profile not archive, probes never ship)
-  - [ ] Verify: grep checks pass
+- [x] Step 11: Port compile and calibrate (task)
+  - [x] compile/SKILL.md ported (never resolves a tension, logs every cut)
+  - [x] calibrate/SKILL.md ported (reads profile not archive, probes never ship)
+  - [x] Verify: grep checks pass
 - [ ] Step 12: Port skillify (task)
   - [ ] skillify/SKILL.md ported (exemplar, --into and default package, verbatim-archive warning, target_skill, augment, version stamping, loader)
   - [ ] Verify: grep checks pass, warning text present

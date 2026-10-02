@@ -11,8 +11,8 @@ The repo holds planning documents, the Python toolchain, the plugin and marketpl
 `src/scripts/validate_artifacts.py` and `tests/test_validate_artifacts.py` exist, so all three scripts are shipped.
 `woodworking-truncated` fails the validator with `archive-category-count` on purpose (it is the interrupted-interview fixture for the `--resume` eval); a test pins that finding, so do not fix the fixture.
 `src/references/` holds the eight references; `settings.md` must stay in step with `resolve_config.py`, and a SKILL.md should name only the references and scripts in its own sync slice.
-`metacognition/skills/design/SKILL.md` and `metacognition/skills/interview/SKILL.md` exist; their `references/` and `scripts/` copies arrive with the sync step.
-The other three skills and the tools are still to come, and their directories hold only `.gitkeep` placeholders.
+The design, interview, compile, and calibrate skills each have a `SKILL.md` under `metacognition/skills/`; their `references/` and `scripts/` copies arrive with the sync step.
+The skillify skill and the tools are still to come, and their directories hold only `.gitkeep` placeholders.
 `spec.md` is the authority for what gets built, `plan.md` is the 22-step build order, and `todo.md` tracks progress.
 Read the spec's Invariants, Non-goals, and Deferred list before changing anything: they are hard constraints, and a step that crosses one needs a spec change first.
 
