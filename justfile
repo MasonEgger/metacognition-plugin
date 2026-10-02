@@ -5,7 +5,7 @@ default:
 check:
     uv run ruff format --check .
     uv run ruff check .
-    uv run mypy src/scripts tests
+    uv run mypy
     uv run pytest
     uv run mkdocs build --strict
 

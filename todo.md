@@ -101,15 +101,15 @@ Check a step only when every sub-step under it is done.
 
 ## Section 8: Sync Tool and Drift Guards
 
-- [ ] Step 14: Implement sync_skills.py and Populate the Skills
-  - [ ] RED: test_sync_drift and test_sync_manifest (G2 table)
-  - [ ] Document: manifest-source comment
-  - [ ] GREEN: sync_skills.py with manifest, copy, remove, --check
-  - [ ] Run sync and commit populated skill dirs
-  - [ ] RED: extra-file detection test
-  - [ ] GREEN: minimal
-  - [ ] REFACTOR: typed copy and diff helpers
-  - [ ] Verify: --check clean, drift test fails on a byte edit, plugin validate passes, just check
+- [x] Step 14: Implement sync_skills.py and Populate the Skills
+  - [x] RED: test_sync_drift and test_sync_manifest (G2 table)
+  - [x] Document: manifest-source comment
+  - [x] GREEN: sync_skills.py with manifest, copy, remove, --check
+  - [x] Run sync and commit populated skill dirs
+  - [x] RED: extra-file detection test
+  - [x] GREEN: minimal
+  - [x] REFACTOR: typed copy and diff helpers
+  - [x] Verify: --check clean, drift test fails on a byte edit, plugin validate passes, just check
 
 ## Section 9: Evals
 
