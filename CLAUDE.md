@@ -42,6 +42,8 @@ When a script cannot run, the skill applies the same rules by hand from its refe
 
 `yaml_subset.py` is a strict parser for the YAML subset the artifact formats use; `resolve_config.py` and `validate_artifacts.py` build on it.
 `tests/test_doctrine_invariants.py` greps the shipped trees for private tokens, model pins, and `../` paths.
+`tests/test_skill_versions.py` holds every version equal and in the beta shape.
+When either guard fails, fix the offending file at its source in `src/` and re-sync; never loosen the guard.
 
 ## Porting From the Private Source
 

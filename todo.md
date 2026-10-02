@@ -123,14 +123,14 @@ Check a step only when every sub-step under it is done.
 
 ## Section 10: Doctrine and Version Guards
 
-- [ ] Step 16: Doctrine Invariants and Skill-Version Tests
-  - [ ] RED: test_doctrine_invariants (tokens, model lines, ../, self-check)
-  - [ ] RED: test_skill_versions (presence, SemVer 0.x shape during beta, uniformity)
-  - [ ] GREEN: scoped walker and version reader; fix any violation at source
-  - [ ] RED: planted-token detection test
-  - [ ] GREEN: matcher catches it
-  - [ ] REFACTOR: shared walker
-  - [ ] Verify both guards and just check
+- [x] Step 16: Doctrine Invariants and Skill-Version Tests
+  - [x] RED: test_doctrine_invariants (tokens, model lines, ../, self-check)
+  - [x] RED: test_skill_versions (presence, SemVer 0.x shape during beta, uniformity)
+  - [x] GREEN: scoped walker and version reader; fix any violation at source
+  - [x] RED: planted-token detection test
+  - [x] GREEN: matcher catches it
+  - [x] REFACTOR: shared walker
+  - [x] Verify both guards and just check
 
 ## Section 11: Packaging, Prose Gate, and Release
 
