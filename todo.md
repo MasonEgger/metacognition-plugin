@@ -76,10 +76,10 @@ Check a step only when every sub-step under it is done.
 
 ## Section 6: The Five Skills
 
-- [ ] Step 10: Port design and interview (task)
-  - [ ] design/SKILL.md ported (four-field frontmatter at 0.1.0, settings-first, research dispatch, ends and stops)
-  - [ ] interview/SKILL.md ported (one question per turn, verbatim, generic dictation note)
-  - [ ] Verify: grep checks pass, inputs and outputs by path
+- [x] Step 10: Port design and interview (task)
+  - [x] design/SKILL.md ported (four-field frontmatter at 0.1.0, settings-first, research dispatch, ends and stops)
+  - [x] interview/SKILL.md ported (one question per turn, verbatim, generic dictation note)
+  - [x] Verify: grep checks pass, inputs and outputs by path
 - [ ] Step 11: Port compile and calibrate (task)
   - [ ] compile/SKILL.md ported (never resolves a tension, logs every cut)
   - [ ] calibrate/SKILL.md ported (reads profile not archive, probes never ship)

@@ -2,6 +2,7 @@
 
 ## Recent
 <!-- 10 most recent lessons, newest first -->
+- A number in a spec overview or plan step (such as "60 to 120 questions") is not a rule to port unless the source text states it; grep the source before adding it to a ported skill (2026-10-01)
 - When a port replaces "he" with "they", every verb in a list after the pronoun needs the plural form, not only the first one; re-read each changed sentence in full (2026-10-01)
 - When a port rule edits a fixture's body, update every frontmatter value derived from that body (such as token_estimate) in the same step; Steps 3 and 4 reworded profile line 25 and left token_estimate stale, and the Step 8 validator test then fired on eight fixtures (2026-10-01)
 - Before treating a ported fixture that fails validation as broken, check the source history for whether the failure is intentional (woodworking-truncated fails archive-category-count on purpose), then pin the expected finding with a test (2026-10-01)
@@ -11,9 +12,9 @@
 - In a Feature step, run the new tests and see them fail before writing the implementation, and log any deviation to .ai-sessions/implementation-notes.md at the time it happens (2026-10-01)
 - When stripping a comment from a line, quote tracking must apply the same escape rules as the string reader: '' doubling in single quotes and backslash escapes in double quotes; otherwise a # after an escaped quote is read as a comment start (2026-10-01)
 - When a port rule targets a kind of file (such as each extraction's own README status table), check every file of that kind, not only the one top-level file; in a plan section with Tools: none nothing downstream catches a missed rule, so grep for the rule's target across the whole ported tree before finalizing (2026-10-01)
-- `/bpe:goal` pre-flight needs four things in place: a feature branch, a clean tree with the planning files committed, `goal.md` in `.gitignore`, and a verification command (2026-10-01)
 
 ## Workflow
+- A number in a spec overview or plan step (such as "60 to 120 questions") is not a rule to port unless the source text states it; grep the source before adding it to a ported skill (2026-10-01)
 - When a port replaces "he" with "they", every verb in a list after the pronoun needs the plural form, not only the first one; re-read each changed sentence in full (2026-10-01)
 - When a port rule edits a fixture's body, update every frontmatter value derived from that body (such as token_estimate) in the same step; Steps 3 and 4 reworded profile line 25 and left token_estimate stale, and the Step 8 validator test then fired on eight fixtures (2026-10-01)
 - In a Feature step, run the new tests and see them fail before writing the implementation, and log any deviation to .ai-sessions/implementation-notes.md at the time it happens (2026-10-01)
