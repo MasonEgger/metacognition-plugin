@@ -1,0 +1,1578 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A Claude plugin that captures how you judge your work and turns it into a skill.">
+      
+      
+      
+        <link rel="canonical" href="https://masonegger.github.io/metacognition-plugin/method/">
+      
+      
+        <link rel="prev" href="../configuration/">
+      
+      
+        <link rel="next" href="../privacy/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>The Method - Metacognition</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-method" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Metacognition" class="md-header__button md-logo" aria-label="Metacognition" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Metacognition
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              The Method
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/MasonEgger/metacognition-plugin" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MasonEgger/metacognition-plugin
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Metacognition" class="md-nav__button md-logo" aria-label="Metacognition" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Metacognition
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/MasonEgger/metacognition-plugin" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MasonEgger/metacognition-plugin
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Five Stages
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    The Five Stages
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stages/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stages/interview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stages/compile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stages/calibrate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calibrate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stages/skillify/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Skillify
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Method
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Method
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why It Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-sixteen-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Sixteen Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Sixteen Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-stated-vs-revealed-preference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Stated vs Revealed Preference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-negatives-outrank-positives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Negatives Outrank Positives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-examples-outrank-adjectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Examples Outrank Adjectives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-forced-choice-beats-open-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Forced Choice Beats Open Description
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-laddering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Laddering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-contrast-probing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Contrast Probing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-artifact-grounding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Artifact Grounding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-contradiction-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Contradiction Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-register-separation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Register Separation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-saturation-not-quotas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Saturation, Not Quotas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-verbatim-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Verbatim Capture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-interviewer-drift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Interviewer Drift
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-unknown-unknowns-pass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Unknown-Unknowns Pass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-the-keepcut-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. The Keep/Cut Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-calibration-is-the-moat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. Calibration Is the Moat
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#16-elicitation-technique-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16. Elicitation Technique Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-stages-use-the-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the Stages Use the Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Formats
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File Formats
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formats/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formats/interview-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    interview-spec.md
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formats/archive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    archive.md
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formats/profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    profile.md
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formats/calibration-round/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calibration Round Files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../surface-check/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Surface Check
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why It Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-sixteen-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Sixteen Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Sixteen Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-stated-vs-revealed-preference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Stated vs Revealed Preference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-negatives-outrank-positives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Negatives Outrank Positives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-examples-outrank-adjectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Examples Outrank Adjectives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-forced-choice-beats-open-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Forced Choice Beats Open Description
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-laddering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Laddering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-contrast-probing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Contrast Probing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-artifact-grounding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Artifact Grounding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-contradiction-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Contradiction Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-register-separation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Register Separation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-saturation-not-quotas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Saturation, Not Quotas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-verbatim-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Verbatim Capture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-interviewer-drift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Interviewer Drift
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-unknown-unknowns-pass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Unknown-Unknowns Pass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-the-keepcut-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. The Keep/Cut Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-calibration-is-the-moat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. Calibration Is the Moat
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#16-elicitation-technique-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16. Elicitation Technique Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-stages-use-the-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the Stages Use the Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="the-method">The Method<a class="headerlink" href="#the-method" title="Permanent link">&para;</a></h1>
+<p>Every stage of the plugin follows one set of rules.
+There are sixteen.
+They are domain-agnostic, and they hold whether the subject is code review, wine selection, editorial voice, or furniture making.
+The examples here use woodworking, the same neutral domain the plugin's synthetic fixture uses.</p>
+<h2 id="why-it-works">Why It Works<a class="headerlink" href="#why-it-works" title="Permanent link">&para;</a></h2>
+<p>Most attempts to capture a person's taste produce a list of preferences that sound right and change nothing.
+The failure is not effort.
+It is method.
+A profile built from open questions and self-description collects your story about yourself, not the judgment that drives your decisions in the moment.
+The rules correct for that gap at every stage: what gets asked, how an answer gets pushed past its first draft, what survives when an interview is compressed, and how the profile is tested against real output before anyone trusts it.</p>
+<h2 id="the-sixteen-rules">The Sixteen Rules<a class="headerlink" href="#the-sixteen-rules" title="Permanent link">&para;</a></h2>
+<h3 id="1-stated-vs-revealed-preference">1. Stated vs Revealed Preference<a class="headerlink" href="#1-stated-vs-revealed-preference" title="Permanent link">&para;</a></h3>
+<p>Self-report captures your model of your own taste.
+Revealed preference, the choices you already made in real artifacts, captures what the taste does when it matters.
+The interview gathers both.
+When they diverge, the divergence is recorded as a productive contradiction and is not resolved in the interviewer's favor.</p>
+<p>A weak probe is "Do you prefer hand-cut joinery?"
+A better one is "This cabinet's face frame is pocket-screwed, but you said dovetails are the standard you hold yourself to. Walk me through the gap."
+The second question is accountable to a decision that already happened.
+The first invites a comfortable answer with no cost to giving it.</p>
+<h3 id="2-negatives-outrank-positives">2. Negatives Outrank Positives<a class="headerlink" href="#2-negatives-outrank-positives" title="Permanent link">&para;</a></h3>
+<p>A rule stated as "never do X" changes what a downstream system produces more reliably than "always do Y," because "always" tolerates exceptions in a way "never" does not.
+At least 40 percent of every interview's questions aim at your crimes, hard nos, red flags, and the things that make you wince.</p>
+<p>"What do you like in a finish?" surfaces an adjective.
+"What finish, applied to a piece you'd otherwise be proud of, would make you refuse to put your name on it?" surfaces a refusal.
+Refusals are what an AI system most needs in order to avoid producing work you would reject on sight.</p>
+<h3 id="3-examples-outrank-adjectives">3. Examples Outrank Adjectives<a class="headerlink" href="#3-examples-outrank-adjectives" title="Permanent link">&para;</a></h3>
+<p>An abstract answer like "clean" or "honest" gives a downstream system nothing to act on until it is anchored to a concrete instance.
+No answer that is only an adjective is accepted as final.
+Every abstract claim earns a follow-up that demands a specific artifact, ideally one you made yourself.</p>
+<p>If you say "I like joints that are honest," the follow-up is "Show me one you've built that's honest, and one that isn't, even though it might fool someone who didn't know better."
+The forced comparison turns the adjective into two artifacts a system can pattern-match against.</p>
+<h3 id="4-forced-choice-beats-open-description">4. Forced Choice Beats Open Description<a class="headerlink" href="#4-forced-choice-beats-open-description" title="Permanent link">&para;</a></h3>
+<p>Open-ended description lets you describe an ideal that matches no decision you would make under real constraints.
+A forced choice between two concrete, plausible options collapses the ideal into a real decision, and the reasoning behind the choice is where the taste lives.</p>
+<p>"How do you feel about mitered versus butt joints?" is open.
+"Here are two identical boxes, one mitered and glued, one butt-jointed and pinned. Which one ships, and why?" is forced.
+Someone who would never build the mitered box under deadline shows it the moment they have to pick one.</p>
+<h3 id="5-laddering">5. Laddering<a class="headerlink" href="#5-laddering" title="Permanent link">&para;</a></h3>
+<p>A first answer is almost always a surface preference, not the underlying value that produced it.
+Asking "why does that matter to you?" up to three times, and no further, reaches the underlying value without wandering into territory you have no real position on.
+The whole ladder is recorded, including the final and weakest rung, because a contradiction found later often traces back to a weak leaf rather than the strong root.</p>
+<p>Example: "Why walnut over oak?" leads to "the grain reads calmer." "Why does calm grain matter?" leads to "the piece should recede behind whatever sits on it." "Why should the piece recede?" leads to "because I build furniture, not sculpture."
+Three whys, then stop.
+A fourth tends to produce a rationalization rather than a value.</p>
+<h3 id="6-contrast-probing">6. Contrast Probing<a class="headerlink" href="#6-contrast-probing" title="Permanent link">&para;</a></h3>
+<p>For any quality you name, you are asked to show the same quality done well and done lazily.
+The pair makes the boundary explicit in a way a single example cannot.
+Someone who claims to value "restraint" usually cannot define the word until they look at a version with too little and a version with too much.</p>
+<p>A probe: "Show me a joint that's restrained, and one that's trying too hard to look restrained."
+The second half of the pair exposes a failure mode the first half hides, since a virtue and its overcorrection often share a surface appearance.</p>
+<h3 id="7-artifact-grounding">7. Artifact Grounding<a class="headerlink" href="#7-artifact-grounding" title="Permanent link">&para;</a></h3>
+<p>Interviews seeded from your real work outperform interviews built from hypotheticals.
+"You did X here, why not Y?" forces an answer accountable to a decision that already happened, instead of one you are imagining for the first time.
+In augment mode, an existing skill built from an earlier interview is itself an artifact: a stated preference captured before, now probed against what you say today.</p>
+<p>A probe: "In this cabinet, the back panel is plywood but the face frame is solid stock. Why draw the line there instead of using solid stock throughout?"
+The hypothetical version, "would you ever use plywood?", invites a rehearsed answer.</p>
+<h3 id="8-contradiction-detection">8. Contradiction Detection<a class="headerlink" href="#8-contradiction-detection" title="Permanent link">&para;</a></h3>
+<p>The interviewer keeps a running ledger of every stated rule and every observed exception, and surfaces a conflict the moment it appears.
+It asks which rule wins, and under what conditions.
+It never smooths two positions into a compromise you never held.
+Some contradictions depend on context rather than being mistakes, and smoothing them over destroys information the profile needs later.</p>
+<p>Example: a woodworker says he never uses pocket screws, then two questions later mentions using them on a shop jig he will never show anyone.
+The ledger flags it at once: "Earlier you said never pocket screws; this jig has them. Which rule is true, and when?"
+The honest answer, "never on furniture, always on shop fixtures," is two rules and not one broken one, and the ledger holds it that way.</p>
+<h3 id="9-register-separation">9. Register Separation<a class="headerlink" href="#9-register-separation" title="Permanent link">&para;</a></h3>
+<p>Before any substantive question, the interview asks which contexts the profile needs to cover.
+One blended profile that holds your standard for a paying client's commission and your standard for a weekend shop project produces judgment that fits neither.
+Multiple registers become multiple profiles, or an explicit switch inside one profile that names the trigger for each register.</p>
+<p>A furniture maker's standard for a commissioned dining table and his standard for a jig he will never sell are different standards, not two degrees of one standard.
+The interview asks which register a question belongs to before it records the answer, not after.</p>
+<h3 id="10-saturation-not-quotas">10. Saturation, Not Quotas<a class="headerlink" href="#10-saturation-not-quotas" title="Permanent link">&para;</a></h3>
+<p>A fixed question count per category either stops too early, missing a category with more to say, or wastes questions on a category that emptied out early.
+Question counts are floors, not targets.
+A category is saturated when three consecutive answers add no new constraint, and interviews typically run 60 to 120 questions in total across every category.</p>
+<p>If the third straight question about finish produces "yeah, same as I said before," the finish category is saturated and the interview moves on, however many questions were planned for it.
+A floor guarantees minimum coverage.
+Saturation decides when a category is done.</p>
+<h3 id="11-verbatim-capture">11. Verbatim Capture<a class="headerlink" href="#11-verbatim-capture" title="Permanent link">&para;</a></h3>
+<p>The archive is the source of truth for the interview, and it preserves your exact words and not a summary of them.
+Paraphrasing at capture time throws away the phrasing that carries the taste: your specific vocabulary, hedges, and emphasis are data the compile step needs, not noise to clean up early.</p>
+<p>If a woodworker says "I guess dovetails are fine, but honestly, who's checking," the archive records that sentence exactly, hedge and all, and not "prefers dovetails."
+Compression is a separate, later step, applied deliberately and never by accident at the moment of capture.</p>
+<h3 id="12-interviewer-drift">12. Interviewer Drift<a class="headerlink" href="#12-interviewer-drift" title="Permanent link">&para;</a></h3>
+<p>Long interviews accumulate an inferred pattern that starts to feel confirmed simply because nothing has tested it recently.
+Every 20 questions, the interviewer re-reads the ledger and asks at least one question built to disconfirm a pattern it thinks it has found, instead of one more question that would only confirm it.</p>
+<p>After 20 questions suggesting a strong preference for hand tools, the disconfirming question is not "you really do prefer hand tools, right?"
+It is "tell me about a project where a power tool was clearly the better call, and you took it without a second thought."
+An interview that never tries to break its own pattern reports the pattern with more confidence than the evidence earns.</p>
+<h3 id="13-unknown-unknowns-pass">13. Unknown-Unknowns Pass<a class="headerlink" href="#13-unknown-unknowns-pass" title="Permanent link">&para;</a></h3>
+<p>Before the substantive interview begins, the plugin names 3 to 5 dimensions you likely have real taste about but would not think to raise, because the dimension is invisible to you until it is named.
+Skipping this pass leaves whole categories of judgment uncaptured, not because you had nothing to say about them, but because no one asked.</p>
+<p>A woodworking profile scoped around "joinery and finish" might miss your opinions on shop layout discipline, tool maintenance habits, or how much a piece should reveal the maker's hand versus disappear into the room it sits in.
+Naming these up front catches taste the initial scoping conversation would miss.</p>
+<h3 id="14-the-keepcut-test">14. The Keep/Cut Test<a class="headerlink" href="#14-the-keepcut-test" title="Permanent link">&para;</a></h3>
+<p>When an interview is compressed into a profile, a line earns its place only if removing it would change how a downstream system writes, judges, edits, refuses, or decides something.
+Biography, general values statements, and flattering self-description are cut, however central they felt during the interview, unless they change an actual output.</p>
+<p>"I've been woodworking for twenty years" is cut, because it changes nothing downstream.
+"Never use pocket screws on anything that will be seen" is kept, because it is a direct, checkable instruction.
+The test is mechanical, not sentimental: ask what output would differ, and if the answer is nothing, the line goes.</p>
+<h3 id="15-calibration-is-the-moat">15. Calibration Is the Moat<a class="headerlink" href="#15-calibration-is-the-moat" title="Permanent link">&para;</a></h3>
+<p>An interview alone produces a plausible-looking profile, not an accurate one.
+Accuracy comes from testing the profile against real output and folding the corrections back in, repeatedly, until the corrections stop mattering as much.
+A profile is not done until three calibration rounds show non-increasing correction volume.
+The precise test is in the <a href="../formats/profile/">profile.md reference</a>.
+Anything short of that is a draft wearing the shape of a finished profile.</p>
+<p>Example: round one of a woodworking profile might produce a project plan that violates three named rules.
+Round two, after fold-back, violates one.
+Round three violates none.
+That downward trend, and not the quality of the first draft, is what makes a profile trustworthy enough to hand to a skill.</p>
+<h3 id="16-elicitation-technique-index">16. Elicitation Technique Index<a class="headerlink" href="#16-elicitation-technique-index" title="Permanent link">&para;</a></h3>
+<p>Different interviewing techniques surface different kinds of judgment, and no single technique surfaces all of them.
+This table maps each technique to the situation where it earns its cost.</p>
+<table>
+<thead>
+<tr>
+<th>Technique</th>
+<th>When to Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Repertory grid (triads)</td>
+<td>Present three artifacts and ask which two share a quality the third lacks. Surfaces dimensions the person has never named on their own.</td>
+</tr>
+<tr>
+<td>Critical incident</td>
+<td>Ask for a specific time a decision went visibly right or wrong, in detail. Surfaces judgment tied to a real event rather than a general claim.</td>
+</tr>
+<tr>
+<td>Think-aloud review</td>
+<td>Have the person narrate their reaction to an artifact in real time, before they have composed an opinion. Catches instinct ahead of rationalization.</td>
+</tr>
+<tr>
+<td>Sorting</td>
+<td>Give a stack of artifacts and ask for a rank order or a grouping. The boundaries drawn reveal categories the person would not state directly if asked.</td>
+</tr>
+<tr>
+<td>Boundary probing</td>
+<td>Ask for the least acceptable version of something the person would still tolerate. Finds the edge of a standard rather than just its comfortable center.</td>
+</tr>
+</tbody>
+</table>
+<p>A repertory grid works early, when the category map is still forming and the goal is finding dimensions.
+A critical incident works mid-interview, when a category needs grounding in something specific rather than another round of hypotheticals.
+Boundary probing works well late, once enough context exists to know what "acceptable" even means for this person.</p>
+<h2 id="how-the-stages-use-the-rules">How the Stages Use the Rules<a class="headerlink" href="#how-the-stages-use-the-rules" title="Permanent link">&para;</a></h2>
+<p><a href="../stages/design/">Design</a> reads the rules before it scopes an interview, so the category map and question seeds are built on them and not reinvented per domain.
+<a href="../stages/interview/">Interview</a> reads them before it asks a question, and returns to rule 12 every 20 questions as the disconfirmation check.
+<a href="../stages/compile/">Compile</a> applies rule 14 as its literal compression test, and rule 1 to decide when a divergence becomes a recorded tension and not a resolved preference.
+<a href="../stages/calibrate/">Calibrate</a> exists because of rule 15: an interview seeds a profile, and calibration is what earns the profile the right to be trusted.</p>
+<p>None of the rules is optional per domain.
+A domain can add category slots, change vocabulary, or skip a technique that does not fit its artifacts, but it cannot skip a rule.
+The rule is what makes the resulting profile change how a system behaves instead of merely describing a person.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "navigation.sections", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

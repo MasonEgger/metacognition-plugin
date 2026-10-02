@@ -1,0 +1,1235 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A Claude plugin that captures how you judge your work and turns it into a skill.">
+      
+      
+      
+        <link rel="canonical" href="https://masonegger.github.io/metacognition-plugin/formats/profile/">
+      
+      
+        <link rel="prev" href="../archive/">
+      
+      
+        <link rel="next" href="../calibration-round/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>profile.md - Metacognition</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#profilemd" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Metacognition" class="md-header__button md-logo" aria-label="Metacognition" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Metacognition
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              profile.md
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/MasonEgger/metacognition-plugin" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MasonEgger/metacognition-plugin
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Metacognition" class="md-nav__button md-logo" aria-label="Metacognition" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Metacognition
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/MasonEgger/metacognition-plugin" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    MasonEgger/metacognition-plugin
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Five Stages
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    The Five Stages
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stages/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stages/interview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stages/compile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stages/calibrate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calibrate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stages/skillify/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Skillify
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../method/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Method
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Formats
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File Formats
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interview-spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    interview-spec.md
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../archive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    archive.md
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    profile.md
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    profile.md
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Template
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frontmatter-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frontmatter Fields
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Section Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-token-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Token Contract
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calibration-round/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calibration Round Files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../surface-check/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Surface Check
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Template
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frontmatter-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frontmatter Fields
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Section Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-token-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Token Contract
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="profilemd">profile.md<a class="headerlink" href="#profilemd" title="Permanent link">&para;</a></h1>
+<p><code>profile.md</code> is the pipeline's core artifact: the compressed, calibrated statement of how you judge in a domain.
+<a href="../../stages/compile/">Compile</a> writes it from <code>archive.md</code>.
+<a href="../../stages/calibrate/">Calibrate</a> edits it round by round.
+<a href="../../stages/skillify/">Skillify</a> copies it, unchanged, into the produced or augmented skill's <code>references/profile.md</code>, where it becomes canon.</p>
+<p>This page covers the frontmatter, the fixed sections in the order the XML body must carry them, and the two hard contracts that the structure check tests mechanically: the <code>golden_examples</code> triple and the token ceiling.</p>
+<h2 id="template">Template<a class="headerlink" href="#template" title="Permanent link">&para;</a></h2>
+<p>The body is XML-style tags inside one <code>&lt;profile&gt;</code> root.
+This is the skeleton, with the section contents shortened.</p>
+<div class="language-markdown highlight"><pre><span></span><code>---
+domain: &lt;slug&gt;
+registers: [&lt;register&gt;, ...]
+consumer: &lt;what the future skill must do with this&gt;
+target_skill: &lt;plugin&gt;:&lt;skill&gt; | &lt;repo-relative skill dir&gt; | null
+version: YYYY.MM.DD
+token_estimate: &lt;int&gt;
+<span class="gu">calibrated: true|false</span>
+<span class="gu">---</span>
+
+&lt;profile&gt;
+
+&lt;usage&gt;
+[When this profile applies, which skill or consumer loads it, and the fallback: when unsure, flag rather than guess.]
+&lt;/usage&gt;
+
+&lt;priority&gt;
+<span class="k">1.</span> Current user instructions override this file.
+<span class="k">2.</span> Truth, safety, and task requirements override style imitation.
+<span class="k">3.</span> Hard refusals override ordinary preferences.
+<span class="k">4.</span> Specific examples override abstract rules.
+<span class="k">5.</span> Evidence-backed rules override inferred rules.
+<span class="k">6.</span> When rules conflict, preserve the person's deeper judgment over surface style.
+&lt;/priority&gt;
+
+&lt;identity_context&gt;...&lt;/identity_context&gt;
+&lt;judgment_fingerprint&gt;...&lt;/judgment_fingerprint&gt;
+&lt;domain_laws&gt;
+&lt;law&gt;Do: X. Avoid: Y. Example: Z.&lt;/law&gt;
+&lt;/domain_laws&gt;
+&lt;communication_laws&gt;
+&lt;law&gt;...&lt;/law&gt;
+&lt;/communication_laws&gt;
+&lt;hard_refusals&gt;
+&lt;never&gt;Never X. Bad: ... Use: ...&lt;/never&gt;
+&lt;/hard_refusals&gt;
+&lt;taste_loves&gt;...&lt;/taste_loves&gt;
+&lt;taste_disgusts&gt;...&lt;/taste_disgusts&gt;
+&lt;phrase_bank&gt;
+&lt;use&gt;...&lt;/use&gt;
+&lt;avoid&gt;...&lt;/avoid&gt;
+&lt;/phrase_bank&gt;
+&lt;signature_tells&gt;...&lt;/signature_tells&gt;
+&lt;decision_rules&gt;...&lt;/decision_rules&gt;
+&lt;productive_contradictions&gt;
+&lt;tension&gt;[Stated position] vs. [observed exception]. Preserve by: [the instruction that keeps both true instead of forcing a resolution].&lt;/tension&gt;
+&lt;/productive_contradictions&gt;
+&lt;golden_examples&gt;
+&lt;example&gt;
+&lt;context&gt;...&lt;/context&gt;
+&lt;bad&gt;...&lt;/bad&gt;
+&lt;good&gt;...&lt;/good&gt;
+&lt;why&gt;...&lt;/why&gt;
+&lt;/example&gt;
+&lt;/golden_examples&gt;
+&lt;do_not_infer&gt;...&lt;/do_not_infer&gt;
+&lt;calibration_state&gt;
+&lt;rounds&gt;N&lt;/rounds&gt;
+&lt;last_date&gt;YYYY-MM-DD&lt;/last_date&gt;
+&lt;last_correction_count&gt;N&lt;/last_correction_count&gt;
+&lt;/calibration_state&gt;
+&lt;final_instruction&gt;...&lt;/final_instruction&gt;
+
+&lt;/profile&gt;
+</code></pre></div>
+<h2 id="frontmatter-fields">Frontmatter Fields<a class="headerlink" href="#frontmatter-fields" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>domain</code>: the same slug used across <code>interview-spec.md</code> and <code>archive.md</code>, matching the extraction directory name.</li>
+<li><code>registers</code>: copied from <code>interview-spec.md</code> at compile time, the contexts this profile covers.</li>
+<li><code>consumer</code>: copied from <code>interview-spec.md</code>, a plain-language statement of what the future skill does with the profile.
+  The consumer states the job, and <code>judgment_fingerprint</code> states how you do it.</li>
+<li><code>target_skill</code>: the same augment-or-greenfield signal as <code>interview-spec.md</code>, in the same three forms.
+  Skillify reads it to decide whether to produce a diff against an existing skill or scaffold a new one.</li>
+<li><code>version</code>: a date stamp, <code>YYYY.MM.DD</code>, with <code>.N</code> appended for a second stamp the same day.
+  Compile stamps it when it first writes <code>profile.md</code>.
+  Calibrate restamps it whenever a fold-back materially changes the file.
+  Skillify never bumps this or any plugin version.</li>
+<li><code>token_estimate</code>: the profile body's estimated size, characters divided by four, with no tokenizer dependency.
+  Compile reports it and the structure check recomputes it independently.
+  The check fails above the 5,000 hard ceiling and flags a stored estimate that disagrees with its own recount.</li>
+<li><code>calibrated</code>: <code>true</code> once three consecutive calibration rounds show non-increasing correction counts and the most recent round is at or under <code>calibration_threshold</code> from <code>interview-spec.md</code>.
+  Otherwise <code>false</code>.
+  Calibrate is the only stage that flips this field.</li>
+</ul>
+<h2 id="section-reference">Section Reference<a class="headerlink" href="#section-reference" title="Permanent link">&para;</a></h2>
+<p>The seventeen sections appear in this fixed order inside the <code>&lt;profile&gt;</code> root: <code>usage</code>, <code>priority</code>, <code>identity_context</code>, <code>judgment_fingerprint</code>, <code>domain_laws</code>, <code>communication_laws</code>, <code>hard_refusals</code>, <code>taste_loves</code>, <code>taste_disgusts</code>, <code>phrase_bank</code>, <code>signature_tells</code>, <code>decision_rules</code>, <code>productive_contradictions</code>, <code>golden_examples</code>, <code>do_not_infer</code>, <code>calibration_state</code>, <code>final_instruction</code>.
+The structure check tests presence and this exact order.
+A section moved out of sequence fails the same way a missing section does.</p>
+<p><strong>usage.</strong>
+States when this profile applies, which skill or command loads it, and the standing fallback: when the profile does not cover a case, flag it rather than guess.</p>
+<p><strong>priority.</strong>
+Fixed text, reproduced verbatim in every profile regardless of domain: the six-rule precedence order every downstream consumer applies when rules collide.
+Compile writes it unchanged, and nothing in the interview or calibration loop edits it.</p>
+<p><strong>identity_context.</strong>
+The background facts that shape how you judge in this domain: upbringing, training, credentials held or deliberately withheld from argument, and any register boundary the interview surfaced.</p>
+<p><strong>judgment_fingerprint.</strong>
+How you judge in this domain, operationally, and not what you produce.
+It states what you notice first, what you weigh against what, and where your threshold for good sits, in the registers this profile covers.</p>
+<p><strong>domain_laws.</strong>
+One <code>&lt;law&gt;</code> entry per rule, each in the fixed shape "Do: X. Avoid: Y. Example: Z."
+The example clause is not optional decoration.
+A law without a concrete example is a rule a weaker consumer model will apply inconsistently.</p>
+<p><strong>communication_laws.</strong>
+How you communicate about or around this domain, distinct from the domain artifacts themselves: how you give and receive feedback, handle disagreement, and frame teaching.</p>
+<p><strong>hard_refusals.</strong>
+One <code>&lt;never&gt;</code> entry per refusal, each in the fixed shape "Never X. Bad: ... Use: ..."
+These override ordinary preferences per the priority block.
+Each pairs a concrete bad example with the concrete alternative you actually use, never a bare prohibition.</p>
+<p><strong>taste_loves.</strong>
+Named precedents, people, or work you hold up as the standard in this domain, each with what specifically earns the admiration.
+A love without a name attached is a category, and categories belong in <code>judgment_fingerprint</code>.</p>
+<p><strong>taste_disgusts.</strong>
+Named failure modes you cannot stand in this domain, held to the same concreteness bar as <code>taste_loves</code>.</p>
+<p><strong>phrase_bank.</strong>
+How you name things in this domain: your words for what counts as good and what counts as bad, split into <code>&lt;use&gt;</code> and <code>&lt;avoid&gt;</code> lists.
+It stays in the format for non-writing domains, since practitioners have a working vocabulary for quality and failure everywhere.</p>
+<p><strong>signature_tells.</strong>
+Recognizable structural habits and recurring devices, distinct from <code>domain_laws</code>: the patterns a reader or reviewer would recognize as yours with no byline attached.</p>
+<p><strong>decision_rules.</strong>
+Named tests and heuristics you apply to reach a judgment in this domain, the kind of question you ask yourself before deciding something is right.</p>
+<p><strong>productive_contradictions.</strong>
+One <code>&lt;tension&gt;</code> entry per unresolved conflict: a stated position against an observed exception, followed by "Preserve by:" and the instruction that keeps both true instead of collapsing them into a false compromise.
+These come from the archive's contradiction ledger, per <a href="../../method/#1-stated-vs-revealed-preference">rule 1</a>.</p>
+<p><strong>golden_examples.</strong>
+Three to six <code>&lt;example&gt;</code> entries, each carrying all three of <code>&lt;bad&gt;</code>, <code>&lt;good&gt;</code>, and <code>&lt;why&gt;</code>.
+This is a hard contract.
+The structure check tests every example for all three children, and an example missing any one fails regardless of how good the other two are.
+The <code>&lt;why&gt;</code> names the specific rule or judgment the bad-to-good change demonstrates.</p>
+<p><strong>do_not_infer.</strong>
+Explicit boundaries: generalizations the archive does not support, categories the interview declined to engage, and inferences a consumer of this profile must never make on its own.
+Compile writes this section from what the archive did not say as much as from what it did.</p>
+<p><strong>calibration_state.</strong>
+A compact record of calibration history: <code>&lt;rounds&gt;</code>, the count of rounds run so far, <code>&lt;last_date&gt;</code>, the date of the most recent round, and <code>&lt;last_correction_count&gt;</code>, the correction count from that round.
+It mirrors the README's "calibrate rounds, last count" column, but lives inside the profile so a consumer loading only <code>profile.md</code> still knows how tested the file is.
+The zero state, for a profile compile has just written, is <code>&lt;rounds&gt;0&lt;/rounds&gt;</code>, <code>&lt;last_date&gt;none&lt;/last_date&gt;</code>, <code>&lt;last_correction_count&gt;none&lt;/last_correction_count&gt;</code>.</p>
+<p><strong>final_instruction.</strong>
+The closing instruction: apply the profile silently, protect your judgment over surface style when rules conflict per the priority block, and flag rather than guess when a case falls outside what the profile covers.</p>
+<h2 id="the-token-contract">The Token Contract<a class="headerlink" href="#the-token-contract" title="Permanent link">&para;</a></h2>
+<p>Compile targets 2,000 to 4,000 tokens for the profile body, with a hard ceiling of 5,000.
+Token count is estimated as characters divided by four, with no tokenizer dependency.
+Compile reports its estimate in the <code>token_estimate</code> frontmatter field, and the structure check recomputes the same estimate from the body.
+A profile that will not fit inside the ceiling without losing signal means compile cut too little.
+It is not a reason to raise the ceiling.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "navigation.sections", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
