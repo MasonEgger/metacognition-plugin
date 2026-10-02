@@ -56,14 +56,14 @@ Check a step only when every sub-step under it is done.
   - [x] GREEN: wire tiers
   - [x] REFACTOR: tier structure
   - [x] Verify coverage and just check
-- [ ] Step 8: Port validate_artifacts.py
-  - [ ] RED: ported suite (woodworking pass, five bad cases, remaining checks)
-  - [ ] Document: 5,000 ceiling and prose-elsewhere note
-  - [ ] GREEN: port onto yaml_subset, preserve checks and exit codes
-  - [ ] RED: multi-finding ordering test if applicable
-  - [ ] GREEN: minimal
-  - [ ] REFACTOR: named check functions
-  - [ ] Verify woodworking pass and each finding, just check
+- [x] Step 8: Port validate_artifacts.py
+  - [x] RED: ported suite (woodworking pass, five bad cases, remaining checks)
+  - [x] Document: 5,000 ceiling and prose-elsewhere note
+  - [x] GREEN: port onto yaml_subset, preserve checks and exit codes
+  - [x] RED: multi-finding ordering test if applicable
+  - [x] GREEN: minimal
+  - [x] REFACTOR: named check functions
+  - [x] Verify woodworking pass and each finding, just check
 
 ## Section 5: Source References
 

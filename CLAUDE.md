@@ -4,11 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## State of the Repo
 
-The repo holds planning documents, the Python toolchain, the plugin and marketplace manifests, the directory skeleton, a placeholder docs site, and the first shipped script.
+The repo holds planning documents, the Python toolchain, the plugin and marketplace manifests, the directory skeleton, a placeholder docs site, and the first shipped scripts.
 `tests/fixtures/` holds the ported woodworking extractions and the woodshop plugin fixture; they are verbatim data, so do not edit them or lint their prose.
 `src/scripts/yaml_subset.py` (which also exposes `extract_frontmatter`), `tests/test_yaml_subset.py`, and `tests/test_yaml_parity.py` exist; the parity test holds the parser equal to PyYAML over every fixture frontmatter.
 `src/scripts/resolve_config.py` and `tests/test_resolve_config.py` exist too; tests that run the resolver must isolate HOME, XDG_CONFIG_HOME, and the working directory.
-The remaining skills, scripts, and tools are still to come, and their directories hold only `.gitkeep` placeholders.
+`src/scripts/validate_artifacts.py` and `tests/test_validate_artifacts.py` exist, so all three scripts are shipped.
+`woodworking-truncated` fails the validator with `archive-category-count` on purpose (it is the interrupted-interview fixture for the `--resume` eval); a test pins that finding, so do not fix the fixture.
+The remaining skills and tools are still to come, and their directories hold only `.gitkeep` placeholders.
 `spec.md` is the authority for what gets built, `plan.md` is the 22-step build order, and `todo.md` tracks progress.
 Read the spec's Invariants, Non-goals, and Deferred list before changing anything: they are hard constraints, and a step that crosses one needs a spec change first.
 

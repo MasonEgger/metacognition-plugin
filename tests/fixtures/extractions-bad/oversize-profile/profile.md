@@ -4,7 +4,7 @@ registers: [shop]
 consumer: advise on jig design like the fixture persona
 target_skill: null
 version: 2026.09.21
-token_estimate: 5262
+token_estimate: 5263
 calibrated: false
 ---
 
