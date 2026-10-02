@@ -2,6 +2,7 @@
 
 ## Recent
 <!-- 10 most recent lessons, newest first -->
+- GitHub Actions runs each `run:` step under `bash -e`, so reading `$?` on the line after a command never happens when that command exits non-zero; capture the code in the same command (`rc=0; cmd || rc=$?`) and test the step's script locally with `bash -e` (2026-10-02)
 - A step that prepares a manual check must leave every result slot visibly empty and keep automated checks in a separately labeled section, so a prepared checklist is never mistaken for a completed check (2026-10-01)
 - A README's first sentence must agree with its own install section about which surfaces the project supports; check the opening line against the spec's scope statement before finalizing (2026-10-01)
 - When a guard over a docs tree forbids a string the docs must display, keep the string in a file the guard exempts by design and include it at build time with a checked snippet, so the guard stays whole and the build fails if the source section goes missing (2026-10-01)
@@ -11,7 +12,6 @@
 - A guard test over an existing tree cannot show RED on the tree itself, so write its detection logic test-first against planted input under tmp_path, then point it at the real tree, and never plant anything in the repo (2026-10-01)
 - When adapting an eval to changed behavior, check each expectation against the exact text of the skill it tests; an expectation the skill does not state can fail a correct run, so the eval follows the skill and a gap in the skill is reported, not papered over in the eval (2026-10-01)
 - A tool that deletes or overwrites files in a directory must check for symlinks at every level it touches, the directory and each entry, and its drift check must not read through a link, or a link passes as a valid copy (2026-10-01)
-- When fixing one case of a class (a symlinked directory), list the sibling cases (symlinked file, dangling link, link to a directory, link at a non-slice name) and test them in the same pass; the first sync_skills fix covered only the directory and the file case slipped through to validation (2026-10-01)
 
 ## Security
 - A tool that deletes or overwrites files in a directory must check for symlinks at every level it touches, the directory and each entry, and its drift check must not read through a link, or a link passes as a valid copy (2026-10-01)
@@ -49,6 +49,7 @@
 - Marketplace install works on Claude Code, Cowork, and claude.ai; the release zip is an alternate upload path and the Release asset, not a requirement (2026-10-01)
 
 ## DevOps
+- GitHub Actions runs each `run:` step under `bash -e`, so reading `$?` on the line after a command never happens when that command exits non-zero; capture the code in the same command (`rc=0; cmd || rc=$?`) and test the step's script locally with `bash -e` (2026-10-02)
 - Look up a GitHub Action's commit SHA from the tag ref through the API, dereference annotated tags, and confirm the result against the commits endpoint; never write a SHA from memory (2026-10-01)
 
 ## Python
