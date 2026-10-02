@@ -12,6 +12,7 @@ The repo holds planning documents, the Python toolchain, the plugin and marketpl
 `woodworking-truncated` fails the validator with `archive-category-count` on purpose (it is the interrupted-interview fixture for the `--resume` eval); a test pins that finding, so do not fix the fixture.
 `src/references/` holds the eight references; `settings.md` must stay in step with `resolve_config.py`, and a SKILL.md should name only the references and scripts in its own sync slice.
 The design, interview, compile, calibrate, and skillify skills each have a `SKILL.md` under `metacognition/skills/`; their `references/` and `scripts/` copies arrive with the sync step.
+`metacognition/agents/domain-research.md` embeds its output contract between `research-contract:begin` and `research-contract:end` markers, and `tests/test_research_contract.py` holds that block equal to `src/references/research-contract.md`, so edit the reference and copy the change into the agent.
 The tools are still to come, and their directory holds only a `.gitkeep` placeholder.
 `spec.md` is the authority for what gets built, `plan.md` is the 22-step build order, and `todo.md` tracks progress.
 Read the spec's Invariants, Non-goals, and Deferred list before changing anything: they are hard constraints, and a step that crosses one needs a spec change first.

@@ -90,14 +90,14 @@ Check a step only when every sub-step under it is done.
 
 ## Section 7: The Research Agent
 
-- [ ] Step 13: Port the Agent and Bind Its Contract
-  - [ ] RED: contract-parity test (agent block equals research-contract.md, no model lines)
-  - [ ] Document: stable contract-block markers
-  - [ ] GREEN: port agent, make block byte-equal
-  - [ ] RED: four-block shape and no-results line present
-  - [ ] GREEN: align both
-  - [ ] REFACTOR: single marker pair
-  - [ ] Verify parity and just check
+- [x] Step 13: Port the Agent and Bind Its Contract
+  - [x] RED: contract-parity test (agent block equals research-contract.md, no model lines)
+  - [x] Document: stable contract-block markers
+  - [x] GREEN: port agent, make block byte-equal
+  - [x] RED: four-block shape and no-results line present
+  - [x] GREEN: align both
+  - [x] REFACTOR: single marker pair
+  - [x] Verify parity and just check
 
 ## Section 8: Sync Tool and Drift Guards
 
