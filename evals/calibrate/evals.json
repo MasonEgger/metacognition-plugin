@@ -1,0 +1,25 @@
+{
+  "skill_name": "calibrate",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "calibrate-round-02-fold-back",
+      "prompt": "Create a scratch copy of the full woodworking fixture extraction, which already carries one calibration round: SCRATCH=$(mktemp -d); cp -r tests/fixtures/extractions/woodworking \"$SCRATCH/woodworking\". From the repo root, run /metacognition:calibrate woodworking --extractions-root \"$SCRATCH\" --corrections tests/fixtures/calibration/corrections-round-02.md. The corrections file supplies both scripted redlines, so the round runs end to end without a live chat turn.",
+      "expected_output": "calibration/round-02.md written at $SCRATCH/woodworking/calibration/round-02.md per the round file format (frontmatter domain, round, date, task, corrections; sections Task, Generated artifact (probe; never ships), Corrections (verbatim), Fold-back decisions); profile.md at $SCRATCH/woodworking/profile.md edited with a `<!-- calibrated: round 2, YYYY-MM-DD -->` marker on every changed line and a restamped frontmatter version; the round stays contiguous with the fixture's existing round-01.md; the run ends by naming the files written and the next stage's command.",
+      "files": ["tests/fixtures/calibration/corrections-round-02.md"],
+      "assertions": [
+        "the transcript states the extraction root in one line before the round starts",
+        "$SCRATCH/woodworking/calibration/round-02.md exists with frontmatter round: 2 and corrections: 2",
+        "the round file's four sections appear in order: Task, Generated artifact (probe; never ships), Corrections (verbatim), Fold-back decisions",
+        "the Generated artifact section states plainly that the artifact is a probe and never ships",
+        "the Fold-back decisions table carries one row per correction with a decision letter and the specific profile edit made",
+        "$SCRATCH/woodworking/profile.md carries at least one `<!-- calibrated: round 2,` marker comment",
+        "$SCRATCH/woodworking/profile.md's frontmatter version is restamped to today's date in the form profile-format.md prescribes for the version field",
+        "$SCRATCH/woodworking/profile.md's calibration_state section reflects two rounds and this round's correction count",
+        "the closing self-check, python3 scripts/validate_artifacts.py \"$SCRATCH/woodworking\" run from the calibrate skill's own directory, exits 0 (round-01.md and round-02.md are contiguous)",
+        "the run ends by naming calibration/round-02.md and profile.md as the files written and /metacognition:skillify woodworking as the next stage's command, then stops",
+        "git status --short tests/fixtures/ is empty after the run"
+      ]
+    }
+  ]
+}

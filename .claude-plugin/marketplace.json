@@ -1,0 +1,17 @@
+{
+  "name": "metacognition-plugin",
+  "owner": {
+    "name": "Mason Egger"
+  },
+  "metadata": {
+    "description": "Marketplace for the metacognition plugin.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "metacognition",
+      "source": "./metacognition",
+      "description": "Capture how you judge work in a field you practice and turn it into a skill Claude can apply."
+    }
+  ]
+}

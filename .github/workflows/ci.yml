@@ -1,0 +1,70 @@
+# CI: runs the gate (just check) on Python 3.11 and 3.13 for every pull request
+# and push to main, and deploys the docs to GitHub Pages on push to main.
+# Every action is pinned to a full commit SHA by project rule; the tag is in the comment.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Read-only by default. Only the deploy job gets write access.
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    name: Gate (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.13"]
+    env:
+      # uv uses this interpreter for every `uv run` and `uv sync` in the job.
+      UV_PYTHON: ${{ matrix.python-version }}
+      # Any `uv run` or `uv sync` fails if uv.lock is out of date.
+      UV_LOCKED: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - name: Install dependencies
+        run: uv sync --locked
+      # The justfile stays the single definition of the gate. just comes from
+      # PyPI (rust-just) at a pinned version, so no extra action is needed.
+      - name: Run the gate
+        run: uvx --from rust-just==1.58.0 just check
+
+  deploy-docs:
+    name: Deploy docs
+    # Never on pull requests; only after the gate passes on both Python versions.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: gate
+    runs-on: ubuntu-latest
+    permissions:
+      # gh-deploy pushes the gh-pages branch.
+      contents: write
+    concurrency:
+      group: docs-deploy
+      cancel-in-progress: false
+    env:
+      UV_PYTHON: "3.13"
+      UV_LOCKED: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Full history so gh-deploy can read and update gh-pages.
+          fetch-depth: 0
+          # The default token is needed to push gh-pages.
+          persist-credentials: true
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - name: Install dependencies
+        run: uv sync --locked
+      - name: Set git identity for the deploy commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Deploy docs
+        run: uv run mkdocs gh-deploy --force

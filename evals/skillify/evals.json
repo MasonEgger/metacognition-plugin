@@ -1,0 +1,37 @@
+{
+  "skill_name": "skillify",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "skillify-dry-run-greenfield-writes-nothing",
+      "prompt": "Create a scratch copy of the woodworking fixture extraction: SCRATCH=$(mktemp -d); cp -r tests/fixtures/extractions/woodworking \"$SCRATCH/woodworking\". Record a checksum of the whole scratch extraction before running anything: BEFORE=$(find \"$SCRATCH\" -type f -exec sha256sum {} \\; | sort | sha256sum). From the repo root, run /metacognition:skillify woodworking --dry-run --extractions-root \"$SCRATCH\". Do not pass --into. The scratch extraction's interview-spec.md and profile.md both carry target_skill: null, so this exercises the greenfield path with its default package target.",
+      "expected_output": "The proposed four-file layout (SKILL.md, references/profile.md, references/archive.md, one references/mode-*.md per selected mode) is printed for review under the default target $SCRATCH/woodworking/skill/woodworking/; nothing is written anywhere, since --dry-run stops before any file change.",
+      "files": [],
+      "assertions": [
+        "the transcript states the extraction root in one line before the plan is printed",
+        "the run resolves greenfield mode (target_skill not set, no --into supplied)",
+        "the proposed file set sits under <extractions-root>/woodworking/skill/woodworking/ and names SKILL.md, references/profile.md, references/archive.md, and at least one references/mode-*.md, matching skill-scaffold.md's template",
+        "no $SCRATCH/woodworking/skill directory exists after the run",
+        "re-running the same find and sha256sum pipeline over \"$SCRATCH\" after the eval gives a value equal to $BEFORE, so the scratch extraction is byte-for-byte unchanged, its README's skillify cell included (--dry-run skips that write)",
+        "git status --short tests/fixtures/ is empty after the run"
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "skillify-dry-run-augment-writes-nothing",
+      "prompt": "Create two scratch copies: SCRATCH=$(mktemp -d); cp -r tests/fixtures/extractions/woodworking-augment \"$SCRATCH/woodworking-augment\"; PLUGINS=$(mktemp -d); cp -r tests/fixtures/plugins/woodshop \"$PLUGINS/woodshop\". Rewrite the scratch extraction's target_skill to point at the scratch plugin copy in both interview-spec.md and profile.md, replacing the literal string tests/fixtures/plugins/woodshop/skills/woodworking with \"$PLUGINS/woodshop/skills/woodworking\" in each file. This rewritten value is an absolute directory path, one of the two sanctioned forms of target_skill per interview-spec-format.md and skillify/SKILL.md, used directly with no further resolution; it is how this eval points augment mode at a scratch copy rather than the committed fixture plugin. Record a checksum of the scratch plugin copy: BEFORE=$(find \"$PLUGINS/woodshop\" -type f -exec sha256sum {} \\; | sort | sha256sum). From the repo root, run /metacognition:skillify woodworking-augment --dry-run --extractions-root \"$SCRATCH\".",
+      "expected_output": "The proposed SKILL.md diff (a profile-load step plus a conflict table listing every existing rule the profile contradicts, sourced against the target SKILL.md's domain_laws, hard_refusals, and decision_rules, each with the profile's evidence and a proposed resolution) is printed for review; nothing is written to $PLUGINS/woodshop, since --dry-run stops before any file change.",
+      "files": [],
+      "assertions": [
+        "the transcript states the extraction root in one line before the diff is printed",
+        "the run resolves augment mode (target_skill set, --replace not passed)",
+        "the proposed diff includes a profile-load step inserted into the existing workflow",
+        "the proposed diff includes a conflict table with an evidence column and a proposed resolution per row",
+        "re-running the same find and sha256sum pipeline over \"$PLUGINS/woodshop\" after the eval gives a value equal to $BEFORE",
+        "$PLUGINS/woodshop/skills/woodworking/SKILL.md is byte-for-byte unchanged",
+        "$SCRATCH/woodworking-augment/README.md's skillify cell is unchanged (--dry-run skips that write)",
+        "git status --short tests/fixtures/ is empty after the run"
+      ]
+    }
+  ]
+}

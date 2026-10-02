@@ -1,0 +1,21 @@
+{
+  "skill_name": "design",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "design-first-question-smoke",
+      "prompt": "Create a scratch extraction root with nothing in it yet: SCRATCH=$(mktemp -d). From the repo root, run /metacognition:design woodshop-smoke-test --extractions-root \"$SCRATCH\". Stop reading the transcript as soon as the first scoping question appears; do not answer it, and do not let the session continue past that point.",
+      "expected_output": "Preflight states the extraction root in one line and prints the derived domain slug, then the first output that is a question is a single scoping question, the domain-in-one-sentence question from step 1 of the Nine-Step Procedure, asked alone with no second question batched into the same turn; no file is written before that first question is asked.",
+      "files": [],
+      "assertions": [
+        "before the first question, the transcript states the extraction root in one line and prints the derived domain slug",
+        "the first substantive output after those two preflight lines is a question, not a research dispatch, a category map, or a written file",
+        "the question matches step 1's first prompt (the domain in one sentence) rather than a later step's question",
+        "$SCRATCH/woodshop-smoke-test/interview-spec.md does not exist after the run",
+        "$SCRATCH/woodshop-smoke-test/README.md does not exist after the run",
+        "the transcript shows no Agent dispatch to metacognition:domain-research before the first question (research is step 2, after scope Q&A opens)",
+        "git status --short tests/fixtures/ is empty after the run"
+      ]
+    }
+  ]
+}
