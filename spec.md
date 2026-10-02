@@ -246,7 +246,7 @@ Output: each skill's `references/` and `scripts/` hold exactly its manifest slic
 **Component C, `src/scripts/yaml_subset.py`.**
 Input: frontmatter text or a whole config file.
 Output: a `dict`, or a raised error naming the line.
-The subset: `key: value` pairs; strings bare or quoted; integers; `true`, `false`, and `null`; inline lists `[a, b]`; inline maps `{k: v}`, nested as the archive's `categories` field needs; block maps by indentation; `#` comments.
+The subset: `key: value` pairs; strings bare or quoted; integers; bare ISO dates (`YYYY-MM-DD`), which parse to `datetime.date` as PyYAML reads them; `true`, `false`, and `null`; inline lists `[a, b]`; inline maps `{k: v}`, nested as the archive's `categories` field needs; block maps by indentation; `#` comments.
 Anything else (anchors, tags, multi-document streams, block scalars beyond what the formats use) is an error, never a guess.
 A parity test parses every fixture frontmatter with both `yaml_subset` and PyYAML and requires equal results; the `bad-yaml` fixture must fail in both.
 If a ported fixture or format uses a construct outside this list, the parser grows to cover it and the list here is updated in the same change.

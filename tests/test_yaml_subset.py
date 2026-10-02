@@ -1,12 +1,14 @@
 # ABOUTME: Behavior tests for scripts.yaml_subset using inline string inputs.
 # ABOUTME: Covers the supported subset, rejected constructs, and edge cases.
+import datetime
+import json
 import subprocess
 import sys
 from pathlib import Path
 
 import pytest
 
-from scripts.yaml_subset import YamlSubsetError, parse
+from scripts.yaml_subset import YamlSubsetError, extract_frontmatter, parse
 
 SCRIPT = Path(__file__).resolve().parent.parent / "src" / "scripts" / "yaml_subset.py"
 
@@ -102,7 +104,11 @@ def test_leading_document_marker_allowed() -> None:
         ("a: 1\nb:\n  - x", 3),
         ("a: 1\nb: 1.5", 2),
         ("a: 1\nb: True", 2),
-        ("a: 1\nb: 2026-09-21", 2),
+        ("a: 1\nb: 2026-13-45", 2),
+        ("a: 1\nb: 2026-02-30", 2),
+        ("a: 1\nb: 2026-9-21", 2),
+        ("a: 1\nb: 2026-09-21 10:30:00", 2),
+        ("a: 1\nb: 2026-09-21T10:30:00Z", 2),
         ("a: 1\nb: 007", 2),
         ("a: 1\nb: [x, y", 2),
         ("a: 1\nb: {k v}", 2),
@@ -198,3 +204,50 @@ def test_double_quote_escaped_quote_keeps_hash_inside_string() -> None:
 
 def test_double_quote_escaped_quote_then_trailing_comment() -> None:
     assert parse('a: "say \\"hi\\" # x" # note') == {"a": 'say "hi" # x'}
+
+
+def test_bare_iso_date_is_a_date() -> None:
+    result = parse("created: 2026-09-21")
+    assert result == {"created": datetime.date(2026, 9, 21)}
+    assert type(result["created"]) is datetime.date
+
+
+def test_quoted_iso_date_stays_a_string() -> None:
+    assert parse("created: '2026-09-21'") == {"created": "2026-09-21"}
+
+
+def test_bare_iso_date_inside_inline_collections() -> None:
+    assert parse("a: [2026-09-21, x]\nb: {d: 2026-01-02}") == {
+        "a": [datetime.date(2026, 9, 21), "x"],
+        "b": {"d": datetime.date(2026, 1, 2)},
+    }
+
+
+def test_dotted_version_stays_a_string() -> None:
+    assert parse("version: 2026.09.21") == {"version": "2026.09.21"}
+
+
+def test_cli_prints_dates_as_iso_strings(tmp_path: Path) -> None:
+    source = tmp_path / "dated.yaml"
+    source.write_text("created: 2026-09-21\nwhen: [2026-01-02]\n", encoding="utf-8")
+    done = subprocess.run([sys.executable, str(SCRIPT), str(source)], capture_output=True, text=True, check=False)
+    assert done.returncode == 0
+    assert json.loads(done.stdout) == {"created": "2026-09-21", "when": ["2026-01-02"]}
+
+
+def test_extract_frontmatter_returns_text_between_delimiters() -> None:
+    assert extract_frontmatter("---\na: 1\nb: 2\n---\n# Body\n") == "a: 1\nb: 2"
+
+
+def test_extract_frontmatter_handles_crlf_and_empty_block() -> None:
+    assert extract_frontmatter("---\r\na: 1\r\n---\r\nbody") == "a: 1"
+    assert extract_frontmatter("---\n---\nbody") == ""
+
+
+def test_extract_frontmatter_ignores_later_rules_in_the_body() -> None:
+    assert extract_frontmatter("---\na: 1\n---\ntext\n---\nmore") == "a: 1"
+
+
+@pytest.mark.parametrize("text", ["", "# Title\n", "a: 1\n---\n", "---\na: 1\nno closing rule\n", "\n---\na: 1\n---\n"])
+def test_extract_frontmatter_returns_none_without_a_block(text: str) -> None:
+    assert extract_frontmatter(text) is None

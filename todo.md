@@ -40,11 +40,11 @@ Check a step only when every sub-step under it is done.
   - [x] REFACTOR: tokenizer and coercion helpers
   - [x] Update docstring
   - [x] Verify coverage and just check
-- [ ] Step 6: YAML Parity Test Over Fixtures
-  - [ ] RED: parity test vs pyyaml over all fixture frontmatter
-  - [ ] GREEN: grow parser if a construct is uncovered, update docstring
-  - [ ] REFACTOR: frontmatter locator helper
-  - [ ] Verify parity passes and just check
+- [x] Step 6: YAML Parity Test Over Fixtures
+  - [x] RED: parity test vs pyyaml over all fixture frontmatter
+  - [x] GREEN: grow parser if a construct is uncovered, update docstring
+  - [x] REFACTOR: frontmatter locator helper
+  - [x] Verify parity passes and just check
 
 ## Section 4: Config and Artifact Validation Scripts
 

@@ -6,7 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 The repo holds planning documents, the Python toolchain, the plugin and marketplace manifests, the directory skeleton, a placeholder docs site, and the first shipped script.
 `tests/fixtures/` holds the ported woodworking extractions and the woodshop plugin fixture; they are verbatim data, so do not edit them or lint their prose.
-`src/scripts/yaml_subset.py` and `tests/test_yaml_subset.py` exist; the remaining skills, scripts, and tools are still to come, and their directories hold only `.gitkeep` placeholders.
+`src/scripts/yaml_subset.py` (which also exposes `extract_frontmatter`), `tests/test_yaml_subset.py`, and `tests/test_yaml_parity.py` exist; the parity test holds the parser equal to PyYAML over every fixture frontmatter.
+The remaining skills, scripts, and tools are still to come, and their directories hold only `.gitkeep` placeholders.
 `spec.md` is the authority for what gets built, `plan.md` is the 22-step build order, and `todo.md` tracks progress.
 Read the spec's Invariants, Non-goals, and Deferred list before changing anything: they are hard constraints, and a step that crosses one needs a spec change first.
 

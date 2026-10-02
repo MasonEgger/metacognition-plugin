@@ -12,6 +12,7 @@ Supported constructs, and nothing else:
 * Strings, bare or quoted. Double quotes allow the escapes \\\\, \\", \\n, and \\t.
   Single quotes allow '' for a literal single quote.
 * Integers such as 3, -2, or +7 (decimal, no leading zeros).
+* Bare ISO dates, YYYY-MM-DD, which parse to datetime.date as PyYAML does. Quote one to keep a string.
 * The literals true, false, and null, in lowercase.
 * Inline lists: [a, b, "c"].
 * Inline maps: {k: v, other: 2}.
@@ -22,15 +23,16 @@ Supported constructs, and nothing else:
 
 Anything else is an error, never a guess. That covers anchors (&a), aliases (*a), tags (!!str),
 a "---" or "..." after the first content line, block scalars (| and >), block sequences ("- item"),
-floats, dates, and the YAML 1.1 spellings that PyYAML would read as another type
-(True, Null, ~, yes, no, on, off), duplicate keys, tabs in indentation, and
-indentation that does not match an open block.
+floats, timestamps (a date with a time), non-ISO or impossible dates, and the YAML 1.1 spellings
+that PyYAML would read as another type (True, Null, ~, yes, no, on, off), duplicate keys, tabs in
+indentation, and indentation that does not match an open block.
 
 Run as a script, it prints the parsed result as JSON:
 
     python3 scripts/yaml_subset.py <file>
 """
 
+import datetime
 import json
 import re
 import sys
@@ -38,7 +40,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import TypeAlias
 
-YamlValue: TypeAlias = "str | int | bool | None | list[YamlValue] | dict[str, YamlValue]"
+YamlValue: TypeAlias = "str | int | bool | datetime.date | None | list[YamlValue] | dict[str, YamlValue]"
 YamlMap: TypeAlias = dict[str, YamlValue]
 
 _INDICATOR_ERRORS = {
@@ -53,6 +55,7 @@ _INDICATOR_ERRORS = {
     "?": "complex keys are not supported",
 }
 _INT = re.compile(r"[+-]?(0|[1-9][0-9]*)")
+_ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
 _NUMBER_LIKE = re.compile(
     r"[+-]?(\d[\d_]*\.?\d*|\.\d+)([eE][+-]?\d+)?|[+-]?\d+(:[0-5]?\d)+|\d{4}-\d{1,2}-\d{1,2}.*|[+-]?\.(inf|nan)",
     re.IGNORECASE,
@@ -147,8 +150,8 @@ def _read_quoted(text: str, start: int, lineno: int) -> tuple[str, int]:
     raise YamlSubsetError(lineno, "unterminated quoted string")
 
 
-def _coerce_bare(text: str, lineno: int) -> str | int | bool | None:
-    """Turn a bare scalar into a str, int, bool, or None, or raise if its type is ambiguous."""
+def _coerce_bare(text: str, lineno: int) -> str | int | bool | datetime.date | None:
+    """Turn a bare scalar into a str, int, bool, date, or None, or raise if its type is ambiguous."""
     if not text:
         raise YamlSubsetError(lineno, "empty value")
     if text[0] in _INDICATOR_ERRORS:
@@ -167,6 +170,11 @@ def _coerce_bare(text: str, lineno: int) -> str | int | bool | None:
         raise YamlSubsetError(lineno, f"ambiguous scalar '{text}'; quote it, or use true, false, or null")
     if _INT.fullmatch(text):
         return int(text)
+    if _ISO_DATE.fullmatch(text):
+        try:
+            return datetime.date.fromisoformat(text)
+        except ValueError:
+            raise YamlSubsetError(lineno, f"invalid calendar date '{text}'") from None
     if _NUMBER_LIKE.fullmatch(text):
         raise YamlSubsetError(lineno, f"ambiguous number-like scalar '{text}'; only plain integers are supported")
     return text
@@ -323,6 +331,27 @@ def _parse_block(lines: list[_Line], start: int, indent: int) -> tuple[YamlMap, 
     return mapping, pos
 
 
+def extract_frontmatter(text: str) -> str | None:
+    """Return the frontmatter of a markdown file, without the "---" delimiters.
+
+    The block must start on the first line with "---" and end at the next line that is exactly "---".
+
+    Args:
+        text: The whole markdown file.
+
+    Returns:
+        The text between the two delimiter lines (empty string for an empty block), or None when
+        the file has no complete frontmatter block.
+    """
+    lines = text.splitlines()
+    if not lines or lines[0].rstrip() != "---":
+        return None
+    for index in range(1, len(lines)):
+        if lines[index].rstrip() == "---":
+            return "\n".join(lines[1:index])
+    return None
+
+
 def parse(text: str) -> YamlMap:
     """Parse YAML-subset text into a dict.
 
@@ -346,6 +375,13 @@ def parse(text: str) -> YamlMap:
     return mapping
 
 
+def _json_default(value: object) -> str:
+    """Serialize the one non-JSON type the parser returns, datetime.date, as an ISO string."""
+    if isinstance(value, datetime.date):
+        return value.isoformat()
+    raise TypeError(f"cannot serialize {type(value).__name__}")
+
+
 def main(argv: list[str]) -> int:
     """Parse the file named in argv[1] and print the result as JSON."""
     if len(argv) != 2:
@@ -356,7 +392,7 @@ def main(argv: list[str]) -> int:
     except (OSError, ValueError) as error:
         print(f"{argv[1]}: {error}", file=sys.stderr)
         return 2
-    print(json.dumps(result, indent=2))
+    print(json.dumps(result, indent=2, default=_json_default))
     return 0
 
 
