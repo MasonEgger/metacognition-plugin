@@ -228,6 +228,22 @@ def collect_versions(repo_root: Path) -> dict[str, str | None]:
     return versions
 
 
+def snippet_section(text: str, name: str) -> str | None:
+    """Return the lines between a section's start and end snippet markers, or None when either is missing.
+
+    The markers are the ones the docs build reads: a line holding ``--8<-- [start:<name>]`` and a later
+    line holding ``--8<-- [end:<name>]``.
+    """
+    lines = text.splitlines(keepends=True)
+    start = next((index for index, line in enumerate(lines) if f"--8<-- [start:{name}]" in line), None)
+    if start is None:
+        return None
+    end = next((index for index, line in enumerate(lines) if index > start and f"--8<-- [end:{name}]" in line), None)
+    if end is None:
+        return None
+    return "".join(lines[start + 1 : end])
+
+
 def _string_or_none(value: object) -> str | None:
     return value if isinstance(value, str) else None
 

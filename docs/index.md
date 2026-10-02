@@ -1,5 +1,9 @@
 # Metacognition
 
+!!! warning "Beta"
+
+    --8<-- "README.md:beta"
+
 Metacognition is a plugin for Claude that captures how a person judges work in a field they practice and turns that judgment into a skill Claude can apply.
 
 You answer questions about your own taste, one at a time.
