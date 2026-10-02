@@ -1,10 +1,11 @@
 # ABOUTME: Pins version presence, shape, and uniformity across every SKILL.md, plugin.json, and marketplace.json.
 # ABOUTME: Shape is SemVer 0.x during beta; the pattern in tree_helpers flips to CalVer at 1.0.
 import json
+import re
 from pathlib import Path
 
 import pytest
-from tree_helpers import REPO_ROOT, collect_versions, is_active_version_shape
+from tree_helpers import REPO_ROOT, collect_versions, is_active_version_shape, snippet_section
 
 
 @pytest.mark.parametrize("good", ["0.1.0", "0.0.0", "0.12.345"])
@@ -68,3 +69,24 @@ def test_every_version_has_the_active_shape() -> None:
 def test_versions_are_uniform() -> None:
     versions = collect_versions(REPO_ROOT)
     assert len(set(versions.values())) == 1, f"versions differ: {versions}"
+
+
+def test_snippet_section_returns_the_text_between_its_markers() -> None:
+    text = "intro\n<!-- --8<-- [start:beta] -->\nline one\nline two\n<!-- --8<-- [end:beta] -->\noutro\n"
+    assert snippet_section(text, "beta") == "line one\nline two\n"
+
+
+def test_snippet_section_is_none_when_a_marker_is_missing() -> None:
+    assert snippet_section("no markers here\n", "beta") is None
+    assert snippet_section("<!-- --8<-- [start:beta] -->\nunclosed\n", "beta") is None
+    assert snippet_section("<!-- --8<-- [start:other] -->\nx\n<!-- --8<-- [end:other] -->\n", "beta") is None
+
+
+def test_readme_beta_notice_names_the_manifest_version() -> None:
+    """The docs home page shows this README section, so a version change must reach it."""
+    version = collect_versions(REPO_ROOT)[".claude-plugin/marketplace.json (metadata.version)"]
+    notice = snippet_section((REPO_ROOT / "README.md").read_text(encoding="utf-8"), "beta")
+    assert notice is not None, "README.md has no beta section between snippet markers"
+    assert re.search(rf"version {re.escape(str(version))}(?!\d)", notice), (
+        f"README.md beta notice does not name version {version}"
+    )

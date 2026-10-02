@@ -4,7 +4,6 @@
 
 --8<-- "README.md:install"
 
-The repository is linked from the header of this site.
 The Releases page of the repository lists each published zip.
 
 ## Invoke a Stage
