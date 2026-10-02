@@ -84,9 +84,9 @@ Check a step only when every sub-step under it is done.
   - [x] compile/SKILL.md ported (never resolves a tension, logs every cut)
   - [x] calibrate/SKILL.md ported (reads profile not archive, probes never ship)
   - [x] Verify: grep checks pass
-- [ ] Step 12: Port skillify (task)
-  - [ ] skillify/SKILL.md ported (exemplar, --into and default package, verbatim-archive warning, target_skill, augment, version stamping, loader)
-  - [ ] Verify: grep checks pass, warning text present
+- [x] Step 12: Port skillify (task)
+  - [x] skillify/SKILL.md ported (exemplar, --into and default package, verbatim-archive warning, target_skill, augment, version stamping, loader)
+  - [x] Verify: grep checks pass, warning text present
 
 ## Section 7: The Research Agent
 
