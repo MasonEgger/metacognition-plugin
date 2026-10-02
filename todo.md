@@ -163,10 +163,10 @@ Check a step only when every sub-step under it is done.
   - [x] Privacy, File Formats
   - [x] Update mkdocs.yml nav
   - [x] Verify: just docs-build clean
-- [ ] Step 21: Write the README (task)
-  - [ ] Port from private README, strip private tokens
-  - [ ] What it is, install (marketplace first, zip alternate), docs link, beta note, model recommendation, single credit line
-  - [ ] Verify: exactly one credit line, docs link resolves
+- [x] Step 21: Write the README (task)
+  - [x] Port from private README, strip private tokens
+  - [x] What it is, install (marketplace first, zip alternate), docs link, beta note, model recommendation, single credit line
+  - [x] Verify: exactly one credit line, docs link resolves
 
 ## Section 13: Live Surface Check
 
