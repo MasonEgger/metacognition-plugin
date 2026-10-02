@@ -113,13 +113,13 @@ Check a step only when every sub-step under it is done.
 
 ## Section 9: Evals
 
-- [ ] Step 15: Port Evals and Add the Parse-and-Path Test
-  - [ ] RED: test_evals (JSON parses, fixture paths exist, README present)
-  - [ ] Document: evals/README.md scratch-copy procedure
-  - [ ] GREEN: port five stage evals.json, drop sync, repoint fixtures
-  - [ ] RED: no evals path inside metacognition/
-  - [ ] GREEN: keep evals top-level
-  - [ ] Verify parse and paths, just check
+- [x] Step 15: Port Evals and Add the Parse-and-Path Test
+  - [x] RED: test_evals (JSON parses, fixture paths exist, README present)
+  - [x] Document: evals/README.md scratch-copy procedure
+  - [x] GREEN: port five stage evals.json, drop sync, repoint fixtures
+  - [x] RED: no evals path inside metacognition/
+  - [x] GREEN: keep evals top-level
+  - [x] Verify parse and paths, just check
 
 ## Section 10: Doctrine and Version Guards
 

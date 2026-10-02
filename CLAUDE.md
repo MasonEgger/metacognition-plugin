@@ -15,6 +15,7 @@ The design, interview, compile, calibrate, and skillify skills each have a `SKIL
 `metacognition/agents/domain-research.md` embeds its output contract between `research-contract:begin` and `research-contract:end` markers, and `tests/test_research_contract.py` holds that block equal to `src/references/research-contract.md`, so edit the reference and copy the change into the agent.
 `tools/sync_skills.py` exists with `tests/test_sync_drift.py` and `tests/test_sync_manifest.py`; `tests/conftest.py` puts `tools/` on `sys.path`.
 The other tools are still to come.
+`evals/` at the top level holds the five stage `evals.json` files and one README; evals never go inside `metacognition/`, and they are not run as a gate.
 `spec.md` is the authority for what gets built, `plan.md` is the 22-step build order, and `todo.md` tracks progress.
 Read the spec's Invariants, Non-goals, and Deferred list before changing anything: they are hard constraints, and a step that crosses one needs a spec change first.
 

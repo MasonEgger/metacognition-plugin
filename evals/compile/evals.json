@@ -1,0 +1,24 @@
+{
+  "skill_name": "compile",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "compile-woodworking-scratch-profile",
+      "prompt": "Create a scratch copy of the woodworking fixture extraction for a clean compile run: SCRATCH=$(mktemp -d); cp -r tests/fixtures/extractions/woodworking \"$SCRATCH/woodworking\"; rm -f \"$SCRATCH/woodworking/profile.md\" \"$SCRATCH/woodworking/compile-log.md\". From the repo root, run /metacognition:compile woodworking --extractions-root \"$SCRATCH\". The scratch copy still carries a complete archive.md (status: complete) and an interview-spec.md with target_skill: null, so compile has everything it needs and nothing to ask the person about.",
+      "expected_output": "profile.md written at $SCRATCH/woodworking/profile.md with the seventeen required XML sections in profile-format.md's fixed order, the priority section reproduced verbatim, a recomputed token estimate at or under the 5,000 ceiling, and a frontmatter token_estimate that matches the recompute; compile-log.md written at $SCRATCH/woodworking/compile-log.md logging every cut with its source Qnn and the reason it failed the keep/cut test; the run ends by naming the files written and the next stage's command; the committed fixture at tests/fixtures/extractions/woodworking/ stays untouched.",
+      "files": [],
+      "assertions": [
+        "the transcript states the extraction root in one line before any file is read or written",
+        "$SCRATCH/woodworking/profile.md exists and its frontmatter parses with domain, registers, consumer, target_skill, version, token_estimate, and calibrated fields",
+        "the profile body carries all seventeen sections (usage through final_instruction) in profile-format.md's fixed order, with none missing",
+        "the priority section is the fixed text from profile-format.md, ending with the rule to preserve the person's deeper judgment over surface style",
+        "every golden_examples entry carries bad, good, and why",
+        "the productive_contradictions section encodes the archive's contradiction ledger entry as a tension rather than resolving it",
+        "$SCRATCH/woodworking/compile-log.md exists and logs at least one cut with its source Qnn heading and the reason it failed the keep/cut test",
+        "the closing self-check, python3 scripts/validate_artifacts.py \"$SCRATCH/woodworking\" run from the compile skill's own directory, exits 0",
+        "the run ends by naming profile.md and compile-log.md as the files written and /metacognition:calibrate woodworking as the next stage's command, then stops",
+        "git status --short tests/fixtures/ is empty after the run"
+      ]
+    }
+  ]
+}

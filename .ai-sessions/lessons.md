@@ -2,6 +2,7 @@
 
 ## Recent
 <!-- 10 most recent lessons, newest first -->
+- When adapting an eval to changed behavior, check each expectation against the exact text of the skill it tests; an expectation the skill does not state can fail a correct run, so the eval follows the skill and a gap in the skill is reported, not papered over in the eval (2026-10-01)
 - A tool that deletes or overwrites files in a directory must check for symlinks at every level it touches, the directory and each entry, and its drift check must not read through a link, or a link passes as a valid copy (2026-10-01)
 - When fixing one case of a class (a symlinked directory), list the sibling cases (symlinked file, dangling link, link to a directory, link at a non-slice name) and test them in the same pass; the first sync_skills fix covered only the directory and the file case slipped through to validation (2026-10-01)
 - To hold a block inside one file equal to another file, delimit it with a marker pair that appears exactly once, and have the test fail on a missing, repeated, or empty block, not only on a mismatch (2026-10-01)
@@ -11,12 +12,12 @@
 - When a port replaces "he" with "they", every verb in a list after the pronoun needs the plural form, not only the first one; re-read each changed sentence in full (2026-10-01)
 - When a port rule edits a fixture's body, update every frontmatter value derived from that body (such as token_estimate) in the same step; Steps 3 and 4 reworded profile line 25 and left token_estimate stale, and the Step 8 validator test then fired on eight fixtures (2026-10-01)
 - Before treating a ported fixture that fails validation as broken, check the source history for whether the failure is intentional (woodworking-truncated fails archive-category-count on purpose), then pin the expected finding with a test (2026-10-01)
-- A shipped script that imports a sibling module must work both as a package import under pytest and as a direct `python3 scripts/<name>.py` run: import the package path first, fall back to the sibling name on ModuleNotFoundError, and prove the direct case with a subprocess test from another working directory (2026-10-01)
 
 ## Security
 - A tool that deletes or overwrites files in a directory must check for symlinks at every level it touches, the directory and each entry, and its drift check must not read through a link, or a link passes as a valid copy (2026-10-01)
 
 ## Workflow
+- When adapting an eval to changed behavior, check each expectation against the exact text of the skill it tests; an expectation the skill does not state can fail a correct run, so the eval follows the skill and a gap in the skill is reported, not papered over in the eval (2026-10-01)
 - When fixing one case of a class (a symlinked directory), list the sibling cases (symlinked file, dangling link, link to a directory, link at a non-slice name) and test them in the same pass; the first sync_skills fix covered only the directory and the file case slipped through to validation (2026-10-01)
 - When a ported skill tells the reader to reproduce a script's computation by hand, check the instruction against the script itself, not only the source text; compile said byte length (`wc -c`) while validate_artifacts.py counts decoded characters, so it now says `wc -m` (2026-10-01)
 - A number in a spec overview or plan step (such as "60 to 120 questions") is not a rule to port unless the source text states it; grep the source before adding it to a ported skill (2026-10-01)

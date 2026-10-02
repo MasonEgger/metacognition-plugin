@@ -1,0 +1,35 @@
+{
+  "skill_name": "interview",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "interview-first-question-smoke",
+      "prompt": "Create a scratch copy of the woodworking fixture's interview-spec.md with no archive yet, so the interview starts fresh: SCRATCH=$(mktemp -d); mkdir -p \"$SCRATCH/woodworking\"; cp tests/fixtures/extractions/woodworking/interview-spec.md \"$SCRATCH/woodworking/interview-spec.md\". From the repo root, run /metacognition:interview woodworking --extractions-root \"$SCRATCH\". Stop reading the transcript as soon as the register check and the first question appear; do not answer it.",
+      "expected_output": "Preflight states the extraction root in one line, the register check states the single shop register back to the person before any question, then the first question is asked alone, drawn from interview-spec.md's question seeds; no archive.md carries a logged Q/A before that first question is asked.",
+      "files": [],
+      "assertions": [
+        "the transcript states the extraction root in one line before the register check",
+        "the register check names the shop register before any question is asked",
+        "the first question is drawn from interview-spec.md's Question seeds, never invented",
+        "$SCRATCH/woodworking/archive.md, if created at all before the first question is logged, carries no ### Q01 entry yet",
+        "git status --short tests/fixtures/ is empty after the run"
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "interview-resume-truncated-reconstructs-ledger",
+      "prompt": "Create a scratch copy of the truncated woodworking fixture, whose archive ends mid-question: SCRATCH=$(mktemp -d); cp -r tests/fixtures/extractions/woodworking-truncated \"$SCRATCH/woodworking-truncated\". From the repo root, run /metacognition:interview woodworking-truncated --resume --extractions-root \"$SCRATCH\". Stop reading the transcript as soon as the resumed-position line and the next question appear; do not answer it.",
+      "expected_output": "The Resume Procedure reconstructs state from the archive's frontmatter and Contradiction ledger alone (questions_asked: 6, each category's asked/floor/saturated state, the L01 ledger entry), states the resumed position back in one line naming Q07 as next, and asks a Q07 question, all without rewriting any of the six already-logged Q/A entries; the mismatch between the archive's partial Q07 heading and the frontmatter's questions_asked: 6 is treated as an interrupted mid-append write, losing at most that one Q/A, per the Resume Procedure's own rule.",
+      "files": [],
+      "assertions": [
+        "the transcript states the extraction root in one line before the resumed-position line",
+        "the resumed-position line correctly reports the next question number as 7, matching the fixture's questions_asked: 6",
+        "the resumed-position line names which categories are saturated and which remain, matching the fixture's categories map",
+        "the L01 contradiction ledger entry is treated as already known, not re-derived or re-asked",
+        "$SCRATCH/woodworking-truncated/archive.md's Q01 through Q06 entries are byte-for-byte unchanged after the run, matching tests/fixtures/extractions/woodworking-truncated/archive.md's Q01 through Q06",
+        "the next question asked is numbered Q07, continuing from questions_asked: 6, rather than restarting the interview at Q01",
+        "git status --short tests/fixtures/ is empty after the run"
+      ]
+    }
+  ]
+}
