@@ -1,0 +1,130 @@
+# Release: on push to main, reads metadata.version from the marketplace manifest.
+# If tag v<version> does not exist yet, runs the gate, builds the zip, tags the
+# commit, and publishes a GitHub Release with the zip (pre-release while 0.x).
+# Every action is pinned to a full commit SHA by project rule; the tag is in the comment.
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+# Read-only by default. The release job gets write access below.
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: Tag and publish
+    runs-on: ubuntu-latest
+    permissions:
+      # Pushes the tag and creates the GitHub Release.
+      contents: write
+    # One release at a time, so two pushes cannot race on the same version.
+    concurrency:
+      group: release
+      cancel-in-progress: false
+    env:
+      UV_PYTHON: "3.13"
+      UV_LOCKED: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # All tags and history, so the tag check sees what exists.
+          fetch-depth: 0
+          # The default token is needed to push the tag.
+          persist-credentials: true
+
+      - name: Read and validate the version
+        id: version
+        run: |
+          set -euo pipefail
+          version="$(jq -er '.metadata.version' .claude-plugin/marketplace.json)"
+          # Same shape tools/build_zips.py accepts. The value goes into a tag
+          # name and a file name, so reject anything else.
+          if ! [[ "$version" =~ ^[0-9A-Za-z][0-9A-Za-z.+-]*$ ]]; then
+            echo "::error::metadata.version has an unexpected shape"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Version: $version"
+
+      - name: Stop if the tag already exists
+        id: guard
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -uo pipefail
+          # Ask the remote, not only the local clone.
+          git ls-remote --exit-code --tags origin "refs/tags/v${VERSION}" > /dev/null
+          rc=$?
+          if [ "$rc" -eq 0 ]; then
+            echo "Tag v${VERSION} already exists on the remote. Nothing to release."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          elif [ "$rc" -eq 2 ]; then
+            echo "Tag v${VERSION} does not exist. Releasing."
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::Could not query remote tags (git ls-remote exit $rc)"
+            exit 1
+          fi
+
+      - if: steps.guard.outputs.exists == 'false'
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
+      - name: Install dependencies
+        if: steps.guard.outputs.exists == 'false'
+        run: uv sync --locked
+
+      # The justfile stays the single definition of the gate. just comes from
+      # PyPI (rust-just) at a pinned version, so no extra action is needed.
+      - name: Run the gate
+        if: steps.guard.outputs.exists == 'false'
+        run: uvx --from rust-just==1.58.0 just check
+
+      - name: Build the zip
+        if: steps.guard.outputs.exists == 'false'
+        run: uv run python tools/build_zips.py
+
+      - name: Confirm the zip exists
+        if: steps.guard.outputs.exists == 'false'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          zip="dist/metacognition-${VERSION}.zip"
+          if [ ! -f "$zip" ]; then
+            echo "::error::Expected $zip was not built"
+            ls -la dist || true
+            exit 1
+          fi
+          ls -la "$zip"
+
+      - name: Tag the commit
+        if: steps.guard.outputs.exists == 'false'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "v${VERSION}" -m "v${VERSION}" "$GITHUB_SHA"
+          # The push is rejected if the tag appeared on the remote since the check.
+          git push origin "refs/tags/v${VERSION}"
+
+      - name: Publish the GitHub Release
+        if: steps.guard.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          flags=()
+          # SemVer 0.x is beta: mark the release as a pre-release.
+          if [ "${VERSION%%.*}" = "0" ]; then
+            flags+=(--prerelease)
+          fi
+          gh release create "v${VERSION}" "dist/metacognition-${VERSION}.zip" \
+            --verify-tag \
+            --title "v${VERSION}" \
+            --generate-notes \
+            "${flags[@]}"

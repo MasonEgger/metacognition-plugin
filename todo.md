@@ -150,10 +150,10 @@ Check a step only when every sub-step under it is done.
   - [x] GREEN: fix any real violation
   - [x] REFACTOR: share file walker
   - [x] Verify fixtures, allowlist, clean repo prose, just check
-- [ ] Step 19: CI and Release Workflows (task)
-  - [ ] ci.yml (matrix 3.11 and 3.13, just check, docs deploy on main, SHA-pinned)
-  - [ ] release.yml (version read, tag guard, gate, zip, tag, pre-release during 0.x, SHA-pinned)
-  - [ ] Verify: every uses: pinned to a 40-char SHA, valid YAML
+- [x] Step 19: CI and Release Workflows (task)
+  - [x] ci.yml (matrix 3.11 and 3.13, just check, docs deploy on main, SHA-pinned)
+  - [x] release.yml (version read, tag guard, gate, zip, tag, pre-release during 0.x, SHA-pinned)
+  - [x] Verify: every uses: pinned to a 40-char SHA, valid YAML
 
 ## Section 12: Docs Site and README
 

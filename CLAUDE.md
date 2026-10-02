@@ -79,3 +79,6 @@ A failing `release-dry` names the file to fix.
   `tests/test_repo_prose.py` runs it over the repo's own prose, so new docs, session files, and skills must pass it.
   Describe a finding by its rule name; never quote the banned list or the dirty fixture's lines.
 - GitHub Actions are pinned to commit SHAs.
+  CI runs the gate on pull requests and on push to main, for Python 3.11 and 3.13.
+  A push to main with a manifest version that has no tag publishes a release, so a version change in the manifests is a release decision.
+  Action SHAs are looked up through the API, never written from memory.
