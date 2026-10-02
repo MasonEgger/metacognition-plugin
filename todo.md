@@ -48,14 +48,14 @@ Check a step only when every sub-step under it is done.
 
 ## Section 4: Config and Artifact Validation Scripts
 
-- [ ] Step 7: Implement resolve_config.py
-  - [ ] RED: resolver tests (all tiers, merge, loud errors, defaults, exists, stderr echo)
-  - [ ] Document: agreement with settings.md noted
-  - [ ] GREEN: resolver with five tiers, JSON stdout, "Loaded config from" on stderr
-  - [ ] RED: integration tests
-  - [ ] GREEN: wire tiers
-  - [ ] REFACTOR: tier structure
-  - [ ] Verify coverage and just check
+- [x] Step 7: Implement resolve_config.py
+  - [x] RED: resolver tests (all tiers, merge, loud errors, defaults, exists, stderr echo)
+  - [x] Document: agreement with settings.md noted
+  - [x] GREEN: resolver with five tiers, JSON stdout, "Loaded config from" on stderr
+  - [x] RED: integration tests
+  - [x] GREEN: wire tiers
+  - [x] REFACTOR: tier structure
+  - [x] Verify coverage and just check
 - [ ] Step 8: Port validate_artifacts.py
   - [ ] RED: ported suite (woodworking pass, five bad cases, remaining checks)
   - [ ] Document: 5,000 ceiling and prose-elsewhere note
