@@ -64,3 +64,4 @@ nav:
       - archive.md: formats/archive.md
       - profile.md: formats/profile.md
       - Calibration Round Files: formats/calibration-round.md
+  - Surface Check: surface-check.md

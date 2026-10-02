@@ -4,7 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## State of the Repo
 
-The repo holds planning documents, the Python toolchain, the plugin and marketplace manifests, the directory skeleton, the docs site, and the first shipped scripts.
+Every step of the 22-step plan is complete.
+The repo holds the planning documents, the Python toolchain, the plugin and marketplace manifests, the five skills, the research agent, the three shipped scripts, the build tools, the evals, the docs site, the README, and the CI and release workflows.
 `tests/fixtures/` holds the ported woodworking extractions and the woodshop plugin fixture; they are verbatim data, so do not edit them or lint their prose.
 `src/scripts/yaml_subset.py` (which also exposes `extract_frontmatter`), `tests/test_yaml_subset.py`, and `tests/test_yaml_parity.py` exist; the parity test holds the parser equal to PyYAML over every fixture frontmatter.
 `src/scripts/resolve_config.py` and `tests/test_resolve_config.py` exist too; tests that run the resolver must isolate HOME, XDG_CONFIG_HOME, and the working directory.
@@ -15,7 +16,10 @@ The design, interview, compile, calibrate, and skillify skills each have a `SKIL
 `metacognition/agents/domain-research.md` embeds its output contract between `research-contract:begin` and `research-contract:end` markers, and `tests/test_research_contract.py` holds that block equal to `src/references/research-contract.md`, so edit the reference and copy the change into the agent.
 `tools/sync_skills.py` exists with `tests/test_sync_drift.py` and `tests/test_sync_manifest.py`; `tests/conftest.py` puts `tools/` on `sys.path`.
 `tools/build_zips.py` exists with `tests/test_build_zips.py`; it builds `dist/metacognition-<version>.zip` and refuses, naming each offending file, on version mismatch, oversized or angle-bracket descriptions, bad frontmatter, drifted synced copies, a top-level `bin/`, or any symlink.
-The other tools are still to come.
+`tools/prose_scrub.py` is the prose gate and runs inside the test suite over the repo's own prose, so run it before committing.
+The two workflows under `.github/workflows/` have never run; the pull request is their first test.
+`docs/surface-check.md` is the checklist and record for the manual check on Claude Code, claude.ai chat, and Cowork.
+That check has not been run; every result slot reads "Not yet run", and filling them in is the maintainer's job.
 The docs site lives under `docs/` (sixteen pages) and builds with `just docs-build`.
 The Method and File Formats pages restate `src/references/`, so a change to a reference and the page that restates it go in the same pull request.
 The Home and Getting Started pages include two marker-delimited sections of `README.md` (install and credit) at build time, so those markers must stay or the strict build fails.

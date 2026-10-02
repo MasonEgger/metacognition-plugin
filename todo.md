@@ -170,7 +170,7 @@ Check a step only when every sub-step under it is done.
 
 ## Section 13: Live Surface Check
 
-- [ ] Step 22: Prepare and Record the Surface Check (task)
-  - [ ] Build the upload zip (just release-dry)
-  - [ ] Write the three-surface checklist with result slots
-  - [ ] Verify: zip exists, checklist lists all three surfaces
+- [x] Step 22: Prepare and Record the Surface Check (task)
+  - [x] Build the upload zip (just release-dry)
+  - [x] Write the three-surface checklist with result slots
+  - [x] Verify: zip exists, checklist lists all three surfaces
