@@ -2,6 +2,7 @@
 
 ## Recent
 <!-- 10 most recent lessons, newest first -->
+- A packaging tool should collect and report every refusal in one run, write to a temporary name and rename it, and be tested for leaving an existing artifact untouched when it refuses (2026-10-01)
 - A guard test over an existing tree cannot show RED on the tree itself, so write its detection logic test-first against planted input under tmp_path, then point it at the real tree, and never plant anything in the repo (2026-10-01)
 - When adapting an eval to changed behavior, check each expectation against the exact text of the skill it tests; an expectation the skill does not state can fail a correct run, so the eval follows the skill and a gap in the skill is reported, not papered over in the eval (2026-10-01)
 - A tool that deletes or overwrites files in a directory must check for symlinks at every level it touches, the directory and each entry, and its drift check must not read through a link, or a link passes as a valid copy (2026-10-01)
@@ -11,7 +12,6 @@
 - When a ported skill tells the reader to reproduce a script's computation by hand, check the instruction against the script itself, not only the source text; compile said byte length (`wc -c`) while validate_artifacts.py counts decoded characters, so it now says `wc -m` (2026-10-01)
 - A number in a spec overview or plan step (such as "60 to 120 questions") is not a rule to port unless the source text states it; grep the source before adding it to a ported skill (2026-10-01)
 - When a port replaces "he" with "they", every verb in a list after the pronoun needs the plural form, not only the first one; re-read each changed sentence in full (2026-10-01)
-- When a port rule edits a fixture's body, update every frontmatter value derived from that body (such as token_estimate) in the same step; Steps 3 and 4 reworded profile line 25 and left token_estimate stale, and the Step 8 validator test then fired on eight fixtures (2026-10-01)
 
 ## Security
 - A tool that deletes or overwrites files in a directory must check for symlinks at every level it touches, the directory and each entry, and its drift check must not read through a link, or a link passes as a valid copy (2026-10-01)
@@ -36,6 +36,7 @@
 - pytest exits 5 when it collects no tests; a goal run whose early steps have no tests needs a verification command that accepts exit 5 (2026-10-01)
 
 ## Tooling
+- A packaging tool should collect and report every refusal in one run, write to a temporary name and rename it, and be tested for leaving an existing artifact untouched when it refuses (2026-10-01)
 - mypy exits 2 when a directory listed in its configured `files` holds no .py files, so an empty tools/ broke `just check`; the recipe was narrowed until Step 14 added tools/sync_skills.py and is plain `uv run mypy` again (2026-10-01)
 - Start the `/bpe:review` server with the 2-hour background limit (`timeout: 7200000`); the 30-minute default kills it mid-review (2026-10-01)
 - The review server picks a random port on every start and bakes it into the page's Save button; if a tab is stranded on a dead port, relay that port to the new server so Save still works (2026-10-01)

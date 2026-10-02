@@ -134,14 +134,14 @@ Check a step only when every sub-step under it is done.
 
 ## Section 11: Packaging, Prose Gate, and Release
 
-- [ ] Step 17: Implement build_zips.py and Its Refusals
-  - [ ] RED: test_build_zips (happy path plus every refusal, exclusions)
-  - [ ] Document: refusal-list docstring
-  - [ ] GREEN: build_zips.py (version read, refusals, zip from metacognition/ only)
-  - [ ] RED: clean-tree archive opens with sole root
-  - [ ] GREEN: minimal
-  - [ ] REFACTOR: named refusal predicates
-  - [ ] Verify happy path and refusals, just check
+- [x] Step 17: Implement build_zips.py and Its Refusals
+  - [x] RED: test_build_zips (happy path plus every refusal, exclusions)
+  - [x] Document: refusal-list docstring
+  - [x] GREEN: build_zips.py (version read, refusals, zip from metacognition/ only)
+  - [x] RED: clean-tree archive opens with sole root
+  - [x] GREEN: minimal
+  - [x] REFACTOR: named refusal predicates
+  - [x] Verify happy path and refusals, just check
 - [ ] Step 18: Port prose_scrub.py and Run It Over the Repo
   - [ ] RED: test_prose_scrub (clean passes, dirty fails, allowlist, reporting)
   - [ ] Document: allowlist docstring
