@@ -67,12 +67,12 @@ Check a step only when every sub-step under it is done.
 
 ## Section 5: Source References
 
-- [ ] Step 9: Port and Author the References (task)
-  - [ ] Port six references (extraction-theory, interview-spec-format, archive-format, profile-format, calibration-protocol, skill-scaffold)
-  - [ ] profile-format: 5,000 ceiling and fixed priority text
-  - [ ] Write settings.md (matches resolve_config, documents the "Loaded config from" line)
-  - [ ] Write research-contract.md (four-block shape plus no-results line)
-  - [ ] Verify: no private tokens, no ../
+- [x] Step 9: Port and Author the References (task)
+  - [x] Port six references (extraction-theory, interview-spec-format, archive-format, profile-format, calibration-protocol, skill-scaffold)
+  - [x] profile-format: 5,000 ceiling and fixed priority text
+  - [x] Write settings.md (matches resolve_config, documents the "Loaded config from" line)
+  - [x] Write research-contract.md (four-block shape plus no-results line)
+  - [x] Verify: no private tokens, no ../
 
 ## Section 6: The Five Skills
 
