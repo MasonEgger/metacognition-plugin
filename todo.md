@@ -157,12 +157,12 @@ Check a step only when every sub-step under it is done.
 
 ## Section 12: Docs Site and README
 
-- [ ] Step 20: Build the Docs Site (task)
-  - [ ] Home, Getting Started, The Five Stages
-  - [ ] Configuration (from settings.md), The Method (from extraction-theory.md)
-  - [ ] Privacy, File Formats
-  - [ ] Update mkdocs.yml nav
-  - [ ] Verify: just docs-build clean
+- [x] Step 20: Build the Docs Site (task)
+  - [x] Home, Getting Started, The Five Stages
+  - [x] Configuration (from settings.md), The Method (from extraction-theory.md)
+  - [x] Privacy, File Formats
+  - [x] Update mkdocs.yml nav
+  - [x] Verify: just docs-build clean
 - [ ] Step 21: Write the README (task)
   - [ ] Port from private README, strip private tokens
   - [ ] What it is, install (marketplace first, zip alternate), docs link, beta note, model recommendation, single credit line

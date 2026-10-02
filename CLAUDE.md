@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## State of the Repo
 
-The repo holds planning documents, the Python toolchain, the plugin and marketplace manifests, the directory skeleton, a placeholder docs site, and the first shipped scripts.
+The repo holds planning documents, the Python toolchain, the plugin and marketplace manifests, the directory skeleton, the docs site, and the first shipped scripts.
 `tests/fixtures/` holds the ported woodworking extractions and the woodshop plugin fixture; they are verbatim data, so do not edit them or lint their prose.
 `src/scripts/yaml_subset.py` (which also exposes `extract_frontmatter`), `tests/test_yaml_subset.py`, and `tests/test_yaml_parity.py` exist; the parity test holds the parser equal to PyYAML over every fixture frontmatter.
 `src/scripts/resolve_config.py` and `tests/test_resolve_config.py` exist too; tests that run the resolver must isolate HOME, XDG_CONFIG_HOME, and the working directory.
@@ -16,6 +16,9 @@ The design, interview, compile, calibrate, and skillify skills each have a `SKIL
 `tools/sync_skills.py` exists with `tests/test_sync_drift.py` and `tests/test_sync_manifest.py`; `tests/conftest.py` puts `tools/` on `sys.path`.
 `tools/build_zips.py` exists with `tests/test_build_zips.py`; it builds `dist/metacognition-<version>.zip` and refuses, naming each offending file, on version mismatch, oversized or angle-bracket descriptions, bad frontmatter, drifted synced copies, a top-level `bin/`, or any symlink.
 The other tools are still to come.
+The docs site lives under `docs/` (sixteen pages) and builds with `just docs-build`.
+The Method and File Formats pages restate `src/references/`, so a change to a reference and the page that restates it go in the same pull request.
+The Home and Getting Started pages include two marker-delimited sections of `README.md` (install and credit) at build time, so those markers must stay or the strict build fails.
 `evals/` at the top level holds the five stage `evals.json` files and one README; evals never go inside `metacognition/`, and they are not run as a gate.
 `spec.md` is the authority for what gets built, `plan.md` is the 22-step build order, and `todo.md` tracks progress.
 Read the spec's Invariants, Non-goals, and Deferred list before changing anything: they are hard constraints, and a step that crosses one needs a spec change first.
