@@ -4,7 +4,11 @@ A plugin for Claude that captures how you judge work in a field you practice.
 It interviews you one question at a time, compresses the answers into a short profile, tests the profile against real tasks, and turns it into a skill.
 It is for anyone who wants their taste written down in a form Claude can apply, in any field.
 
-This plugin is in beta at version 0.1.0, and details may change.
+<!-- --8<-- [start:beta] -->
+This plugin is in beta at version 0.1.0.
+Expect rough edges: commands, file formats, and behavior may change between versions.
+The source, releases, and issue tracker are at [MasonEgger/metacognition-plugin](https://github.com/MasonEgger/metacognition-plugin) on GitHub.
+<!-- --8<-- [end:beta] -->
 
 ## The Five Stages
 
@@ -41,15 +45,15 @@ claude plugin install metacognition@metacognition-plugin
 
 The marketplace is named `metacognition-plugin` and the plugin is named `metacognition`.
 
-On claude.ai and Cowork, the marketplace is the primary path: add the marketplace from https://github.com/MasonEgger/metacognition-plugin and install the `metacognition` plugin from it.
+On claude.ai and Cowork, the marketplace is the primary path: add the marketplace from <https://github.com/MasonEgger/metacognition-plugin> and install the `metacognition` plugin from it.
 
 The alternate path is the release zip.
-Download `metacognition-<version>.zip` from the Releases page of https://github.com/MasonEgger/metacognition-plugin and upload it through Customize, Plugins.
+Download `metacognition-<version>.zip` from the Releases page of <https://github.com/MasonEgger/metacognition-plugin> and upload it through Customize, Plugins.
 <!-- --8<-- [end:install] -->
 
 ## Docs
 
-The docs site is at https://masonegger.github.io/metacognition-plugin/ and goes live once GitHub Pages is enabled.
+The docs site is at <https://masonegger.github.io/metacognition-plugin/>.
 
 ## Model
 

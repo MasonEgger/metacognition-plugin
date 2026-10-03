@@ -23,7 +23,9 @@ GitHub runs each `run:` step under `bash -e`, so a step that needs a command's e
 That check has not been run; every result slot reads "Not yet run", and filling them in is the maintainer's job.
 The docs site lives under `docs/` (sixteen pages) and builds with `just docs-build`.
 The Method and File Formats pages restate `src/references/`, so a change to a reference and the page that restates it go in the same pull request.
-The Home and Getting Started pages include two marker-delimited sections of `README.md` (install and credit) at build time, so those markers must stay or the strict build fails.
+The Home and Getting Started pages include three marker-delimited sections of `README.md` (beta, install, and credit) at build time, so those markers must stay or the strict build fails.
+The beta section is the warning at the top of the docs home page; it carries the version and the repo link, and `tests/test_skill_versions.py` holds its version equal to the manifests, so a version change edits `README.md` too.
+Material hides the header's repo link on narrow screens, and a bare URL is not a link in the built site, so write repo links as Markdown links or in angle brackets.
 `evals/` at the top level holds the five stage `evals.json` files and one README; evals never go inside `metacognition/`, and they are not run as a gate.
 `spec.md` is the authority for what gets built, `plan.md` is the 22-step build order, and `todo.md` tracks progress.
 Read the spec's Invariants, Non-goals, and Deferred list before changing anything: they are hard constraints, and a step that crosses one needs a spec change first.
