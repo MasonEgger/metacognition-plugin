@@ -101,7 +101,8 @@ Cached from `/bpe:plan` Pass 2 discovery (2026-10-01). The installed, invocable 
 - none yet
 
 **Upcoming:**
-- python-branch port: bring over the private `python-taste-extraction` branch's plugin edits (the profile token ceiling raised from 5,000 to 10,000, with its validator, format, fixture, and eval changes), tracked as an issue on this repo once the first phase lands.
+- python-branch port: bring over the private `python-taste-extraction` branch's plugin edits (the profile token ceiling raised from 5,000 to 10,000, with its validator, format, fixture, and eval changes). Tracked as issue #3; intake notes in `.ai-sessions/research/2026-10-02-profile-ceiling-port/notes.md`.
+- interview retro: update the design and interview skills from the retro on the first full pipeline run (verdict batteries, live research in the interview, picker provenance, floors that count probes, an exports section, an archive append script). It changes the "one question per turn" invariant, so it needs its own spec slice and the maintainer's answers to the retro's open questions first. Tracked as issue #4; the retro is `.ai-sessions/research/2026-09-30-interview-retro/retro.md`.
 - private cutover: the private marketplace removes its own `metacognition/`, installs this plugin from this marketplace, and moves its Obsidian sync stage into its private `productivity` plugin. That work happens in the private repo and is specced there.
 
 **Deferred:**
