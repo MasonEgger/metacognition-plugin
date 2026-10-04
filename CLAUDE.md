@@ -83,7 +83,7 @@ A failing `release-dry` names the file to fix.
 
 ## Conventions
 
-- Versions are uniform across every SKILL.md, `plugin.json`, and `marketplace.json`: SemVer `0.x` during beta, CalVer at 1.0, and they move only on the maintainer's ruling.
+- Versions are uniform across every SKILL.md, `plugin.json`, `marketplace.json`, and `pyproject.toml` (run `uv lock` after changing it, since CI installs with the lock held fixed): SemVer `0.x` during beta, CalVer at 1.0, and they move only on the maintainer's ruling.
 - SKILL.md frontmatter carries exactly `name`, `version`, `description`, and `compatibility`; no `model:` line anywhere.
 - The profile token ceiling is 10,000 at any register count; the 2,000 to 4,000 target is for a single-register profile.
 - Prose follows `.claude/rules/vendored/writing.md`: no em-dash or en-dash, straight quotes, Title Case headings, one sentence per line in committed Markdown.

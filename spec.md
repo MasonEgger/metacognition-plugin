@@ -54,7 +54,7 @@ How the surfaces differ, as documented at claude.com/docs/plugins/platform-suppo
 - No model pins and no model guards anywhere: no `model:` frontmatter, no instruction to check or switch the session model. The person picks the model when they invoke.
 - No working-directory guard. Every stage runs from any directory.
 - No top-level `bin/` directory in the plugin; claude.ai and Cowork refuse to install a plugin that has one.
-- Versions are uniform: every SKILL.md, `plugin.json`, and `marketplace.json` carry the same value. During beta the scheme is SemVer `0.x` (initial `0.1.0`); it flips to CalVer `YYYY.MM.DD` (with `.N` for a second release the same day) at the 1.0 maturity milestone. Versions move only on the maintainer's ruling.
+- Versions are uniform: every SKILL.md, `plugin.json`, `marketplace.json`, and `pyproject.toml` carry the same value. During beta the scheme is SemVer `0.x` (initial `0.1.0`); it flips to CalVer `YYYY.MM.DD` (with `.N` for a second release the same day) at the 1.0 maturity milestone. Versions move only on the maintainer's ruling.
 - Pipeline rules that hold on every surface: one question per turn; the interviewer never paraphrases at capture (dash and curly-quote codepoints are the one normalization); compile never resolves a tension and logs every cut; calibrate reads the profile and never the archive; every calibration artifact is labeled a probe that never ships; no stage starts the next one.
 - Augment is the default whenever a skill already exists for the domain, and an augment never changes a SKILL.md without a diff the person has reviewed.
 - Every setting has a default, and a missing config file is never an error. An unknown key or a wrong type in a config file is a loud error.
