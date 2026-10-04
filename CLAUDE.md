@@ -30,7 +30,8 @@ Material hides the header's repo link on narrow screens, and a bare URL is not a
 `spec.md` is the authority for what gets built; there is no `plan.md` or `todo.md` at the root until the next phase is planned.
 Read the spec's Invariants, Non-goals, and Deferred list before changing anything: they are hard constraints, and a step that crosses one needs a spec change first.
 Issue #3 (the profile ceiling raised to 10,000) is done and ships as `0.1.1`.
-The next piece of work is prepared but not started: issue #4 (the interview retro), with its research under `.ai-sessions/research/`; it needs a spec slice and the maintainer's answers first.
+The active phase is the interview retro (issue #4): the spec's Goals R1 to R9, Component K, and the retro-phase success criteria describe it, and the maintainer's rulings are recorded on the issue.
+It is specced but not planned or built; nothing under `metacognition/`, `src/`, `tests/`, `evals/`, or `docs/` reflects it yet, so do not read the spec's new invariant wording as a description of the shipped skills.
 Those research files are rewritten from private material and hold no interview answers; keep it that way, and never copy a private retro or archive into this repo verbatim.
 
 ## What Is Being Built
