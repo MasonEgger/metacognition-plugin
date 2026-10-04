@@ -1076,7 +1076,7 @@ Every result block is empty until the maintainer fills it in.</p>
 <div class="language-bash highlight"><pre><span></span><code>just<span class="w"> </span>release-dry
 </code></pre></div>
 <p>That writes <code>dist/metacognition-&lt;version&gt;.zip</code>.
-The version comes from <code>.claude-plugin/marketplace.json</code>, which currently reads <code>0.1.0</code>, so the file is <code>dist/metacognition-0.1.0.zip</code>.
+The version comes from <code>.claude-plugin/marketplace.json</code>, which currently reads <code>0.1.1</code>, so the file is <code>dist/metacognition-0.1.1.zip</code>.
 The <code>dist/</code> directory is gitignored.</p>
 <p>Run this check from the locally built zip before merging this phase's pull request.
 The release workflow publishes a release when a push to <code>main</code> carries a version that has no tag, so merging that pull request publishes the first pre-release.</p>
@@ -1123,7 +1123,7 @@ claude<span class="w"> </span>plugin<span class="w"> </span>install<span class="
 <h2 id="claudeai-chat">claude.ai Chat<a class="headerlink" href="#claudeai-chat" title="Permanent link">&para;</a></h2>
 <p>Steps:</p>
 <ul>
-<li>[ ] Upload <code>dist/metacognition-0.1.0.zip</code> through Customize, Plugins.
+<li>[ ] Upload <code>dist/metacognition-0.1.1.zip</code> through Customize, Plugins.
   Look for: the plugin appears in the list with no error.</li>
 <li>[ ] Type "/" and invoke each of the five skills in turn: <code>design</code>, <code>interview</code>, <code>compile</code>, <code>calibrate</code>, <code>skillify</code>.
   Look for: each one is offered by the "/" menu and starts when picked.
@@ -1151,7 +1151,7 @@ claude<span class="w"> </span>plugin<span class="w"> </span>install<span class="
 <h2 id="cowork">Cowork<a class="headerlink" href="#cowork" title="Permanent link">&para;</a></h2>
 <p>Steps:</p>
 <ul>
-<li>[ ] Upload <code>dist/metacognition-0.1.0.zip</code>.
+<li>[ ] Upload <code>dist/metacognition-0.1.1.zip</code>.
   Look for: the plugin loads with no error.</li>
 <li>[ ] Check that the five skills load.
   Look for: <code>design</code>, <code>interview</code>, <code>compile</code>, <code>calibrate</code>, and <code>skillify</code> are all present and invocable as <code>/metacognition:&lt;stage&gt;</code>.</li>
@@ -1173,7 +1173,7 @@ If the check shows an older Python, the fix is to lower the floor in <code>pypro
 It is not to add a dependency.</p>
 <p>Record any failure in the Notes slot of the surface where it happened, and open an issue on the repository.</p>
 <h2 id="automated-checks-already-passing">Automated Checks Already Passing<a class="headerlink" href="#automated-checks-already-passing" title="Permanent link">&para;</a></h2>
-<p>Run on 2026-10-01.
+<p>Run on 2026-10-03.
 These are not a substitute for the surface results above.
 They cover the files in the repository, not a live surface.</p>
 <table>
@@ -1190,7 +1190,7 @@ They cover the files in the repository, not a live surface.</p>
 </tr>
 <tr>
 <td><code>just release-dry</code></td>
-<td>Wrote <code>dist/metacognition-0.1.0.zip</code>, 44 entries, with <code>metacognition/</code> as the single top-level entry</td>
+<td>Wrote <code>dist/metacognition-0.1.1.zip</code>, 44 entries, with <code>metacognition/</code> as the single top-level entry</td>
 </tr>
 <tr>
 <td><code>python3 tools/sync_skills.py --check</code></td>
@@ -1198,7 +1198,7 @@ They cover the files in the repository, not a live surface.</p>
 </tr>
 <tr>
 <td><code>uv run pytest -q</code></td>
-<td>377 passed</td>
+<td>383 passed</td>
 </tr>
 </tbody>
 </table>
