@@ -1,7 +1,8 @@
-# ABOUTME: Pins version presence, shape, and uniformity across every SKILL.md, plugin.json, and marketplace.json.
+# ABOUTME: Pins version presence, shape, and uniformity across the skills, both manifests, and pyproject.toml.
 # ABOUTME: Shape is SemVer 0.x during beta; the pattern in tree_helpers flips to CalVer at 1.0.
 import json
 import re
+import tomllib
 from pathlib import Path
 
 import pytest
@@ -90,3 +91,10 @@ def test_readme_beta_notice_names_the_manifest_version() -> None:
     assert re.search(rf"version {re.escape(str(version))}(?!\d)", notice), (
         f"README.md beta notice does not name version {version}"
     )
+
+
+def test_pyproject_version_matches_the_manifest_version() -> None:
+    """The development project carries the plugin's version, so one number describes the whole repo."""
+    version = collect_versions(REPO_ROOT)[".claude-plugin/marketplace.json (metadata.version)"]
+    pyproject = tomllib.loads((REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    assert pyproject["project"]["version"] == version

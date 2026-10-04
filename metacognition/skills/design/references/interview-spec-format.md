@@ -108,7 +108,7 @@ Columns, in order:
 
 - `design`: whether the interview spec exists and its creation date.
 - `interview n/floor`: questions asked so far over the sum of category floors, so a glance shows how far the interview has to go.
-- `compile tokens`: the compiled profile's estimated token count, the same figure `python3 scripts/validate_artifacts.py` recomputes and checks against the 5,000-token ceiling.
+- `compile tokens`: the compiled profile's estimated token count, the same figure `python3 scripts/validate_artifacts.py` recomputes and checks against the 10,000-token ceiling.
 - `calibrate rounds, last count`: how many calibration rounds have run, and the correction count of the most recent one, the number that has to trend down for the profile to reach the calibrated state.
 - `skillify -> plugin:skill (mode)`: once skillify has run, the target skill it produced or augmented, and whether it ran in augment or replace mode.
 

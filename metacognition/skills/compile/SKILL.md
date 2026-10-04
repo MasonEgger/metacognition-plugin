@@ -1,6 +1,6 @@
 ---
 name: compile
-version: 0.1.0
+version: 0.1.1
 description: 'This skill should be used when the user asks to "compile the archive for a domain", "compress the interview into a profile", "compile a domain slug into profile.md", "run compile on the completed interview", or runs `/metacognition:compile`. Compresses a completed interview archive into the compressed `profile.md`, applying the keep/cut test to every candidate line and logging every cut to `compile-log.md`. It never asks the person a new taste question; that is the job of `/metacognition:interview`.'
 compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.11 or newer; without them the skill applies the same rules by hand. It reads the extraction files design and interview wrote and writes profile.md and compile-log.md in the same directory, so it needs file access or the files uploaded to the conversation.'
 ---
@@ -88,11 +88,11 @@ The `<why>` names the specific rule or judgment the bad-to-good change demonstra
 
 Write `<extractions-root>/<slug>/profile.md` per the fenced template and section order in `references/profile-format.md`: frontmatter (`domain`, `registers`, `consumer`, `target_skill`, `version` stamped `YYYY.MM.DD`, `token_estimate`, `calibrated: false`, since no calibration round has run yet), then the seventeen fixed sections in order.
 The `priority` section is fixed text, reproduced verbatim per `references/profile-format.md`; nothing in compile edits it.
-Target the profile body at 2,000 to 4,000 tokens, with a hard ceiling of 5,000.
+Target the profile body at 2,000 to 4,000 tokens for a single-register domain, more for several registers, with a hard ceiling of 10,000.
 Compute `token_estimate` mechanically, by command, never by eyeballing the file: the character count of everything after the closing frontmatter delimiter, divided by four, the exact recompute `scripts/validate_artifacts.py` performs independently.
 One way to run it, after `profile.md` is written: `python3 -c "import pathlib; print(len(pathlib.Path('<extractions-root>/<slug>/profile.md').read_text(encoding='utf-8').split('---\n', 2)[2]) // 4)"`, or equivalently `wc -m` on the same tail slice.
 Report the command's output to the person directly at the end of the run, alongside the compiled section count, so they see the number compile is claiming before they ever open the file.
-A profile that will not fit inside the 5,000-token ceiling without losing signal means step 3 cut too little; return to step 3 rather than raising the ceiling.
+A profile over the 10,000-token ceiling means step 3 kept biography or self-description; return to step 3 and re-read the log, but never cut a line that passes the keep/cut test to make the number, and never merge two laws into one to save space, since a merged law is applied less reliably than two atomic ones.
 Update the extraction README's `compile tokens` cell with the same figure, per `references/interview-spec-format.md`'s standing rule that every pipeline stage updates the table as its last action.
 Set the body's `<calibration_state>` section to `profile-format.md`'s zero state, since no calibration round has run yet: `<rounds>0</rounds>`, `<last_date>none</last_date>`, `<last_correction_count>none</last_correction_count>`.
 
@@ -105,7 +105,7 @@ A domain the archive never touched belongs here, explicitly named, rather than l
 
 After `profile.md` and `compile-log.md` are both written, run `python3 scripts/validate_artifacts.py <extractions-root>/<slug>` against the extraction and resolve every finding it reports before telling the person compile is done.
 A finding here, a missing section, an out-of-order section, an incomplete golden example, a stale `token_estimate`, means the just-written `profile.md` does not satisfy the structural contract downstream stages assume; fix it now, while this session's context is still loaded, rather than leaving it for calibrate or skillify to trip over.
-When the script cannot run (no code execution, or an interpreter older than Python 3.11), say so in one line and check the same things by hand against `references/profile-format.md`: the frontmatter parses, the body stays at or under the 5,000-token ceiling counted as characters divided by four, the stored `token_estimate` equals that same count, all seventeen sections are present in the fixed order, and every golden example carries `<bad>`, `<good>`, and `<why>`.
+When the script cannot run (no code execution, or an interpreter older than Python 3.11), say so in one line and check the same things by hand against `references/profile-format.md`: the frontmatter parses, the body stays at or under the 10,000-token ceiling counted as characters divided by four, the stored `token_estimate` equals that same count, all seventeen sections are present in the fixed order, and every golden example carries `<bad>`, `<good>`, and `<why>`.
 
 ## Finish
 

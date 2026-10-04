@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## State of the Repo
 
-Every step of the 22-step plan is complete.
+The first phase (port from private main, 22 steps) is complete, shipped as `v0.1.0`, and archived under `.ai-sessions/port-from-private/`.
 The repo holds the planning documents, the Python toolchain, the plugin and marketplace manifests, the five skills, the research agent, the three shipped scripts, the build tools, the evals, the docs site, the README, and the CI and release workflows.
 `tests/fixtures/` holds the ported woodworking extractions and the woodshop plugin fixture; they are verbatim data, so do not edit them or lint their prose.
 `src/scripts/yaml_subset.py` (which also exposes `extract_frontmatter`), `tests/test_yaml_subset.py`, and `tests/test_yaml_parity.py` exist; the parity test holds the parser equal to PyYAML over every fixture frontmatter.
@@ -27,10 +27,10 @@ The Home and Getting Started pages include three marker-delimited sections of `R
 The beta section is the warning at the top of the docs home page; it carries the version and the repo link, and `tests/test_skill_versions.py` holds its version equal to the manifests, so a version change edits `README.md` too.
 Material hides the header's repo link on narrow screens, and a bare URL is not a link in the built site, so write repo links as Markdown links or in angle brackets.
 `evals/` at the top level holds the five stage `evals.json` files and one README; evals never go inside `metacognition/`, and they are not run as a gate.
-`spec.md` is the authority for what gets built, `plan.md` is the 22-step build order, and `todo.md` tracks progress.
+`spec.md` is the authority for what gets built; there is no `plan.md` or `todo.md` at the root until the next phase is planned.
 Read the spec's Invariants, Non-goals, and Deferred list before changing anything: they are hard constraints, and a step that crosses one needs a spec change first.
-The first phase shipped as `v0.1.0`, and `plan.md` and `todo.md` still describe it, so archive them before planning the next phase.
-The next phase is prepared but not started: issue #3 (raise the profile ceiling to 10,000) and issue #4 (the interview retro), with their research under `.ai-sessions/research/`.
+Issue #3 (the profile ceiling raised to 10,000) is done and ships as `0.1.1`.
+The next piece of work is prepared but not started: issue #4 (the interview retro), with its research under `.ai-sessions/research/`; it needs a spec slice and the maintainer's answers first.
 Those research files are rewritten from private material and hold no interview answers; keep it that way, and never copy a private retro or archive into this repo verbatim.
 
 ## What Is Being Built
@@ -83,9 +83,9 @@ A failing `release-dry` names the file to fix.
 
 ## Conventions
 
-- Versions are uniform across every SKILL.md, `plugin.json`, and `marketplace.json`: SemVer `0.x` during beta, CalVer at 1.0, and they move only on the maintainer's ruling.
+- Versions are uniform across every SKILL.md, `plugin.json`, `marketplace.json`, and `pyproject.toml` (run `uv lock` after changing it, since CI installs with the lock held fixed): SemVer `0.x` during beta, CalVer at 1.0, and they move only on the maintainer's ruling.
 - SKILL.md frontmatter carries exactly `name`, `version`, `description`, and `compatibility`; no `model:` line anywhere.
-- The profile token ceiling is 5,000 in this phase.
+- The profile token ceiling is 10,000 at any register count; the 2,000 to 4,000 target is for a single-register profile.
 - Prose follows `.claude/rules/vendored/writing.md`: no em-dash or en-dash, straight quotes, Title Case headings, one sentence per line in committed Markdown.
 - Test-first for anything under `src/scripts/` and `tools/`; tests assert behavior, not the presence of a mechanism.
 - A prose gate lives at `tools/prose_scrub.py`; run `python3 tools/prose_scrub.py` from the repo root and it prints nothing and exits 0 when clean.

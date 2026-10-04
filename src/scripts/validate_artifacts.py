@@ -14,7 +14,7 @@ and exits 1 with a findings list when any fail (exit 0 when clean):
   ``### Qnn [<category>]`` headings actually carry that category in the body.
 - **profile-token-ceiling**: the profile body (everything after the closing frontmatter delimiter
   through end of file), recomputed as characters divided by four, does not exceed the token ceiling.
-  The ceiling is 5,000 in this phase.
+  The ceiling is 10,000 at any register count.
 - **profile-token-estimate-mismatch**: the frontmatter's stored ``token_estimate`` matches that same
   recompute, flagged even when the profile is comfortably under the ceiling.
 - **profile-missing-section**: every required top-level XML section from the profile format
@@ -60,7 +60,7 @@ except ModuleNotFoundError:
         parse,
     )
 
-TOKEN_CEILING = 5000
+TOKEN_CEILING = 10000
 FRONTMATTER_DELIMITER = "---\n"
 
 # The profile.md section order, sourced from the profile format's "Section

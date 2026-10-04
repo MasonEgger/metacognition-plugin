@@ -1,7 +1,7 @@
 {
   "name": "metacognition",
   "displayName": "Metacognition",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Captures how a person judges work in a field they practice and turns that judgment into a skill Claude can apply. Five stages: design, interview, compile, calibrate, skillify.",
   "author": {
     "name": "Mason Egger"

@@ -1,6 +1,6 @@
 [project]
 name = "metacognition-plugin"
-version = "0.1.0"
+version = "0.1.1"
 description = "Dev tooling for the metacognition Claude plugin. Not published."
 requires-python = ">=3.11"
 dependencies = []

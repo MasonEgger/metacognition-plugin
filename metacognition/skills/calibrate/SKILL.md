@@ -1,6 +1,6 @@
 ---
 name: calibrate
-version: 0.1.0
+version: 0.1.1
 description: 'This skill should be used when the user asks to "run a calibration round for a domain", "calibrate the profile for a domain", "run calibration against profile.md", "test the compiled profile", "redline this probe artifact", or runs `/metacognition:calibrate`. Runs a probe task against a compiled `profile.md`, takes the person''s redlines, and folds each correction back into the profile per the fold-back decision tree. It never touches the archive and never authors anything that ships.'
 compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.11 or newer; without them the skill applies the same rules by hand. It reads profile.md and interview-spec.md and writes round files and profile edits in the same extraction directory, so it needs file access or the files uploaded to the conversation.'
 ---
@@ -99,7 +99,7 @@ Update the extraction README's `calibrate rounds, last count` cell with the same
 
 After `round-NN.md` is written and `profile.md`'s fold-back edits and `<calibration_state>` are both in place, run `python3 scripts/validate_artifacts.py <extractions-root>/<slug>` against the extraction and resolve every finding it reports before telling the person the round is done.
 A finding here means this round's edits broke the structural contract downstream stages assume, a round-numbering gap, a stale `token_estimate`, a golden example a fold-back left incomplete; fix it now, while this session's context is still loaded.
-When the script cannot run (no code execution, or an interpreter older than Python 3.11), say so in one line and check the same things by hand against `references/calibration-protocol.md` and `references/profile-format.md`: the `calibration/round-NN.md` numbers run contiguously from `01` with no gap and no repeat, each round file's frontmatter parses, and `profile.md` still parses, stays at or under the 5,000-token ceiling counted as characters divided by four, carries a `token_estimate` equal to that same count, keeps all seventeen sections present in the fixed order, and has every golden example complete with `<bad>`, `<good>`, and `<why>`.
+When the script cannot run (no code execution, or an interpreter older than Python 3.11), say so in one line and check the same things by hand against `references/calibration-protocol.md` and `references/profile-format.md`: the `calibration/round-NN.md` numbers run contiguously from `01` with no gap and no repeat, each round file's frontmatter parses, and `profile.md` still parses, stays at or under the 10,000-token ceiling counted as characters divided by four, carries a `token_estimate` equal to that same count, keeps all seventeen sections present in the fixed order, and has every golden example complete with `<bad>`, `<good>`, and `<why>`.
 
 ## Redlining Without Chat
 

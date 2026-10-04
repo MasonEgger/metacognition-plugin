@@ -65,7 +65,7 @@ It checks that the Resume Procedure rebuilds the ledger and category counts from
 ## Compile
 
 `compile-woodworking-scratch-profile` runs `/metacognition:compile` against a scratch copy of `tests/fixtures/extractions/woodworking` with `profile.md` and `compile-log.md` removed.
-It checks the written profile against `profile-format.md`: seventeen sections in order, the fixed priority text, complete golden examples, the ledger entry kept as a tension, and a token estimate under the 5,000 ceiling.
+It checks the written profile against `profile-format.md`: seventeen sections in order, the fixed priority text, complete golden examples, the ledger entry kept as a tension, and a token estimate at or under the 10,000 ceiling.
 It also checks that `compile-log.md` logs each cut with its source question, and that `python3 scripts/validate_artifacts.py` exits 0 on the scratch extraction.
 
 ## Calibrate

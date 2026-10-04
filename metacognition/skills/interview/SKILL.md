@@ -1,6 +1,6 @@
 ---
 name: interview
-version: 0.1.0
+version: 0.1.1
 description: 'This skill should be used when the user asks to "run the taste interview for a domain", "interview me about a domain", "start the extraction interview", "resume the interview for a domain", "continue the taste interview", or runs `/metacognition:interview`. Runs the interview a prior `/metacognition:design` session scoped, asking one question at a time and writing `archive.md` incrementally. It never compiles the archive into a profile; that is the job of `/metacognition:compile`.'
 compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.11 or newer; without them the skill applies the same rules by hand. It reads the extraction files design wrote and writes archive.md in the same directory, so it needs file access or the files uploaded to the conversation.'
 ---
