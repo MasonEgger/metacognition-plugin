@@ -98,7 +98,7 @@ Cached from `/bpe:plan` Pass 2 discovery (2026-10-01). The installed, invocable 
 ## Roadmap / phase log
 
 **Shipped:**
-- none yet
+- port-from-private: the private plugin ported into this public marketplace repo and released as `v0.1.0`; converged, 22 of 22 steps (.ai-sessions/port-from-private/)
 
 **Upcoming:**
 - python-branch port: bring over the private `python-taste-extraction` branch's plugin edits (the profile token ceiling raised from 5,000 to 10,000, with its validator, format, fixture, and eval changes). Tracked as issue #3; intake notes in `.ai-sessions/research/2026-10-02-profile-ceiling-port/notes.md`.

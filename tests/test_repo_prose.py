@@ -28,7 +28,7 @@ def test_repo_scan_reaches_the_repos_own_prose() -> None:
     collected = {path.relative_to(REPO_ROOT).as_posix() for path in prose_scrub.collect_files(REPO_ROOT)}
 
     # Assert
-    assert {"spec.md", "plan.md", "README.md", "metacognition/skills/design/SKILL.md"} <= collected
+    assert {"spec.md", "README.md", "metacognition/skills/design/SKILL.md"} <= collected
     assert "tests/fixtures/prose/clean.md" in collected
     assert "tests/fixtures/prose/dirty.md" not in collected
     assert not any(part in {".venv", "site", "dist", ".git"} for path in collected for part in path.split("/")[:1])
