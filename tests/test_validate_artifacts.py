@@ -29,6 +29,19 @@ def _checks(stdout: str) -> list[str]:
     return [line.split(": ")[1] for line in stdout.splitlines()]
 
 
+def _profile_markdown_of_size(body_tokens: int) -> str:
+    """Build a valid profile.md whose body is exactly body_tokens by the validator's count.
+
+    The count is body characters divided by four, so the fingerprint section is padded until the
+    body holds body_tokens * 4 characters, and the stored estimate is set to match.
+    """
+    fingerprint = "fingerprint text"
+    markdown = _minimal_profile_markdown(token_estimate=body_tokens)
+    body = markdown.split("---\n", 2)[2]
+    padding = "x" * (body_tokens * 4 - len(body))
+    return markdown.replace(fingerprint, fingerprint + padding)
+
+
 def _minimal_profile_markdown(
     *,
     token_estimate: int = 1,
@@ -222,12 +235,36 @@ def test_numbering_gap_flags_archive_question_contiguity(
 
 
 def test_oversize_profile_flags_token_ceiling(capsys: pytest.CaptureFixture[str]) -> None:
-    """The oversize-profile fixture fails with a token-over-5000 finding only."""
+    """The oversize-profile fixture fails with a token-over-ceiling finding only."""
     code, out = _run_validator(BAD_FIXTURES / "oversize-profile", capsys)
 
     assert code == 1
     assert _checks(out) == ["profile-token-ceiling"]
-    assert "5000 ceiling" in out
+    assert "10000 ceiling" in out
+
+
+@pytest.mark.parametrize("body_tokens", [7500, 10000])
+def test_profile_up_to_the_ceiling_passes(body_tokens: int, tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """A multi-register profile above the single-register target passes, up to and including the ceiling."""
+    extraction_dir = tmp_path / "large-profile"
+    extraction_dir.mkdir()
+    (extraction_dir / "profile.md").write_text(_profile_markdown_of_size(body_tokens), encoding="utf-8")
+
+    code, out = _run_validator(extraction_dir, capsys)
+
+    assert code == 0, out
+
+
+def test_profile_one_token_over_the_ceiling_fails(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """The first estimate above the ceiling is flagged, and nothing else is."""
+    extraction_dir = tmp_path / "over-ceiling"
+    extraction_dir.mkdir()
+    (extraction_dir / "profile.md").write_text(_profile_markdown_of_size(10001), encoding="utf-8")
+
+    code, out = _run_validator(extraction_dir, capsys)
+
+    assert code == 1
+    assert _checks(out) == ["profile-token-ceiling"]
 
 
 def test_missing_section_flags_missing_required_xml_section(

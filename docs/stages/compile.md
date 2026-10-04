@@ -28,7 +28,8 @@ It tells you to run `/metacognition:interview <slug> --resume` first.
 - `<root>/<slug>/compile-log.md`: one entry for every line it cut, with the source question and the reason.
 - The `compile tokens` cell of the extraction README.
 
-The profile body targets 2,000 to 4,000 tokens, with a hard ceiling of 5,000.
+The profile body targets 2,000 to 4,000 tokens for a single register, more for several, with a hard ceiling of 10,000.
+The ceiling guards against padding; a line that passes the keep/cut test is never cut to make a number.
 A line is kept only if removing it would change how a downstream system writes, judges, edits, refuses, or decides something.
 Biography and flattering self-description are cut.
 Conflicts between what you said and what the archive shows become tension entries, and compile never resolves one for you.

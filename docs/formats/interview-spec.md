@@ -143,7 +143,7 @@ The columns, in order:
 
 - `design`: whether the interview spec exists and its creation date.
 - `interview n/floor`: questions asked so far over the sum of category floors.
-- `compile tokens`: the compiled profile's estimated token count, the figure the structure check recomputes and checks against the 5,000-token ceiling.
+- `compile tokens`: the compiled profile's estimated token count, the figure the structure check recomputes and checks against the 10,000-token ceiling.
 - `calibrate rounds, last count`: how many calibration rounds have run, and the correction count of the most recent one.
 - `skillify -> plugin:skill (mode)`: once skillify has run, the target skill it produced or augmented, and whether it ran in augment or replace mode.
 

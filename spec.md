@@ -99,9 +99,9 @@ Cached from `/bpe:plan` Pass 2 discovery (2026-10-01). The installed, invocable 
 
 **Shipped:**
 - port-from-private: the private plugin ported into this public marketplace repo and released as `v0.1.0`; converged, 22 of 22 steps (.ai-sessions/port-from-private/)
+- profile-ceiling: the profile token ceiling raised from 5,000 to 10,000, with its validator, format, fixture, docs, and eval changes, released as `v0.1.1`; issue #3, no plan archive (.ai-sessions/research/2026-10-02-profile-ceiling-port/)
 
 **Upcoming:**
-- python-branch port: bring over the private `python-taste-extraction` branch's plugin edits (the profile token ceiling raised from 5,000 to 10,000, with its validator, format, fixture, and eval changes). Tracked as issue #3; intake notes in `.ai-sessions/research/2026-10-02-profile-ceiling-port/notes.md`.
 - interview retro: update the design and interview skills from the retro on the first full pipeline run (verdict batteries, live research in the interview, picker provenance, floors that count probes, an exports section, an archive append script). It changes the "one question per turn" invariant, so it needs its own spec slice and the maintainer's answers to the retro's open questions first. Tracked as issue #4; the retro is `.ai-sessions/research/2026-09-30-interview-retro/retro.md`.
 - private cutover: the private marketplace removes its own `metacognition/`, installs this plugin from this marketplace, and moves its Obsidian sync stage into its private `productivity` plugin. That work happens in the private repo and is specced there.
 
@@ -148,7 +148,7 @@ The manifest is declared by hand in the tool, one entry per skill, starting from
 Three standard-library modules under `src/scripts/`, each with a CLI and a pytest suite (Components C, D, E):
 
 - `yaml_subset.py`: a strict parser for the YAML subset the artifact formats and config files use.
-- `validate_artifacts.py`: the private `validate-artifacts.py` ported onto `yaml_subset`, same nine checks, same findings, same exit codes, with the 5,000-token ceiling as it stands on private `main`.
+- `validate_artifacts.py`: the private `validate-artifacts.py` ported onto `yaml_subset`, same nine checks, same findings, same exit codes, with a 10,000-token ceiling (5,000 on private `main` at the port commit, raised by issue #3).
 - `resolve_config.py`: the tiered settings resolver.
 
 Skills invoke them as `python3 scripts/<name>.py`.
@@ -279,7 +279,7 @@ A configured `exemplar` that does not exist is not an error here: skillify tells
 **Component E, `src/scripts/validate_artifacts.py`.**
 Input: one extraction directory.
 Output: exit 0 when clean; non-zero with a findings list otherwise.
-Checks, unchanged from private `main`: directory missing, directory empty, frontmatter parse, archive question numbering, archive category counts, profile token ceiling (5,000 in this phase), token estimate mismatch, missing profile section, profile section order, incomplete golden example, calibration round contiguity.
+Checks, unchanged from private `main`: directory missing, directory empty, frontmatter parse, archive question numbering, archive category counts, profile token ceiling (10,000, raised from 5,000 by issue #3 after a four-register profile could not fit without cutting lines that passed the keep/cut test), token estimate mismatch, missing profile section, profile section order, incomplete golden example, calibration round contiguity.
 It owns structure only; prose belongs to `tools/prose_scrub.py`.
 `tests/test_validate_artifacts.py` is the private suite ported: pass on `woodworking`, fail on each `extractions-bad` case with the expected finding.
 

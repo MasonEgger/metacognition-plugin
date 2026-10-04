@@ -1,6 +1,6 @@
 ---
 name: skillify
-version: 0.1.0
+version: 0.1.1
 description: 'This skill should be used when the user asks to "skillify a domain", "turn the profile into a skill", "turn this profile into a skill", "augment a skill with the profile", "scaffold a new skill from the profile", "greenfield a skill for a domain", "replace a skill with the profile", or runs `/metacognition:skillify`. Turns a calibrated `profile.md` into a taste skill the person actually invokes: greenfield when no `target_skill` is set, augment (the default whenever one is) otherwise. The augment path always stops at a reviewed `SKILL.md` diff; nothing lands in an existing skill without the person''s approval.'
 compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.11 or newer; without them the skill applies the same rules by hand. It reads the extraction files and writes a skill directory, plus a zip package where a zip command can run, so it needs file access or the files uploaded to the conversation.'
 ---
