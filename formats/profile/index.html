@@ -1111,7 +1111,8 @@ token_estimate: &lt;int&gt;
   Calibrate restamps it whenever a fold-back materially changes the file.
   Skillify never bumps this or any plugin version.</li>
 <li><code>token_estimate</code>: the profile body's estimated size, characters divided by four, with no tokenizer dependency.
-  Compile reports it and the structure check recomputes it independently.
+  Compile reports it, and compile and calibrate keep the line current with <code>scripts/update_token_estimate.py</code>.
+  The structure check recomputes it independently.
   The check fails above the 10,000 hard ceiling and flags a stored estimate that disagrees with its own recount.</li>
 <li><code>calibrated</code>: <code>true</code> once three consecutive calibration rounds show non-increasing correction counts and the most recent round is at or under <code>calibration_threshold</code> from <code>interview-spec.md</code>.
   Otherwise <code>false</code>.
@@ -1173,7 +1174,8 @@ The closing instruction: apply the profile silently, protect your judgment over 
 <h2 id="the-token-contract">The Token Contract<a class="headerlink" href="#the-token-contract" title="Permanent link">&para;</a></h2>
 <p>Compile targets 2,000 to 4,000 tokens for a single-register profile body, more when the domain carries several registers, with a hard ceiling of 10,000 at any register count.
 Token count is estimated as characters divided by four, with no tokenizer dependency.
-Compile reports its estimate in the <code>token_estimate</code> frontmatter field, and the structure check recomputes the same estimate from the body.
+Compile reports its estimate in the <code>token_estimate</code> frontmatter field, and <code>scripts/update_token_estimate.py</code> corrects that line after compile and after each calibration fold-back.
+The structure check recomputes the same estimate from the body.
 The ceiling is a padding guard, not a compression target: the keep/cut test and the compile log keep a profile honest, and a line that changes downstream output is never cut to make a number.
 <code>profile.md</code> is a reference file the produced skill loads on trigger, not the skill body, so size guidance written for a skill body does not apply to it.
 Reference points: a single-register profile measures about 4,900 tokens, and a four-register profile compiled from a 100-question archive measures about 7,500.

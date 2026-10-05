@@ -1032,6 +1032,9 @@ claude<span class="w"> </span>plugin<span class="w"> </span>install<span class="
 <p>On claude.ai and Cowork, the marketplace is the primary path: add the marketplace from <a href="https://github.com/MasonEgger/metacognition-plugin">https://github.com/MasonEgger/metacognition-plugin</a> and install the <code>metacognition</code> plugin from it.</p>
 <p>The alternate path is the release zip.
 Download <code>metacognition-&lt;version&gt;.zip</code> from the Releases page of <a href="https://github.com/MasonEgger/metacognition-plugin">https://github.com/MasonEgger/metacognition-plugin</a> and upload it through Customize, Plugins.</p>
+<p>The <code>plugin-dev</code> plugin is a highly recommended companion install.
+Skillify uses it to check a skill's structure against the provider's skill-craft guidance.
+Nothing requires it: without it, skillify says so and continues on its own templates.</p>
 <p>The Releases page of the repository lists each published zip.</p>
 <h2 id="invoke-a-stage">Invoke a Stage<a class="headerlink" href="#invoke-a-stage" title="Permanent link">&para;</a></h2>
 <p>On Claude Code and Cowork, a stage is a slash command named for the plugin and the stage:</p>
@@ -1091,11 +1094,12 @@ The surroundings differ.</p>
 </table>
 <p>Two of those rows change what you see.</p>
 <p>The research agent is the one plugin agent.
-<a href="../stages/design/">Design</a> dispatches it where the surface loads plugin agents.
-On claude.ai chat, design runs the same research itself, in the conversation.
-With no web access, design says so and continues from your scoping answers alone.</p>
-<p>The shipped scripts resolve your settings and check the structure of the extraction files.
-They need code execution and Python 3.11 or newer.
+<a href="../stages/design/">Design</a> dispatches it where the surface loads plugin agents, and so does <a href="../stages/interview/">interview</a> when you defer to outside practice.
+On claude.ai chat, they run the same research themselves, in the conversation.
+With no web access, design says so and continues from your scoping answers alone.
+Interview says so too, and records the deferral as unresolved.</p>
+<p>The shipped scripts resolve your settings, write each interview entry, keep the profile's token estimate current, and check the structure of the extraction files.
+They need code execution and Python 3.12 or newer.
 When a stage cannot run them, it applies the same rules by hand and says so in one line.</p>
 <h2 id="run-the-whole-pipeline-in-one-claudeai-conversation">Run the Whole Pipeline in One claude.ai Conversation<a class="headerlink" href="#run-the-whole-pipeline-in-one-claudeai-conversation" title="Permanent link">&para;</a></h2>
 <p>claude.ai chat has no working directory.

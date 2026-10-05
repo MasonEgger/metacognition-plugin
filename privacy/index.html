@@ -1009,6 +1009,8 @@ Hedges, false starts, and mid-answer corrections stay in.
 The only change is that dash and curly-quote characters are straightened to a hyphen and straight quotes.</p>
 <p>An archive can therefore hold anything you said in the interview, including opinions about named people, employers, and clients.
 Treat it as a transcript of you.</p>
+<p>An archive can also hold research findings with their source links, and a list of topics you assigned to other skills.
+Both travel with the archive wherever it goes, including into a skillify package.</p>
 <h2 id="keep-the-extraction-root-out-of-public-repositories">Keep the Extraction Root Out of Public Repositories<a class="headerlink" href="#keep-the-extraction-root-out-of-public-repositories" title="Permanent link">&para;</a></h2>
 <p>Extraction files live under the extraction root, which is <code>./extractions</code> in the working directory unless you configure another path.
 That directory holds the interview spec, the archive, the profile, the compile log, and the calibration rounds.</p>
@@ -1020,6 +1022,7 @@ Add a line to <code>.gitignore</code>:</p>
 See <a href="../configuration/">Configuration</a>.</p>
 <h2 id="a-skillify-package-includes-the-archive">A Skillify Package Includes the Archive<a class="headerlink" href="#a-skillify-package-includes-the-archive" title="Permanent link">&para;</a></h2>
 <p>A skill produced by <a href="../stages/skillify/">skillify</a> carries <code>references/archive.md</code>, the verbatim interview archive, alongside the profile.
+That copy includes the research findings, their source links, and the list of topics assigned to other skills.
 The zip that skillify packages by default contains it too.
 Skillify says so before it creates the package.</p>
 <p>If you upload or share that skill, you share the interview with it.

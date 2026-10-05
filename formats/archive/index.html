@@ -825,10 +825,43 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#open-research" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open Research
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exports
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#questions" class="md-nav__link">
     <span class="md-ellipsis">
       
         Questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#provenance-and-capture-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provenance and Capture Conventions
       
     </span>
   </a>
@@ -994,10 +1027,43 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#open-research" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open Research
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exports
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#questions" class="md-nav__link">
     <span class="md-ellipsis">
       
         Questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#provenance-and-capture-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provenance and Capture Conventions
       
     </span>
   </a>
@@ -1026,8 +1092,10 @@
 
 <h1 id="archivemd">archive.md<a class="headerlink" href="#archivemd" title="Permanent link">&para;</a></h1>
 <p><code>archive.md</code> is the running record of the interview: every question asked, every answer given, and every contradiction the interviewer catches.
-<a href="../../stages/interview/">Interview</a> writes it incrementally, one question at a time, and it is the source of truth for the interview.
+<a href="../../stages/interview/">Interview</a> writes it incrementally, one entry at a time (a battery is one entry), and it is the source of truth for the interview.
 The conversation transcript is not.
+Interview appends each entry with <code>scripts/archive_append.py</code>, which updates the counts and the README cell in the same call.
+Where the script cannot run, interview makes the same edits by hand.
 <a href="../../stages/compile/">Compile</a> reads it to produce <code>profile.md</code>.
 <a href="../../stages/skillify/">Skillify</a> reads its <code>### Qnn [&lt;category&gt;]</code> headings to derive a section map for the produced skill.</p>
 <h2 id="template">Template<a class="headerlink" href="#template" title="Permanent link">&para;</a></h2>
@@ -1044,25 +1112,53 @@ categories: {&lt;category&gt;: {asked: n, floor: m, saturated: true|false}}
 <span class="gu">## Contradiction ledger</span>
 <span class="k">-</span><span class="w"> </span>L01 (Q07 vs Q23): "&lt;claim A&gt;" vs "&lt;claim B&gt;". Resolution: &lt;which wins / register-dependent / unresolved&gt;
 
+<span class="gu">## Open research</span>
+<span class="k">-</span><span class="w"> </span>R01 (Q73): &lt;what the person deferred to&gt;. Status: unresolved | resolved in Q74
+
+<span class="gu">## Exports</span>
+<span class="k">-</span><span class="w"> </span>E01 (Q92): &lt;topic&gt; -&gt; &lt;destination skill or unassigned&gt;
+
 <span class="gu">## Questions</span>
 <span class="gu">### Q01 [&lt;category&gt;] [&lt;register&gt;] [probe: &lt;type&gt;]</span>
 <span class="gs">**Q:**</span> &lt;question, with any artifact excerpt inline&gt;
 <span class="gs">**A:**</span> &lt;verbatim answer&gt;
+
+<span class="gu">### Q02 [&lt;category&gt;] [&lt;register&gt;] [probe: battery] [items: 3]</span>
+<span class="gs">**Q:**</span> &lt;stem&gt;
+<span class="k">1.</span> &lt;item&gt;
+<span class="k">2.</span> &lt;item&gt;
+<span class="k">3.</span> &lt;item&gt;
+<span class="gs">**A:**</span>
+<span class="k">1.</span> &lt;verbatim answer&gt;
+<span class="k">2.</span> &lt;verbatim answer&gt;
+<span class="k">3.</span> &lt;verbatim answer&gt;
+
+<span class="gu">### Q03 [&lt;category&gt;] [&lt;register&gt;] [probe: evidence]</span>
+<span class="gs">**Q:**</span> &lt;bottom lines with source links, and the ratification question&gt;
+<span class="gs">**A:**</span> &lt;verbatim reaction&gt;
 </code></pre></div>
+<p>Open research and Exports are optional.
+An archive gets each one only once it has a line to put there, and an archive with neither is complete and valid.
+When present, they sit in the order shown, after the ledger and before the questions.</p>
 <h2 id="frontmatter-fields">Frontmatter Fields<a class="headerlink" href="#frontmatter-fields" title="Permanent link">&para;</a></h2>
 <ul>
 <li><code>domain</code>: the same slug as <code>interview-spec.md</code>, so the two files are paired.</li>
-<li><code>registers</code>: copied from the interview spec at interview start, and unchanged for the life of the archive.</li>
-<li><code>questions_asked</code>: the running total of questions logged, updated after every question.</li>
+<li><code>registers</code>: copied from the interview spec at interview start.
+  A register that surfaces mid-interview may be added once you accept it.
+  The interviewer raises it with you first and never adds one silently.</li>
+<li><code>questions_asked</code>: the running total of <code>### Qnn</code> entries logged, updated after every entry.
+  A battery is one entry, so it raises this count by one.</li>
 <li><code>categories</code>: a map from category name to its own running tally of <code>asked</code>, <code>floor</code>, and <code>saturated</code>.
-  <code>asked</code> and <code>saturated</code> update after every question in that category.
+  <code>asked</code> counts probes, not entries.
+  A battery counts its items, and every other entry (an open probe, a forced choice, an evidence entry) counts one.
+  <code>asked</code> and <code>saturated</code> update after every entry in that category.
   <code>floor</code> is copied from the interview spec's category map and does not change.</li>
 <li><code>status</code>: <code>in-progress</code> while the interview is running, <code>complete</code> once every category is saturated (or the interview was deliberately closed early) and no further questions are expected.</li>
 </ul>
 <p>The <code>categories</code> counts are the interviewer's own running tally, not a value recomputed from the body on every write.
 That is what makes <code>--resume</code> cheap: interview reads the frontmatter and continues from the last question.
 The structure check is the independent test that the tally still matches the body.
-It recounts the actual <code>### Qnn</code> headings per category and flags a frontmatter that has drifted.</p>
+It recounts the actual probes per category and flags a frontmatter that has drifted.</p>
 <h2 id="contradiction-ledger">Contradiction Ledger<a class="headerlink" href="#contradiction-ledger" title="Permanent link">&para;</a></h2>
 <p>The ledger holds every conflict the interviewer catches between a stated rule and an observed exception, per <a href="../../method/#8-contradiction-detection">rule 8</a>.
 Each entry is a single line: an ID (<code>L01</code>, <code>L02</code>, ...), the pair of question numbers in tension, the two claims in your own words, and a resolution.
@@ -1077,6 +1173,18 @@ Compile may record it downstream as a productive contradiction instead of forcin
 <p>Entry from the synthetic woodworking fixture:</p>
 <div class="language-markdown highlight"><pre><span></span><code><span class="k">-</span><span class="w"> </span>L01 (Q03 vs Q05): "I never use pocket screws on anything that will be seen" vs "This jig has three pocket screws and I have never once cared." Resolution: register-dependent (never on furniture, always on shop jigs).
 </code></pre></div>
+<h2 id="open-research">Open Research<a class="headerlink" href="#open-research" title="Permanent link">&para;</a></h2>
+<p>The optional Open research section holds one line per deferral to outside practice that could not be researched in the same turn.
+Each line has an ID (<code>R01</code>, <code>R02</code>, ...), the question where the deferral happened, what you deferred to, and a status: <code>unresolved</code>, or <code>resolved in Qnn</code> once an evidence entry settled it.
+The interviewer writes the lines during the interview.
+Compile reads them and lists each unresolved one as not yet settled.
+It never turns one into an instruction.</p>
+<h2 id="exports">Exports<a class="headerlink" href="#exports" title="Permanent link">&para;</a></h2>
+<p>The optional Exports section holds one line per topic you voiced taste about but assigned to a different skill's territory.
+Each line has an ID (<code>E01</code>, <code>E02</code>, ...), the question, the topic, and a destination: the skill you named, or <code>unassigned</code>.
+The interviewer writes the lines during the interview.
+Compile leaves export content out of the profile and copies the list into <code>compile-log.md</code>.
+Skillify names the exports as follow-up work in its finish message and never writes them into the produced skill.</p>
 <h2 id="questions">Questions<a class="headerlink" href="#questions" title="Permanent link">&para;</a></h2>
 <p>Questions are logged in the order they were asked, under a heading with a fixed shape: <code>### Qnn [&lt;category&gt;] [&lt;register&gt;] [probe: &lt;type&gt;]</code>.</p>
 <ul>
@@ -1084,14 +1192,18 @@ Compile may record it downstream as a productive contradiction instead of forcin
 <li><code>&lt;category&gt;</code> matches a category name from the interview spec's category map.</li>
 <li><code>&lt;register&gt;</code> names which register the question belongs to.
   The tag is always written, even in a single-register archive.</li>
-<li><code>&lt;type&gt;</code> is the probe pattern used: <code>forced-choice</code>, <code>ladder</code>, <code>contrast</code>, <code>artifact</code>, <code>critical-incident</code>, or <code>triad</code>.</li>
+<li><code>&lt;type&gt;</code> is the probe pattern used: <code>forced-choice</code>, <code>ladder</code>, <code>contrast</code>, <code>artifact</code>, <code>critical-incident</code>, <code>triad</code>, <code>battery</code>, or <code>evidence</code>.</li>
 </ul>
 <p><code>[closing]</code> is a pseudo-category, written in the <code>&lt;category&gt;</code> position for every closing question.
 It is never counted in the <code>categories</code> tally and never appears in the <code>categories</code> map.
 Skillify excludes it when it derives a section map.</p>
+<p>A battery heading carries one more tag after the probe tag: <code>[probe: battery] [items: n]</code>, with n from 3 to 6.
+An <code>[items: n]</code> tag on any other probe type is an error.
+An evidence entry records researched practice shown to you: the question line carries the findings with their source links and the ratification question, and the answer line carries your reaction as you gave it.</p>
 <p>Question numbers are global and continuous across the whole interview, and never restart per category.
 Because saturation decides when a category is done, categories interleave in the archive exactly as they were asked.</p>
-<p>Each entry's body is exactly two lines: a bolded <code>**Q:**</code> line carrying the question as asked, with any grounding artifact excerpt inlined into the question text, and a bolded <code>**A:**</code> line carrying the answer exactly as given.
+<p>A battery is three to six closed items, all in one category, logged as one entry: the stem on the question line, n numbered items, a bare answer line, then n numbered answers in the same order.
+Every other entry's body is exactly two lines: a bolded <code>**Q:**</code> line carrying the question as asked, with any grounding artifact excerpt inlined into the question text, and a bolded <code>**A:**</code> line carrying the answer exactly as given.
 Nothing else goes in an entry.
 Interview never paraphrases at capture, per <a href="../../method/#11-verbatim-capture">rule 11</a>.
 A hedge, a false start, or a mid-answer correction stays in the <code>**A:**</code> line as spoken.
@@ -1104,6 +1216,28 @@ The structure check confirms the <code>Qnn</code> numbering is contiguous, with 
 <span class="gs">**Q:**</span> Here are two identical toolboxes, one mitered and glued, one butt-jointed and pinned. Which one ships to a client, and why?
 <span class="gs">**A:**</span> The butt-jointed one ships. A miter looks sharp until it sees a shop floor, and a pin holds under racking in a way glue alone will not. I would rather hand over something that survives being dropped off a tailgate than something that photographs well in the shop.
 </code></pre></div>
+<p>Battery from the same fixture's persona:</p>
+<div class="language-markdown highlight"><pre><span></span><code><span class="gu">### Q12 [joinery] [shop] [probe: battery] [items: 3]</span>
+<span class="gs">**Q:**</span> For each of these shop-built joints, would you ship it to a client as it is?
+<span class="k">1.</span> A half-blind dovetail with a visible gap under 1/32 inch.
+<span class="k">2.</span> A pocket-screwed face frame on a painted cabinet.
+<span class="k">3.</span> A butt joint reinforced with a dowel on a drawer back.
+<span class="gs">**A:**</span>
+<span class="k">1.</span> Yes. Under a thirty-second I will not touch it.
+<span class="k">2.</span> Yes, painted is the only place I allow it.
+<span class="k">3.</span> No. A drawer back gets a rabbet or I redo it.
+</code></pre></div>
+<h2 id="provenance-and-capture-conventions">Provenance and Capture Conventions<a class="headerlink" href="#provenance-and-capture-conventions" title="Permanent link">&para;</a></h2>
+<p>A picked answer, one chosen through the host's choice picker, is logged as the selected label verbatim, followed by any words you added.
+Option description text belongs to the interviewer, so it goes into the question line as part of the option and never into the answer line.</p>
+<p>A few conventions keep the record honest:</p>
+<ul>
+<li>When you interrupt and dictate an answer again, the corrected dictation replaces the earlier answer.</li>
+<li>A question you did not understand is not logged.
+  The reframed question that got an answer is the entry of record.</li>
+<li>Labels used in conversation may drift.
+  The archive's contiguous numbering is authoritative.</li>
+</ul>
 
 
 

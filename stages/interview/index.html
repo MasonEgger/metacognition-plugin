@@ -503,6 +503,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="What It Asks of You">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#choices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#research-in-the-same-turn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Research in the Same Turn
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exports
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -991,6 +1030,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="What It Asks of You">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#choices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#research-in-the-same-turn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Research in the Same Turn
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exports
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1058,8 +1136,14 @@ It never redesigns the categories, floors, or seeds mid-interview.</p>
 <li><code>--extractions-root &lt;dir&gt;</code>: overrides the extraction root for this run.</li>
 </ul>
 <h2 id="what-it-asks-of-you">What It Asks of You<a class="headerlink" href="#what-it-asks-of-you" title="Permanent link">&para;</a></h2>
-<p>You answer, one question at a time.
-Speaking your answers works well.
+<p>You answer one turn at a time.
+A turn is either one open question or one short battery: three to six closed verdict items, all in one category, each answerable with a stance and a sentence.
+Two open questions never share a turn, and a battery never mixes categories.
+Open questions lead early, while the map of your judgment is forming, and whenever an answer needs a follow-up.
+Batteries take over once a category's shape is known.
+A surprising battery answer earns an open follow-up.
+If you ask for more concrete questions, that holds for the rest of the interview.</p>
+<p>Speaking your answers works well.
 The archive keeps each answer exactly as given, hedges, false starts, and mid-answer corrections included.
 The only edit is that dash and curly-quote characters are straightened to a hyphen and straight quotes.</p>
 <p>Expect pushback.
@@ -1069,21 +1153,43 @@ If you say "I don't know," interview reframes the question, approaches it throug
 When an answer contradicts an earlier one, interview names both claims at once and asks which wins, or whether the difference depends on context.</p>
 <p>Before the first question, interview reads your registers back to you and confirms them.
 Every 20 questions it asks at least one question built to break a pattern it thinks it has found, followed by a one-line progress note.
+The note reports category coverage, register coverage, and the running count of research rounds.
 At the end it asks the three closing questions.</p>
+<h3 id="choices">Choices<a class="headerlink" href="#choices" title="Permanent link">&para;</a></h3>
+<p>Closed choices go through your host's choice picker when the surface has one.
+That covers forced choices, battery items you answer by choosing, and research ratifications.
+Where the surface has no picker, the same options appear as a lettered list.
+Open questions never use it.
+A picked answer is logged as the label you selected, plus any words you add.</p>
+<h3 id="research-in-the-same-turn">Research in the Same Turn<a class="headerlink" href="#research-in-the-same-turn" title="Permanent link">&para;</a></h3>
+<p>When you defer to outside practice, such as "look up what is standard", or ask for research, interview researches it in the same turn.
+It never saves a deferral for a later stage.
+It shows you the bottom lines with their sources and asks you to ratify, adjust, or reject each.
+Your reaction is logged as its own entry in the archive.
+There is no cap on research rounds.</p>
+<p>Interview uses the plugin's research agent where the surface loads plugin agents.
+Elsewhere it runs the same research in the conversation.
+With no web access, interview says so, records the deferral as unresolved open research, and continues.
+When the research returns nothing relevant, it says so and records the deferral as unresolved.</p>
+<h3 id="exports">Exports<a class="headerlink" href="#exports" title="Permanent link">&para;</a></h3>
+<p>When you assign a topic to another skill's territory, interview records it as an export and moves on.
+<a href="../compile/">Compile</a> keeps exports out of the profile, and <a href="../skillify/">skillify</a> lists them as follow-up work.</p>
 <h2 id="what-it-produces">What It Produces<a class="headerlink" href="#what-it-produces" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>&lt;root&gt;/&lt;slug&gt;/archive.md</code>, written one question at a time. See <a href="../../formats/archive/">archive.md</a>.</li>
+<li><code>&lt;root&gt;/&lt;slug&gt;/archive.md</code>, written one entry at a time. See <a href="../../formats/archive/">archive.md</a>.
+  It can also hold research findings with their source links, and a list of topics you assigned to other skills.</li>
 <li>The <code>interview n/floor</code> cell of the extraction README, updated with every answer.</li>
 </ul>
 <h2 id="how-long-it-takes">How Long It Takes<a class="headerlink" href="#how-long-it-takes" title="Permanent link">&para;</a></h2>
 <p>No source gives a duration in minutes.
 The size of the work is defined in questions.
 An interview typically runs 60 to 120 questions across all categories.
-Each category has a floor, a minimum question count, and stops when it saturates: three consecutive answers add no new constraint.
+Each category has a floor, a minimum count of probes, and stops when it saturates: three consecutive answers add no new constraint.
+An open question, a forced choice, or a research entry counts one probe, and a battery counts its items.
 The floor guarantees coverage, and saturation decides when a category is done.
 Plan on hours of your own time rather than minutes, and expect the total to vary with the domain and with how much you have to say.</p>
 <p>You can stop and come back.
-Each question is saved as it is answered, so a killed session loses at most the one question in flight.
+Each entry is saved as it is answered, so a killed session loses at most the one in flight.
 <code>--resume</code> reads the archive's frontmatter and continues from the last question.</p>
 <h2 id="what-done-looks-like">What Done Looks Like<a class="headerlink" href="#what-done-looks-like" title="Permanent link">&para;</a></h2>
 <p>Every category is saturated, or you closed the interview early.

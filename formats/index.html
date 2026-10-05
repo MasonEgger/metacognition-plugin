@@ -1005,7 +1005,10 @@ They say the same thing as the plugin's own reference files, which the stages fo
 </table>
 <p>The extraction README status table is described at the end of the <a href="interview-spec/#extraction-readme-status-table">interview-spec.md</a> page.</p>
 <p>A structure check, <code>python3 scripts/validate_artifacts.py &lt;root&gt;/&lt;slug&gt;</code>, runs at the end of interview, compile, and calibrate.
-It checks structure only: a missing or empty directory, frontmatter that does not parse, archive question numbering and category counts, the profile token ceiling and estimate, missing or misordered profile sections, incomplete golden examples, and gaps in calibration round numbers.</p>
+It checks structure only: a missing or empty directory, frontmatter that does not parse, archive question numbering and category counts, battery items, the ids in the optional Open research and Exports sections, the profile token ceiling and estimate, missing or misordered profile sections, incomplete golden examples, and gaps in calibration round numbers.</p>
+<p>Two other scripts write files for you.
+<code>scripts/archive_append.py</code> appends each interview entry and updates the counts and the README cell.
+<code>scripts/update_token_estimate.py</code> keeps the profile's <code>token_estimate</code> current after compile and after each calibration fold-back.</p>
 <h2 id="the-example-extraction">The Example Extraction<a class="headerlink" href="#the-example-extraction" title="Permanent link">&para;</a></h2>
 <p>The plugin's repository carries one synthetic woodworking extraction as a test fixture.
 It is not a real profile.

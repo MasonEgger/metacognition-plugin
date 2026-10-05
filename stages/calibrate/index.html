@@ -1073,7 +1073,8 @@ When no entry fits, calibrate builds a task that produces something you can redl
 <h2 id="what-it-produces">What It Produces<a class="headerlink" href="#what-it-produces" title="Permanent link">&para;</a></h2>
 <ul>
 <li><code>&lt;root&gt;/&lt;slug&gt;/calibration/round-NN.md</code>. See <a href="../../formats/calibration-round/">Calibration Round Files</a>.</li>
-<li>Edits to <code>profile.md</code>, each changed line marked with <code>&lt;!-- calibrated: round N, YYYY-MM-DD --&gt;</code>, a restamped <code>version</code>, and an updated <code>&lt;calibration_state&gt;</code> section.</li>
+<li>Edits to <code>profile.md</code>, each changed line marked with <code>&lt;!-- calibrated: round N, YYYY-MM-DD --&gt;</code>, a restamped <code>version</code>, a refreshed <code>token_estimate</code>, and an updated <code>&lt;calibration_state&gt;</code> section.
+  After a fold-back, calibrate runs the same script compile uses, <code>scripts/update_token_estimate.py</code>, so the estimate matches the edited body.</li>
 <li>The <code>calibrate rounds, last count</code> cell of the extraction README.</li>
 </ul>
 <p>Calibrate sets the profile's <code>calibrated</code> field.

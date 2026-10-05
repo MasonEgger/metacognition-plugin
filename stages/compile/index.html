@@ -1066,7 +1066,7 @@ It tells you to run <code>/metacognition:interview &lt;slug&gt; --resume</code> 
 <h2 id="what-it-produces">What It Produces<a class="headerlink" href="#what-it-produces" title="Permanent link">&para;</a></h2>
 <ul>
 <li><code>&lt;root&gt;/&lt;slug&gt;/profile.md</code>: seventeen sections in a fixed order. See <a href="../../formats/profile/">profile.md</a>.</li>
-<li><code>&lt;root&gt;/&lt;slug&gt;/compile-log.md</code>: one entry for every line it cut, with the source question and the reason.</li>
+<li><code>&lt;root&gt;/&lt;slug&gt;/compile-log.md</code>: one entry for every line it cut, with the source question and the reason, then an <code>## Exports</code> list copied from the archive.</li>
 <li>The <code>compile tokens</code> cell of the extraction README.</li>
 </ul>
 <p>The profile body targets 2,000 to 4,000 tokens for a single register, more for several, with a hard ceiling of 10,000.
@@ -1075,6 +1075,17 @@ A line is kept only if removing it would change how a downstream system writes, 
 Biography and flattering self-description are cut.
 Conflicts between what you said and what the archive shows become tension entries, and compile never resolves one for you.
 The new profile starts with <code>calibrated: false</code>.</p>
+<p>Some archive content is handled on its own terms:</p>
+<ul>
+<li>A ratified practice, which is a researched practice you agreed to, compiles to the written practice with its citation.
+  Compile never writes a bare instruction to follow community practice.</li>
+<li>Exports, which are topics you assigned to another skill, stay out of the profile body.
+  They go to the compile log.</li>
+<li>An open research line still marked unresolved is listed in the profile as not yet settled.</li>
+</ul>
+<p>Compile keeps the profile's <code>token_estimate</code> current with <code>scripts/update_token_estimate.py</code>.
+The script counts the body in characters divided by four and rewrites the line when it is stale.
+When the script cannot run, compile computes the same figure by hand.</p>
 <h2 id="how-long-it-takes">How Long It Takes<a class="headerlink" href="#how-long-it-takes" title="Permanent link">&para;</a></h2>
 <p>No source gives a duration.
 The input is the whole archive, which the skill describes as running 20,000 to 30,000 tokens.

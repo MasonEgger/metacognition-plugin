@@ -1106,7 +1106,7 @@ Every setting has a default, and a missing config file is never an error.
 This page lists the two settings, the five tiers they can come from, and the options on claude.ai.</p>
 <p>Every stage begins by resolving these settings and stating the extraction root it will use in one line.
 <code>python3 scripts/resolve_config.py</code> does the resolving.
-When the script cannot run, because the surface has no code execution or the interpreter is older than Python 3.11, the stage applies the same rules by hand and says so in one line.</p>
+When the script cannot run, because the surface has no code execution or the interpreter is older than Python 3.12, the stage applies the same rules by hand and says so in one line.</p>
 <h2 id="the-two-keys">The Two Keys<a class="headerlink" href="#the-two-keys" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1124,12 +1124,14 @@ When the script cannot run, because the surface has no code execution or the int
 </tr>
 <tr>
 <td><code>exemplar</code></td>
-<td>Path to a skill, either its directory or its <code>SKILL.md</code>, whose shape skillify should match.</td>
+<td>Advanced option most people will not set. Path to a skill, either its directory or its <code>SKILL.md</code>, whose shape skillify may use.</td>
 <td>none</td>
 </tr>
 </tbody>
 </table>
-<p>No other key exists.</p>
+<p>No other key exists.
+You can leave <code>exemplar</code> unset.
+Skillify works without it.</p>
 <h2 id="the-five-tiers">The Five Tiers<a class="headerlink" href="#the-five-tiers" title="Permanent link">&para;</a></h2>
 <p>The tiers are listed highest first.
 A higher tier wins, key by key.</p>
@@ -1215,7 +1217,7 @@ Each stops the stage with one line that names the file (or <code>--set</code>) a
 <ul>
 <li>A missing file, at any tier. It is skipped silently.</li>
 <li>A null value. <code>exemplar:</code> with nothing after the colon counts as unset, so the next tier down supplies the value.</li>
-<li>An exemplar that does not exist. Skillify tells you the exemplar was not found and continues on its built-in scaffold alone.</li>
+<li>An exemplar that does not exist. The setting resolves normally and is reported as not existing. Skillify skips it silently, with no message, and continues without it.</li>
 </ul>
 <p>Every tier is read even when a higher tier already won a key.
 A bad file at a lower tier is therefore an error even when a higher tier would have supplied the value.</p>
@@ -1225,7 +1227,8 @@ When the same key is set twice, the last one wins.
 <h2 id="which-config-was-read">Which Config Was Read<a class="headerlink" href="#which-config-was-read" title="Permanent link">&para;</a></h2>
 <p>Each config file that was actually read is announced with one line: <code>Loaded config from: &lt;path&gt;</code>.
 A file that exists but sets nothing is still announced.
-A missing file is not.</p>
+A missing file is not.
+In the by-hand fallback, the stage states the same line for each file it read.</p>
 
 
 
