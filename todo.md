@@ -99,15 +99,15 @@ Check a step only when every sub-step under it is done.
   - [x] Artifact plan: availability check
   - [x] Closure pass: register and artifact checks
   - [x] Verify: just check, claude plugin validate
-- [ ] Step 10: Compile and Calibrate Read the New Archive and Use the Estimate Script (task)
-  - [ ] MANIFEST and EXPECTED: compile and calibrate gain update_token_estimate.py
-  - [ ] Compile: battery verdicts, evidence rule, exports rule, meta-rule routing, picker reading rule
-  - [ ] Compile: token-estimate step runs the script, one-liner kept as fallback
-  - [ ] Calibrate: fold-back runs the script, fallback sentence
-  - [ ] Inputs and Outputs and Resources name the script in both skills
-  - [ ] just sync, and docs/formats/profile.md if profile-format.md changed
-  - [ ] Verify: pytest, just check, claude plugin validate
-  - [ ] Document: CLAUDE.md note
+- [x] Step 10: Compile and Calibrate Read the New Archive and Use the Estimate Script (task)
+  - [x] MANIFEST and EXPECTED: compile and calibrate gain update_token_estimate.py
+  - [x] Compile: battery verdicts, evidence rule, exports rule, meta-rule routing, picker reading rule
+  - [x] Compile: token-estimate step runs the script, one-liner kept as fallback
+  - [x] Calibrate: fold-back runs the script, fallback sentence
+  - [x] Inputs and Outputs and Resources name the script in both skills
+  - [x] just sync, and docs/formats/profile.md if profile-format.md changed
+  - [x] Verify: pytest, just check, claude plugin validate
+  - [x] Document: CLAUDE.md note
 - [ ] Step 11: Ground Skillify in the Provider Baseline (task)
   - [ ] Read First: load the baseline skill, with the stated fallback
   - [ ] Exemplar as an advanced option, missing one skipped silently

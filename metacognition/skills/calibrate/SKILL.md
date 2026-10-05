@@ -83,6 +83,8 @@ For every correction, apply `references/calibration-protocol.md`'s fold-back dec
 
 Calibrate never resolves a (c) conflict on its own; the question always goes to the person.
 Edit `profile.md` directly for every fold-back, marking each changed line with `<!-- calibrated: round N, YYYY-MM-DD -->`, and restamp the frontmatter `version` since a fold-back materially changes the file.
+After the edits, run `python3 scripts/update_token_estimate.py <extractions-root>/<slug>/profile.md` so the `token_estimate` line matches the edited body, and report what it printed.
+When the script cannot run (no code execution, or an interpreter older than Python 3.12), compute the same figure by hand and write it to the line: `python3 -c "import pathlib; print(len(pathlib.Path('<extractions-root>/<slug>/profile.md').read_text(encoding='utf-8').split('---\n', 2)[2]) // 4)"`, or equivalently `wc -m` on the same tail slice.
 
 ### 6. Write the Round File
 
@@ -116,7 +118,7 @@ Then stop.
 
 - Reads: `references/settings.md` (to resolve settings by hand when the script cannot run); `references/extraction-theory.md` rule 15; `references/calibration-protocol.md` (always, first, for the task bank and the fold-back tree); `references/profile-format.md`'s `calibrated` frontmatter field entry (the calibrated-state test); `<extractions-root>/<slug>/profile.md` (the only extraction file this skill ever reads for judgment; never `archive.md`); `<extractions-root>/<slug>/interview-spec.md` (`calibration_threshold`, `target_skill`); the target skill's `evals/` directory when `target_skill` is set.
 All extraction paths resolve against the extraction root, `extractions` under the working directory by default or the configured or passed root.
-- Scripts: `python3 scripts/resolve_config.py` resolves the settings and `python3 scripts/validate_artifacts.py` runs the closing self-check. Both import the sibling parser `scripts/yaml_subset.py`, which a skill never runs on its own.
+- Scripts: `python3 scripts/resolve_config.py` resolves the settings, `python3 scripts/update_token_estimate.py` corrects the profile's `token_estimate` after a fold-back, and `python3 scripts/validate_artifacts.py` runs the closing self-check. All three import the sibling parser `scripts/yaml_subset.py`, which a skill never runs on its own.
 - Writes: `<extractions-root>/<slug>/profile.md` (fold-back edits, the `<calibration_state>` section, the `calibrated` and `version` frontmatter fields); `<extractions-root>/<slug>/calibration/round-NN.md`; the extraction README's `calibrate rounds, last count` cell.
 - Dispatches: nothing.
 Calibrate runs entirely in-session; it never hands work to a subagent.
@@ -143,4 +145,4 @@ Chat and `--corrections <path>` are the only two ways a round takes corrections.
 - [references/calibration-protocol.md](references/calibration-protocol.md): the task bank, the domain-specific task construction guidance, the fold-back decision tree, and the round file format this skill writes to.
 - [references/profile-format.md](references/profile-format.md): the `calibrated` frontmatter field entry, the single source for the calibrated-state test this skill applies and reports against.
 - [references/interview-spec-format.md](references/interview-spec-format.md): the `calibration_threshold` field this skill reads, and the extraction README status table this skill updates.
-- [scripts/resolve_config.py](scripts/resolve_config.py) and [scripts/validate_artifacts.py](scripts/validate_artifacts.py): the settings resolver and the structural validator; both import [scripts/yaml_subset.py](scripts/yaml_subset.py).
+- [scripts/resolve_config.py](scripts/resolve_config.py), [scripts/update_token_estimate.py](scripts/update_token_estimate.py), and [scripts/validate_artifacts.py](scripts/validate_artifacts.py): the settings resolver, the token-estimate updater, and the structural validator; each imports [scripts/yaml_subset.py](scripts/yaml_subset.py) directly or through `validate_artifacts.py`.

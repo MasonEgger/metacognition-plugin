@@ -77,7 +77,7 @@ MANIFEST: Mapping[str, Mapping[str, tuple[str, ...]]] = {
             "archive-format.md",
             "profile-format.md",
         ),
-        "scripts": ("yaml_subset.py", "resolve_config.py", "validate_artifacts.py"),
+        "scripts": ("yaml_subset.py", "resolve_config.py", "validate_artifacts.py", "update_token_estimate.py"),
     },
     "calibrate": {
         "references": (
@@ -87,7 +87,7 @@ MANIFEST: Mapping[str, Mapping[str, tuple[str, ...]]] = {
             "profile-format.md",
             "calibration-protocol.md",
         ),
-        "scripts": ("yaml_subset.py", "resolve_config.py", "validate_artifacts.py"),
+        "scripts": ("yaml_subset.py", "resolve_config.py", "validate_artifacts.py", "update_token_estimate.py"),
     },
     "skillify": {
         "references": (

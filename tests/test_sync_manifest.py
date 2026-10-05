@@ -36,7 +36,7 @@ EXPECTED: dict[str, dict[str, set[str]]] = {
             "archive-format.md",
             "profile-format.md",
         },
-        "scripts": {"yaml_subset.py", "resolve_config.py", "validate_artifacts.py"},
+        "scripts": {"yaml_subset.py", "resolve_config.py", "validate_artifacts.py", "update_token_estimate.py"},
     },
     "calibrate": {
         "references": {
@@ -46,7 +46,7 @@ EXPECTED: dict[str, dict[str, set[str]]] = {
             "profile-format.md",
             "calibration-protocol.md",
         },
-        "scripts": {"yaml_subset.py", "resolve_config.py", "validate_artifacts.py"},
+        "scripts": {"yaml_subset.py", "resolve_config.py", "validate_artifacts.py", "update_token_estimate.py"},
     },
     "skillify": {
         "references": {

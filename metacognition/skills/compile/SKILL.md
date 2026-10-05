@@ -63,12 +63,22 @@ Read extraction theory rule 14 and `references/profile-format.md` per Read First
 
 Read `archive.md` end to end and pull out every candidate: a rule, a refusal, a phrase the person actually uses, a concrete example, a decision rule or named test, and every entry already flagged in the `## Contradiction ledger`.
 A candidate is a claim traceable to a specific `### Qnn` answer, never a paraphrase invented to fill a section the archive did not actually earn.
+A battery entry holds several verdicts; each is its own candidate rule, traced to its `Qnn` and item number.
+An answer that is only a selected label is the person's choice, and the option text in the `Q:` line is the interviewer's wording, not a quote of the person; never put it in the profile as their phrase.
+Read the archive's `## Open research` and `## Exports` sections here too; steps 3 and 7 say what each becomes.
+A ratified practice (an `evidence` entry) compiles to the written practice with its citation.
+Never write a bare instruction to follow community practice.
+
+Rules about how the person wants judgment exercised are profile content, not cuts: when to reconsider a past decision, whose decisions outrank an adopted outside reference, removing before adding, how to raise a discouraged pattern, and what posture to take where nothing is codified.
+Place them in the existing sections, and add none.
+`decision_rules` takes the first three, `communication_laws` takes how to raise a discouraged pattern, and `usage` takes the posture for uncodified ground.
 
 ### 3. Apply the Keep/Cut Test
 
 Run extraction theory rule 14 against every candidate from step 2: does removing this line change how a downstream system writes, judges, edits, refuses, or decides something?
 A line that passes is kept; a line that only describes the person, states a general value, or flatters without a checkable instruction attached is cut.
 Log every cut to `<extractions-root>/<slug>/compile-log.md`, one entry per cut, each naming the candidate line, its source `### Qnn`, and the reason it failed the test, so the person can rescue anything wrongly cut on first read of the log.
+Export content (taste voiced about another skill's territory) stays out of the profile body; copy the archive's `## Exports` list into `compile-log.md` under its own `## Exports` heading, apart from the cuts.
 A cut with no logged reason is not a completed cut; the log is the record of every judgment call this step made, not only the ones compile is confident about.
 
 ### 4. Encode Tensions, Never Resolve Them
@@ -89,9 +99,11 @@ The `<why>` names the specific rule or judgment the bad-to-good change demonstra
 Write `<extractions-root>/<slug>/profile.md` per the fenced template and section order in `references/profile-format.md`: frontmatter (`domain`, `registers`, `consumer`, `target_skill`, `version` stamped `YYYY.MM.DD`, `token_estimate`, `calibrated: false`, since no calibration round has run yet), then the seventeen fixed sections in order.
 The `priority` section is fixed text, reproduced verbatim per `references/profile-format.md`; nothing in compile edits it.
 Target the profile body at 2,000 to 4,000 tokens for a single-register domain, more for several registers, with a hard ceiling of 10,000.
-Compute `token_estimate` mechanically, by command, never by eyeballing the file: the character count of everything after the closing frontmatter delimiter, divided by four, the exact recompute `scripts/validate_artifacts.py` performs independently.
-One way to run it, after `profile.md` is written: `python3 -c "import pathlib; print(len(pathlib.Path('<extractions-root>/<slug>/profile.md').read_text(encoding='utf-8').split('---\n', 2)[2]) // 4)"`, or equivalently `wc -m` on the same tail slice.
-Report the command's output to the person directly at the end of the run, alongside the compiled section count, so they see the number compile is claiming before they ever open the file.
+Write `profile.md` with a `token_estimate` line, then correct that line by command, never by eyeballing the file: run `python3 scripts/update_token_estimate.py <extractions-root>/<slug>/profile.md`.
+The script requires the line to exist, counts everything after the closing frontmatter delimiter in characters divided by four, the number `scripts/validate_artifacts.py` recounts independently, and rewrites the line when it is stale.
+It prints `<path>: updated <old> -> <new>` or `<path>: current (<n>)`.
+When the script cannot run (no code execution, or an interpreter older than Python 3.12), compute the same figure by hand and write it to the line: `python3 -c "import pathlib; print(len(pathlib.Path('<extractions-root>/<slug>/profile.md').read_text(encoding='utf-8').split('---\n', 2)[2]) // 4)"`, or equivalently `wc -m` on the same tail slice.
+Report the value the script printed to the person directly at the end of the run, alongside the compiled section count, so they see the number compile is claiming before they ever open the file.
 A profile over the 10,000-token ceiling means step 3 kept biography or self-description; return to step 3 and re-read the log, but never cut a line that passes the keep/cut test to make the number, and never merge two laws into one to save space, since a merged law is applied less reliably than two atomic ones.
 Update the extraction README's `compile tokens` cell with the same figure, per `references/interview-spec-format.md`'s standing rule that every pipeline stage updates the table as its last action.
 Set the body's `<calibration_state>` section to `profile-format.md`'s zero state, since no calibration round has run yet: `<rounds>0</rounds>`, `<last_date>none</last_date>`, `<last_correction_count>none</last_correction_count>`.
@@ -100,6 +112,7 @@ Set the body's `<calibration_state>` section to `profile-format.md`'s zero state
 
 Write the `<do_not_infer>` section from what the archive did not say as much as from what it did: generalizations the archive does not support, categories the interview spec's unknown-unknowns pass marked `declined`, and any inference a consumer of `profile.md` must not make on its own.
 A domain the archive never touched belongs here, explicitly named, rather than left for a consumer to guess at.
+An `## Open research` line still marked `unresolved` is listed here as not yet settled.
 
 ### Closing Self-Check
 
@@ -116,8 +129,8 @@ Then stop.
 
 - Reads: `references/settings.md` (to resolve settings by hand when the script cannot run); `references/extraction-theory.md` rule 14 (and rules 1 and 8, for the tension shape); `references/profile-format.md` (always, first); `<extractions-root>/<slug>/interview-spec.md` (`registers`, `target_skill`, `consumer`); `<extractions-root>/<slug>/archive.md` (the compiled source, read only, never edited).
 All extraction paths resolve against the extraction root, `extractions` under the working directory by default or the configured or passed root.
-- Scripts: `python3 scripts/resolve_config.py` resolves the settings and `python3 scripts/validate_artifacts.py` runs the closing self-check. Both import the sibling parser `scripts/yaml_subset.py`, which a skill never runs on its own.
-- Writes: `<extractions-root>/<slug>/profile.md`; `<extractions-root>/<slug>/compile-log.md`; the extraction README's `compile tokens` cell.
+- Scripts: `python3 scripts/resolve_config.py` resolves the settings, `python3 scripts/update_token_estimate.py` corrects the profile's `token_estimate`, and `python3 scripts/validate_artifacts.py` runs the closing self-check. All three import the sibling parser `scripts/yaml_subset.py`, which a skill never runs on its own.
+- Writes: `<extractions-root>/<slug>/profile.md`; `<extractions-root>/<slug>/compile-log.md` (the cuts, then the `## Exports` list); the extraction README's `compile tokens` cell.
 - Dispatches: nothing.
 Compile runs entirely in-session; it never hands work to a subagent.
 
@@ -143,4 +156,4 @@ The archive is read-only from compile's side; any correction to the interview re
 - [references/profile-format.md](references/profile-format.md): the frontmatter, seventeen-section order, and the golden-examples and token-ceiling contracts this skill writes to.
 - [references/archive-format.md](references/archive-format.md): the shape of the input `archive.md` this skill reads, including the contradiction ledger this skill draws tensions from.
 - [references/interview-spec-format.md](references/interview-spec-format.md): the format of `interview-spec.md`, the source of the `registers`, `target_skill`, and `consumer` fields this skill copies forward, and the extraction README status table this skill updates.
-- [scripts/resolve_config.py](scripts/resolve_config.py) and [scripts/validate_artifacts.py](scripts/validate_artifacts.py): the settings resolver and the structural validator; both import [scripts/yaml_subset.py](scripts/yaml_subset.py).
+- [scripts/resolve_config.py](scripts/resolve_config.py), [scripts/update_token_estimate.py](scripts/update_token_estimate.py), and [scripts/validate_artifacts.py](scripts/validate_artifacts.py): the settings resolver, the token-estimate updater, and the structural validator; each imports [scripts/yaml_subset.py](scripts/yaml_subset.py) directly or through `validate_artifacts.py`.
