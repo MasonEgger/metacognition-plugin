@@ -81,18 +81,18 @@ Check a step only when every sub-step under it is done.
 
 ## Section 6: The Skills
 
-- [ ] Step 8: Rewrite the Interview Loop and Wire the Interview Slice (task)
-  - [ ] MANIFEST and EXPECTED: interview gains research-contract.md and archive_append.py
-  - [ ] Turn discipline with one canonical battery example
-  - [ ] Live-research protocol with the three-way fallback and the Dispatches line
-  - [ ] Picker use and provenance
-  - [ ] Counting rule, register rules, progress note contents
-  - [ ] Exports rule and capture conventions
-  - [ ] Append script invocation and by-hand fallback
-  - [ ] Inputs and Outputs, Resources, description
-  - [ ] just sync
-  - [ ] Verify: pytest, sync check, claude plugin validate, just check
-  - [ ] Document: CLAUDE.md note
+- [x] Step 8: Rewrite the Interview Loop and Wire the Interview Slice (task)
+  - [x] MANIFEST and EXPECTED: interview gains research-contract.md and archive_append.py
+  - [x] Turn discipline with one canonical battery example
+  - [x] Live-research protocol with the three-way fallback and the Dispatches line
+  - [x] Picker use and provenance
+  - [x] Counting rule, register rules, progress note contents
+  - [x] Exports rule and capture conventions
+  - [x] Append script invocation and by-hand fallback
+  - [x] Inputs and Outputs, Resources, description
+  - [x] just sync
+  - [x] Verify: pytest, sync check, claude plugin validate, just check
+  - [x] Document: CLAUDE.md note
 - [ ] Step 9: Design Checks Artifacts and Plans Register Coverage (task)
   - [ ] Category map: Registers column, untargeted register rule, floors count probes
   - [ ] Seeds and forced-choice bank: concrete scenarios, battery-suited seeds
