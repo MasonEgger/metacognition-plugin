@@ -10,8 +10,15 @@ and exits 1 with a findings list when any fail (exit 0 when clean):
   into a mapping. A missing closing delimiter, a syntax error, or a non-mapping result all fail here.
 - **archive-question-numbering**: the archive's ``### Qnn`` headings are globally contiguous,
   starting at 1, with no gap and no repeat.
-- **archive-category-count**: each category's frontmatter ``asked`` count matches how many
-  ``### Qnn [<category>]`` headings actually carry that category in the body.
+- **archive-category-count**: each category's frontmatter ``asked`` count matches the probes the body
+  holds for that category. Each ``### Qnn [<category>]`` heading counts one probe, except a battery,
+  which counts the number in its ``[items: n]`` tag. A ``[closing]`` entry touches no category.
+- **archive-battery-items**: a ``[probe: battery]`` heading carries ``[items: n]`` with n from 3 to 6,
+  and its body holds exactly n numbered items under ``**Q:**`` and n numbered answers under
+  ``**A:**``. An ``[items: n]`` tag on any other probe type also fails here.
+- **archive-section-ids**: when the optional ``## Open research`` or ``## Exports`` section is
+  present, its line IDs (``R01``, ``E01``) run contiguously from 1 with no gap and no repeat; the
+  message names the section. Neither section is ever required.
 - **profile-token-ceiling**: the profile body (everything after the closing frontmatter delimiter
   through end of file), recomputed as characters divided by four, does not exceed the token ceiling.
   The ceiling is 10,000 at any register count.
@@ -88,7 +95,18 @@ REQUIRED_PROFILE_SECTIONS: tuple[str, ...] = (
 
 REQUIRED_EXAMPLE_CHILDREN: tuple[str, ...] = ("bad", "good", "why")
 
-QUESTION_HEADING_PATTERN = re.compile(r"^### Q(\d+) \[(?P<category>[^\]]+)\]", re.MULTILINE)
+QUESTION_HEADING_PATTERN = re.compile(
+    r"^### Q(?P<number>\d+) \[(?P<category>[^\]]+)\]"
+    r"(?: \[(?P<register>(?!probe: |items: )[^\]]+)\])?"
+    r"(?: \[probe: (?P<probe>[^\]]+)\])?"
+    r"(?: \[items: (?P<items>\d+)\])?[^\n]*$",
+    re.MULTILINE,
+)
+NEXT_BLOCK_PATTERN = re.compile(r"^#{2,3} ", re.MULTILINE)
+NUMBERED_LINE_PATTERN = re.compile(r"^(\d+)\. ", re.MULTILINE)
+OPTIONAL_SECTIONS: tuple[tuple[str, str], ...] = (("Open research", "R"), ("Exports", "E"))
+BATTERY_ITEMS_RANGE = range(3, 7)
+CLOSING_CATEGORY = "closing"
 SECTION_TAG_PATTERN = re.compile(r"<([a-z_]+)>", re.MULTILINE)
 EXAMPLE_BLOCK_PATTERN = re.compile(r"<example>(.*?)</example>", re.DOTALL)
 ROUND_FILENAME_PATTERN = re.compile(r"round-(\d+)\.md$")
@@ -140,14 +158,50 @@ def parse_frontmatter(path: Path) -> tuple[dict[str, object] | None, str, list[F
     return frontmatter, body, []
 
 
-def find_question_headings(body: str) -> list[tuple[int, str]]:
-    """Return (question_number, category) pairs in the order they appear in the archive body."""
-    return [(int(match.group(1)), match.group("category")) for match in QUESTION_HEADING_PATTERN.finditer(body)]
+class QuestionEntry(NamedTuple):
+    """One parsed ``### Qnn`` heading and the body text that follows it."""
+
+    number: int
+    category: str
+    register: str | None
+    probe: str | None
+    items: int | None
+    body: str
+
+
+def parse_question_entries(body: str) -> list[QuestionEntry]:
+    """Turn every ``### Qnn ...`` heading in the archive body into a QuestionEntry, in order.
+
+    The entry text runs from the end of its heading to the next ``##`` or ``###`` heading.
+    """
+    entries: list[QuestionEntry] = []
+    for match in QUESTION_HEADING_PATTERN.finditer(body):
+        next_block = NEXT_BLOCK_PATTERN.search(body, match.end())
+        entry_text = body[match.end() : next_block.start() if next_block else len(body)]
+        items = match.group("items")
+        entries.append(
+            QuestionEntry(
+                int(match.group("number")),
+                match.group("category"),
+                match.group("register"),
+                match.group("probe"),
+                int(items) if items is not None else None,
+                entry_text,
+            )
+        )
+    return entries
+
+
+def probe_count(entry: QuestionEntry) -> int:
+    """Return how many probes an entry counts toward its category: a battery's items, else one."""
+    if entry.probe == "battery":
+        return entry.items or 0
+    return 1
 
 
 def check_archive_question_numbering(path: Path, body: str) -> list[Finding]:
     """Flag a gap or repeat in the archive's global ``Qnn`` numbering."""
-    numbers = [number for number, _ in find_question_headings(body)]
+    numbers = [entry.number for entry in parse_question_entries(body)]
     expected = list(range(1, len(numbers) + 1))
     if numbers != expected:
         return [
@@ -161,13 +215,15 @@ def check_archive_question_numbering(path: Path, body: str) -> list[Finding]:
 
 
 def check_archive_category_counts(path: Path, frontmatter: dict[str, object], body: str) -> list[Finding]:
-    """Flag a frontmatter ``categories.asked`` count that disagrees with the archive body."""
+    """Flag a frontmatter ``categories.asked`` count that disagrees with the probes in the archive body."""
     categories = frontmatter.get("categories")
     if not isinstance(categories, dict):
         return []
     actual_counts: dict[str, int] = {}
-    for _, category in find_question_headings(body):
-        actual_counts[category] = actual_counts.get(category, 0) + 1
+    for entry in parse_question_entries(body):
+        if entry.category == CLOSING_CATEGORY:
+            continue
+        actual_counts[entry.category] = actual_counts.get(entry.category, 0) + probe_count(entry)
     findings: list[Finding] = []
     for category, tally in categories.items():
         if not isinstance(tally, dict):
@@ -180,6 +236,71 @@ def check_archive_category_counts(path: Path, frontmatter: dict[str, object], bo
                     "archive-category-count",
                     str(path),
                     f"category {category!r} states asked={stated!r} but the body has {actual}",
+                )
+            )
+    return findings
+
+
+def _numbered_lines(text: str) -> list[int]:
+    """Return the leading number of every ``n. `` line in text, in order."""
+    return [int(number) for number in NUMBERED_LINE_PATTERN.findall(text)]
+
+
+def check_archive_battery_items(path: Path, body: str) -> list[Finding]:
+    """Flag a battery whose tag or body breaks the 3-to-6 numbered-items shape, or a stray ``[items: n]``."""
+    findings: list[Finding] = []
+    for entry in parse_question_entries(body):
+        label = f"Q{entry.number:02d}"
+        if entry.probe != "battery":
+            if entry.items is not None:
+                findings.append(
+                    Finding(
+                        "archive-battery-items",
+                        str(path),
+                        f"{label} carries [items: {entry.items}] but its probe is {entry.probe!r}, not battery",
+                    )
+                )
+            continue
+        if entry.items is None:
+            findings.append(Finding("archive-battery-items", str(path), f"{label} is a battery with no [items: n] tag"))
+            continue
+        problems: list[str] = []
+        if entry.items not in BATTERY_ITEMS_RANGE:
+            problems.append("a battery holds 3 to 6 items")
+        question_part, _, answer_part = entry.body.partition("**A:**")
+        expected = list(range(1, entry.items + 1))
+        for kind, numbers in (("items", _numbered_lines(question_part)), ("answers", _numbered_lines(answer_part))):
+            if numbers != expected:
+                problems.append(f"its numbered {kind} are {numbers}")
+        if problems:
+            findings.append(
+                Finding(
+                    "archive-battery-items",
+                    str(path),
+                    f"{label} states [items: {entry.items}] but " + " and ".join(problems),
+                )
+            )
+    return findings
+
+
+def check_archive_optional_section_ids(path: Path, body: str) -> list[Finding]:
+    """Flag a gap or repeat in the line IDs of the optional Open research and Exports sections."""
+    findings: list[Finding] = []
+    for title, prefix in OPTIONAL_SECTIONS:
+        heading = re.search(rf"^## {re.escape(title)}[ \t]*$", body, re.MULTILINE)
+        if heading is None:
+            continue
+        next_section = re.compile(r"^## ", re.MULTILINE).search(body, heading.end())
+        section_text = body[heading.end() : next_section.start() if next_section else len(body)]
+        numbers = [int(number) for number in re.findall(rf"^- {prefix}(\d+)\b", section_text, re.MULTILINE)]
+        expected = list(range(1, len(numbers) + 1))
+        if numbers != expected:
+            findings.append(
+                Finding(
+                    "archive-section-ids",
+                    str(path),
+                    f"the '## {title}' section's IDs {numbers} are not contiguous from {prefix}01 "
+                    f"(expected {expected})",
                 )
             )
     return findings
@@ -332,6 +453,8 @@ def validate_extraction(extraction_dir: Path) -> list[Finding]:
         archive_frontmatter, archive_body, archive_findings = parse_frontmatter(archive_path)
         findings.extend(archive_findings)
         findings.extend(check_archive_question_numbering(archive_path, archive_body))
+        findings.extend(check_archive_battery_items(archive_path, archive_body))
+        findings.extend(check_archive_optional_section_ids(archive_path, archive_body))
         if archive_frontmatter is not None:
             findings.extend(check_archive_category_counts(archive_path, archive_frontmatter, archive_body))
 

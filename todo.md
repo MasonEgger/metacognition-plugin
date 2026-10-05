@@ -30,18 +30,18 @@ Check a step only when every sub-step under it is done.
 
 ## Section 3: Validator
 
-- [ ] Step 3: Probe Counts, the Battery Check, and Optional Sections in validate_artifacts.py
-  - [ ] RED: probe count, battery failures, items tag misuse, evidence count, section IDs, closing battery, two new fixtures
-  - [ ] Document: module docstring check list
-  - [ ] GREEN: heading parsing, probe counting, archive-battery-items, section ID check
-  - [ ] Create tests/fixtures/extractions/woodworking-battery
-  - [ ] Create tests/fixtures/extractions-bad/battery-item-mismatch
-  - [ ] Add both to the fixture READMEs
-  - [ ] RED: earlier fixtures unchanged, yaml parity covers the new ones
-  - [ ] GREEN: fix in the validator only
-  - [ ] REFACTOR: one heading parser
-  - [ ] just sync
-  - [ ] Verify coverage and just check
+- [x] Step 3: Probe Counts, the Battery Check, and Optional Sections in validate_artifacts.py
+  - [x] RED: probe count, battery failures, items tag misuse, evidence count, section IDs, closing battery, two new fixtures
+  - [x] Document: module docstring check list
+  - [x] GREEN: heading parsing, probe counting, archive-battery-items, section ID check
+  - [x] Create tests/fixtures/extractions/woodworking-battery
+  - [x] Create tests/fixtures/extractions-bad/battery-item-mismatch
+  - [x] Add both to the fixture READMEs
+  - [x] RED: earlier fixtures unchanged, yaml parity covers the new ones
+  - [x] GREEN: fix in the validator only
+  - [x] REFACTOR: one heading parser
+  - [x] just sync
+  - [x] Verify coverage and just check
 
 ## Section 4: The Scripts
 
