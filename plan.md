@@ -559,7 +559,7 @@ The evals follow the skill text, and the reader-facing pages say what the skills
 
 ```text
 1. Scope:
-   - Artifacts: docs/stages/interview.md, docs/stages/design.md, docs/stages/compile.md, docs/stages/calibrate.md, docs/stages/skillify.md, docs/stages/index.md, docs/index.md, docs/configuration.md, docs/getting-started.md, README.md.
+   - Artifacts: docs/stages/interview.md, docs/stages/design.md, docs/stages/compile.md, docs/stages/calibrate.md, docs/stages/skillify.md, docs/stages/index.md, docs/index.md, docs/configuration.md, docs/getting-started.md, docs/privacy.md, README.md, and any other docs page the closing sweep finds out of step.
    - Desired end state: no page says the interview asks one question at a time; each stage page describes the new behavior in the page's existing voice.
 
 2. Tooling:
@@ -576,9 +576,11 @@ The evals follow the skill text, and the reader-facing pages say what the skills
    - docs/configuration.md: present `exemplar` as an advanced option most people will not set, and say a missing exemplar is skipped silently. Keep the page in step with src/references/settings.md from Step 11.
    - README.md: add the plugin-dev plugin as a highly recommended companion install, with the stage that uses it (skillify) and the statement that nothing requires it. Put the sentence where the docs can show it too: inside the install snippet section if it reads well on Getting Started, otherwise in its own short section.
    - docs/index.md, docs/stages/index.md, and README.md: change the lines that say the interview asks or you answer "one question at a time" to wording that is true for batteries, keeping each sentence short. Keep the README's three snippet marker pairs intact.
+   - docs/privacy.md: say that an archive can now also hold research findings with their source links and a list of topics the person assigned to other skills, and that both travel with the archive wherever it goes.
+   - Closing sweep: read every page under docs/ against the skills, references, and scripts this phase changed (Steps 1 to 11), and fix any sentence that no longer matches its source. List each page checked in the session summary.
 
 4. Verify:
-   - `grep -rn "one question at a time" README.md docs` returns only lines about design's scoping questions or skillify's role questions; `just check` exits 0.
+   - `grep -rn "one question at a time" README.md docs` returns only lines about design's scoping questions or skillify's role questions; `just docs-build` is clean; `just check` exits 0.
 
 5. Document:
    - none

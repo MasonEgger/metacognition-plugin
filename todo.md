@@ -137,7 +137,9 @@ Check a step only when every sub-step under it is done.
   - [ ] docs/configuration.md: exemplar as an advanced option
   - [ ] docs/index.md, docs/stages/index.md, README.md wording
   - [ ] README.md: plugin-dev as a recommended companion install
-  - [ ] Verify: grep for the old wording, just check
+  - [ ] docs/privacy.md: research findings and exports travel with the archive
+  - [ ] Closing sweep: every docs page checked against the changed skills, references, and scripts
+  - [ ] Verify: grep for the old wording, docs build, just check
 
 ## Section 8: Version and Release Readiness
 
