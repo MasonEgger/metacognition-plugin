@@ -1,22 +1,23 @@
 # Metacognition Plugin: Implementation Plan
 
-Phase: Interview Retro (issue 4).
-Done means a fresh interview run avoids the five failure modes the retro documents, every recommendation in the retro is implemented by a spec goal R1 to R9, and archives written before this phase validate unchanged.
+Phase: Interview Retro (issues 4, 9, and 10).
+Done means a fresh interview run avoids the five failure modes the retro documents, every recommendation in the retro is implemented by a spec goal R1 to R9, the token estimate script and the Python 3.12 floor of issue 9 are in place (R10 and R11), skillify is grounded in the provider's skill-craft baseline per issue 10 (R12), and archives written before this phase validate unchanged.
 
 ## Current Status
 
 Not started.
-Eleven steps across seven sections.
+Fourteen steps across eight sections.
 
 | Section | Steps | State |
 |---|---|---|
-| 1. Formats and References | 1 | pending |
-| 2. Validator | 2 | pending |
-| 3. The Append Script | 3 to 4 | pending |
-| 4. Research Contract and Agent | 5 | pending |
-| 5. The Skills | 6 to 8 | pending |
-| 6. Evals and Docs | 9 to 10 | pending |
-| 7. Version and Release Readiness | 11 | pending |
+| 1. Toolchain Floor | 1 | pending |
+| 2. Formats and References | 2 | pending |
+| 3. Validator | 3 | pending |
+| 4. The Scripts | 4 to 6 | pending |
+| 5. Research Contract and Agent | 7 | pending |
+| 6. The Skills | 8 to 11 | pending |
+| 7. Evals and Docs | 12 to 13 | pending |
+| 8. Version and Release Readiness | 14 | pending |
 
 ## How To Read This Plan
 
@@ -27,9 +28,10 @@ Task steps carry a `(task)` marker in the title; Feature steps carry no marker.
 
 ### Sources
 
-- `spec.md` is the authority: goals R1 to R9, Components E, G, and K, the archive format contract under Component E, and the "Interview retro phase" success criteria.
+- `spec.md` is the authority: goals R1 to R12, Components E, G, K, and L, the archive format contract under Component E, and the "Interview retro phase" success criteria.
 - `.ai-sessions/research/2026-09-30-interview-retro/retro.md` is the reasoning behind each goal.
-- The maintainer's rulings are a comment on issue 4 and are restated in the spec's Roadmap.
+- Issues 9 and 10 are the source for R10 to R12. Where an issue's text and the spec differ (the script's location, for one), the spec wins.
+- The maintainer's rulings are a comment on issue 4 and are restated in the spec's Roadmap, with the rulings on issues 9 and 10.
 - Nothing in this phase reads the private repo.
 
 ### Fences This Plan Must Not Cross
@@ -41,12 +43,14 @@ From spec Invariants, Non-goals, and the Deferred list:
 - Extraction theory keeps sixteen rules. The battery and the evidence probe are rows in rule 16's table.
 - Design's scope Q&A stays one question at a time. The turn discipline changes the interview only.
 - A skill reaches its own files by relative path only. No `${CLAUDE_PLUGIN_ROOT}` and no `../` in any skill. A skill names only the references and scripts in its own sync slice.
-- A skill never names a host tool by its product name. The picker is "the host's choice picker, when the surface has one".
-- Shipped scripts under `src/scripts/` import only the Python standard library and run on Python 3.11 or newer.
+- The choice picker has no common name across surfaces, so the interview calls it "the host's choice picker, when the surface has one".
+- `plugin-dev` is recommended, never required. Every instruction that uses it carries a fallback, and no stage fails without it.
+- A script a skill invokes ships in that skill's `scripts/` directory, synced from `src/scripts/`. Nothing a skill needs goes in `tools/`.
+- Shipped scripts under `src/scripts/` import only the Python standard library and run on Python 3.12 or newer.
 - No model pins, no hooks, no MCP servers, no HTML server, no auto-chaining of stages.
 - SKILL.md frontmatter carries exactly `name`, `version`, `description`, `compatibility`, within the upload limits.
 - `src/` is the single source of truth. Never hand-edit a synced copy; change `src/` and run `just sync`.
-- Versions stay uniform and stay at `0.1.1` until Step 11, which sets `0.2.0` everywhere at once.
+- Versions stay uniform and stay at `0.1.1` until Step 14, which sets `0.2.0` everywhere at once.
 - No real extraction content, and none of the doctrine guard's private tokens, in any shipped tree or fixture.
 - Nothing on the Deferred list is implemented: no HTML redline page, no status dashboard, no new config keys, no `--no-archive` option.
 
@@ -55,11 +59,51 @@ From spec Invariants, Non-goals, and the Deferred list:
 `uv run pytest -q` must pass at the end of every step.
 Three guards shape the order:
 
-- The manifest guard fails when a skill names a file its slice does not ship, or a slice ships a file the skill never names. So the interview slice gains `research-contract.md` and `archive_append.py` in Step 6, the same step that makes the interview skill name them. Steps 3 and 4 leave the manifest alone.
-- The contract guard holds the agent's contract block equal to `src/references/research-contract.md`. Step 5 edits both together.
-- The version guards hold every version source equal, including `pyproject.toml` and the README's beta notice. Step 11 changes them all in one step.
+- The manifest guard fails when a skill names a file its slice does not ship, or a slice ships a file the skill never names. So the interview slice gains `research-contract.md` and `archive_append.py` in Step 8, the same step that makes the interview skill name them, and the compile and calibrate slices gain `update_token_estimate.py` in Step 10 for the same reason. Steps 4 to 6 leave the manifest alone.
+- The contract guard holds the agent's contract block equal to `src/references/research-contract.md`. Step 7 edits both together.
+- The version guards hold every version source equal, including `pyproject.toml` and the README's beta notice. Step 14 changes them all in one step.
 
-## Section 1: Formats and References
+## Section 1: Toolchain Floor
+
+Goal R11.
+The Python floor moves to 3.12 before anything else is written.
+
+**Tools:**
+- Skills: python:python
+- MCPs: none
+- Linters: ruff check --output-format=json, uv run mypy
+
+### Step 1: Raise the Python Floor to 3.12 (task)
+
+**NOTE**: Goal R11. The maintainer ruled the floor is 3.12. This is first so every later step writes for 3.12. Do not touch `.ai-sessions/`, the archived plan, or fixture data. The surface check has not been run, so nobody knows the claude.ai sandbox's Python version; the skills' by-hand fallback is what covers an older sandbox, and that sentence must stay in every skill.
+
+```text
+1. Scope:
+   - Artifacts: pyproject.toml, uv.lock, .github/workflows/ci.yml, the module docstrings under src/scripts/, src/references/ (any file that states the floor), the five metacognition/skills/*/SKILL.md files (the "cannot run" fallback sentences and any compatibility field that names a version), docs/ pages that state the floor, docs/surface-check.md, README.md if it states the floor, CLAUDE.md.
+   - Desired end state: the floor is 3.12 everywhere it is stated, CI runs 3.12 and 3.13, and no shipped file still says 3.11.
+
+2. Tooling:
+   - Skills: python:python
+   - MCPs: none
+   - External: uv lock, just sync, just check
+
+3. Do the work:
+   - In pyproject.toml set requires-python to ">=3.12", the ruff target to py312, and the mypy python_version if one is set.
+   - Run `uv lock`.
+   - In .github/workflows/ci.yml change the matrix to 3.12 and 3.13 and update the header comment. Change no action pin.
+   - Run `grep -rn "3\.11" --include="*.md" --include="*.py" --include="*.toml" --include="*.yml" . ` excluding .venv, site, dist, .ai-sessions, and uv.lock, and update each remaining statement of the floor to 3.12. A line that records history (the spec's "raised from 3.11" note) stays.
+   - Run `just fmt`, since a new ruff target can change what the formatter and linter accept, and fix any new finding in the code, never by loosening the config.
+   - Run `just sync`.
+   - In docs/surface-check.md, make sure the claude.ai section asks for the sandbox's Python version to be recorded.
+
+4. Verify:
+   - The grep above returns only history lines; `just check` exits 0; `python3 tools/sync_skills.py --check` exits 0.
+
+5. Document:
+   - CLAUDE.md: the floor is 3.12 and CI runs 3.12 and 3.13.
+```
+
+## Section 2: Formats and References
 
 Goals R1, R2, R4, R5, R6, R8.
 The three references that define the archive, the interview spec, and the technique table, with the docs pages that restate them.
@@ -69,9 +113,9 @@ The three references that define the archive, the interview spec, and the techni
 - MCPs: none
 - Linters: python3 tools/prose_scrub.py, python3 tools/sync_skills.py --check
 
-### Step 1: Extend the Archive, Interview Spec, and Technique References (task)
+### Step 2: Extend the Archive, Interview Spec, and Technique References (task)
 
-**NOTE**: The contract is the fenced block under "The archive format after the interview retro phase" in spec Component E. The references describe counting and checks that Step 2 implements; that gap inside the branch is expected. Keep every existing rule in these files. The fenced templates are copied verbatim by weaker models, so every example must be canonical.
+**NOTE**: The contract is the fenced block under "The archive format after the interview retro phase" in spec Component E. The references describe counting and checks that Step 3 implements; that gap inside the branch is expected. Keep every existing rule in these files. The fenced templates are copied verbatim by weaker models, so every example must be canonical.
 
 ```text
 1. Scope:
@@ -109,10 +153,10 @@ The three references that define the archive, the interview spec, and the techni
    - `python3 tools/sync_skills.py --check` exits 0, `python3 tools/prose_scrub.py` exits 0, and `just check` exits 0.
 
 5. Document:
-   - CLAUDE.md: note that the archive format now has two optional sections and two more probe types, and that the validator does not yet enforce them until Step 2.
+   - CLAUDE.md: note that the archive format now has two optional sections and two more probe types, and that the validator does not yet enforce them until Step 3.
 ```
 
-## Section 2: Validator
+## Section 3: Validator
 
 Goal R4 and Component E.
 The validator learns probe counting, the battery check, and the optional sections.
@@ -122,7 +166,7 @@ The validator learns probe counting, the battery check, and the optional section
 - MCPs: none
 - Linters: ruff check --output-format=json, uv run mypy
 
-### Step 2: Probe Counts, the Battery Check, and Optional Sections in validate_artifacts.py
+### Step 3: Probe Counts, the Battery Check, and Optional Sections in validate_artifacts.py
 
 **NOTE**: An archive with no battery and neither optional section must validate exactly as before; the existing tests are the proof and none of them may change. Build tmp_path archives in tests with a small helper in the test module, the way `_minimal_profile_markdown` does for profiles. The two new fixture directories are synthetic woodworking data in the existing persona's voice; copy `tests/fixtures/extractions/woodworking/interview-spec.md` and `README.md` as the starting point and adapt them.
 
@@ -165,17 +209,17 @@ The validator learns probe counting, the battery check, and the optional section
 8. Verify meaningful coverage of the probe count, each battery failure, and the optional sections, then run `just check`.
 ```
 
-## Section 3: The Append Script
+## Section 4: The Scripts
 
-Goal R7 and Component K.
-One call that appends an entry and updates every counter.
+Goals R7 and R10, Components K and L.
+Two scripts that replace hand bookkeeping: one appends an archive entry, one keeps a profile's token estimate current.
 
 **Tools:**
 - Skills: python:python
 - MCPs: none
 - Linters: ruff check --output-format=json, uv run mypy
 
-### Step 3: archive_append.py for a Single Entry
+### Step 4: archive_append.py for a Single Entry
 
 **NOTE**: Read spec Component K in full before writing tests. The script edits the frontmatter in place: it rewrites only the `questions_asked` line and the `categories` line and leaves every other byte of the frontmatter alone. Follow the import pattern the other shipped scripts use so the file works both under pytest and as `python3 scripts/archive_append.py` from another directory. Do not add the script to the sync manifest in this step.
 
@@ -212,9 +256,9 @@ One call that appends an entry and updates every counter.
 8. Verify meaningful coverage of the counters, the README cell, the normalization, and each error, then run `just check`.
 ```
 
-### Step 4: Batteries, Closing Questions, and Section Lines in archive_append.py
+### Step 5: Batteries, Closing Questions, and Section Lines in archive_append.py
 
-**NOTE**: Builds on Step 3. A battery's question text is the stem followed by numbered item lines; its answer text is numbered answer lines. The script counts the numbered lines itself and refuses a mismatch with `--items`.
+**NOTE**: Builds on Step 4. A battery's question text is the stem followed by numbered item lines; its answer text is numbered answer lines. The script counts the numbered lines itself and refuses a mismatch with `--items`.
 
 ```text
 1. RED: Write tests first:
@@ -245,7 +289,46 @@ One call that appends an entry and updates every counter.
 8. Verify meaningful coverage of every flag and every refusal, then run `just check`.
 ```
 
-## Section 4: Research Contract and Agent
+### Step 6: update_token_estimate.py
+
+**NOTE**: Goal R10 and spec Component L. The estimate must be the validator's own number, so both call one function; put it where both can import it without a new module in any slice that does not ship both. Follow the conventions Steps 4 and 5 set in archive_append.py: `main(argv)` returning the exit code, exit 2 with one line for a bad input, a write by temporary file and rename, and the sibling-import pattern. Do not add the script to the sync manifest in this step; Step 10 does that with the skill text.
+
+```text
+1. RED: Write tests first, each on a profile under tmp_path built with a small helper:
+   - Create tests/test_update_token_estimate.py:
+     - Test the arithmetic: a body of exactly 4,000 characters gives 1000, and 4,003 characters gives 1000 (integer division), counting characters, not bytes, with a non-ASCII character in the body.
+     - Test that a profile whose stored estimate matches exits 0, reports it is current, and leaves the file byte-identical.
+     - Test that a stale profile is rewritten in default mode: exit 0, the report names the old and new values, the token_estimate line holds the new value, and every other byte of the file is unchanged.
+     - Test that a body line that begins with "token_estimate:" is not touched, and that the frontmatter line is.
+     - Test that --check and -c on a stale profile exit 1, name the file, and leave it byte-identical.
+     - Test exit 2 with one line naming the file for: a missing path, a file with no frontmatter, a file with no closing delimiter, and a frontmatter with no token_estimate line.
+     - Test several paths in one call: a current one, a stale one, and a malformed one give exit 2, the stale one is still rewritten in default mode, and under --check nothing is written and the exit code is still 2.
+     - Test that after a rewrite, validate_artifacts reports no profile-token-estimate-mismatch for that profile.
+     - Test that no temporary file is left behind.
+   - Run the tests and confirm they fail before writing the implementation.
+
+2. Document:
+   - Module docstring: the CLI, the three exit codes, and the statement that only the token_estimate frontmatter line is ever changed.
+
+3. GREEN: Write minimal code:
+   - Create src/scripts/update_token_estimate.py, standard library only.
+   - Split on the frontmatter delimiters and find the token_estimate line by its prefix; no regular-expression parsing and no YAML round trip.
+   - Make the validator and this script call one estimate function, and keep every existing validator test passing unchanged.
+
+4. RED: Add integration tests:
+   - Create or extend a test that runs main(["--check", ...]) over every profile.md under tests/fixtures/extractions/ and expects exit 0, so a committed good fixture with a stale estimate fails the suite.
+   - Test a subprocess run from another working directory.
+
+5. GREEN: Wire the CLI entry point.
+
+6. REFACTOR: One pure function that takes file text and returns the new text and the old and new values, so only one function touches the disk.
+
+7. Update documentation: none beyond the docstring.
+
+8. Verify meaningful coverage of the arithmetic, the frontmatter-only replacement, and all three exit codes, then run `just check`.
+```
+
+## Section 5: Research Contract and Agent
 
 Goal R2 and Component G.
 The research contract gains the practice lookup.
@@ -255,7 +338,7 @@ The research contract gains the practice lookup.
 - MCPs: none
 - Linters: python3 tools/prose_scrub.py, python3 tools/sync_skills.py --check
 
-### Step 5: Add the Practice Lookup to the Research Contract and the Agent
+### Step 7: Add the Practice Lookup to the Research Contract and the Agent
 
 **NOTE**: `tests/test_research_contract.py` holds the block between the `research-contract:begin` and `research-contract:end` markers in `metacognition/agents/domain-research.md` equal to `src/references/research-contract.md`. Edit the reference, then copy it into the agent. The domain survey shape must not change.
 
@@ -286,17 +369,17 @@ The research contract gains the practice lookup.
 8. Verify with `just check` and `claude plugin validate ./metacognition`.
 ```
 
-## Section 5: The Skills
+## Section 6: The Skills
 
-Goals R1 to R8.
-The interview, design, compile, and skillify skills take the new rules.
+Goals R1 to R8, R10, and R12.
+The interview, design, compile, calibrate, and skillify skills take the new rules.
 
 **Tools:**
 - Skills: plugin-dev:skill-development, skill-creator:skill-creator
 - MCPs: none
 - Linters: python3 tools/prose_scrub.py, python3 tools/sync_skills.py --check
 
-### Step 6: Rewrite the Interview Loop and Wire the Interview Slice (task)
+### Step 8: Rewrite the Interview Loop and Wire the Interview Slice (task)
 
 **NOTE**: This is the center of the phase. Read the retro's sections on what failed and recommendations 1, 2, 3, 7, and 8 before editing. Keep every existing rule of the skill that this step does not explicitly change: verbatim capture, pushback, ledger callouts, thread following, the 20-question disconfirmation, resume, the closing questions, and the closing self-check. The skill body and its description must stay within the upload limits. The manifest change and the skill text land together or the manifest guard fails.
 
@@ -332,7 +415,7 @@ The interview, design, compile, and skillify skills take the new rules.
    - CLAUDE.md: the interview slice now ships four scripts and five references, and the synced file count; the append script is the interview's write path.
 ```
 
-### Step 7: Design Checks Artifacts and Plans Register Coverage (task)
+### Step 9: Design Checks Artifacts and Plans Register Coverage (task)
 
 **NOTE**: Design's scope Q&A stays one question at a time; do not touch that section. Read retro recommendations 4 and 5.
 
@@ -351,7 +434,7 @@ The interview, design, compile, and skillify skills take the new rules.
    - In step 5 (Question Seeds) and step 7 (Forced-Choice Bank): seeds and bank entries are concrete scenarios, not abstract framings, with one bad and one good example in woodworking terms. Note which seeds suit a battery.
    - In step 6 (Artifact Plan): before writing the plan, check each local path exists and holds real content; record a missing path or an empty skeleton as unavailable with the reason and tell the person now; where the surface has no file access, say the paths could not be checked.
    - In step 8 (Closure Pass): add the register coverage check and the artifact availability check to what the pass confirms.
-   - Keep the template the skill writes in step with src/references/interview-spec-format.md from Step 1.
+   - Keep the template the skill writes in step with src/references/interview-spec-format.md from Step 2.
 
 4. Verify:
    - `just check` exits 0 and `claude plugin validate ./metacognition` passes.
@@ -360,14 +443,14 @@ The interview, design, compile, and skillify skills take the new rules.
    - none
 ```
 
-### Step 8: Compile and Skillify Read the New Archive (task)
+### Step 10: Compile and Calibrate Read the New Archive and Use the Estimate Script (task)
 
-**NOTE**: Compile's keep/cut test, its log of every cut, and its rule of never resolving a tension do not change. The profile format's seventeen sections do not change. Check `src/references/profile-format.md` and the compile skill for where `compile-log.md` is described, and put the exports list there.
+**NOTE**: Goals R2, R3, R6, R8, and R10. Compile's keep/cut test, its log of every cut, and its rule of never resolving a tension do not change. The profile format's seventeen sections do not change. Check `src/references/profile-format.md` and the compile skill for where `compile-log.md` is described, and put the exports list there. The manifest change and the skill text land together or the manifest guard fails.
 
 ```text
 1. Scope:
-   - Artifacts: metacognition/skills/compile/SKILL.md, metacognition/skills/skillify/SKILL.md, and src/references/profile-format.md only if it is where the compile log's contents are defined.
-   - Desired end state: compile handles batteries, evidence entries, open research, exports, and meta-rules; skillify reports exports and still derives its section map correctly.
+   - Artifacts: metacognition/skills/compile/SKILL.md, metacognition/skills/calibrate/SKILL.md, tools/sync_skills.py (the MANIFEST entries for compile and calibrate), tests/test_sync_manifest.py (EXPECTED), the synced files, and src/references/profile-format.md only if it defines the compile log's contents or names the one-liner.
+   - Desired end state: compile handles batteries, evidence entries, open research, exports, and meta-rules; compile and calibrate keep the token estimate current with the script; both slices ship it.
 
 2. Tooling:
    - Skills: plugin-dev:skill-development
@@ -375,27 +458,64 @@ The interview, design, compile, and skillify skills take the new rules.
    - External: just sync, python3 tools/prose_scrub.py, claude plugin validate ./metacognition
 
 3. Do the work:
+   - In tools/sync_skills.py add `update_token_estimate.py` to the compile and calibrate scripts, and update EXPECTED in tests/test_sync_manifest.py to match spec G2's table.
    - In metacognition/skills/compile/SKILL.md:
      - State that a battery entry holds several verdicts, each a candidate rule traced to its Qnn and item number.
-     - State the evidence rule (R2): a ratified practice compiles to the written practice with its citation; compile never writes a bare instruction to follow community practice; an unresolved Open research line is listed in the do_not_infer section as not yet settled.
-     - State the exports rule (R6): export content stays out of the profile body, and the list is copied into compile-log.md under its own heading.
-     - State the meta-rule routing (R8): rules about how the person wants judgment exercised are profile content, and name which existing sections take them.
-     - State the picker provenance reading rule (R3): an answer that is only a selected label is the person's choice, and the option text in the Q line is the interviewer's wording, not a quote.
-   - In metacognition/skills/skillify/SKILL.md:
-     - In the finish message, list the archive's exports as follow-up work for other skills, and state that exports are never written into the produced skill.
-     - Confirm in the text that the section map reads `### Qnn [<category>]` and ignores the tags after the category, so `[items: n]` does not disturb it.
-   - If src/references/profile-format.md changes, run `just sync` and update docs/formats/profile.md in the same step.
+     - State the evidence rule: a ratified practice compiles to the written practice with its citation; compile never writes a bare instruction to follow community practice; an unresolved Open research line is listed in the do_not_infer section as not yet settled.
+     - State the exports rule: export content stays out of the profile body, and the list is copied into compile-log.md under its own heading.
+     - State the meta-rule routing: rules about how the person wants judgment exercised are profile content, and name which existing sections take them.
+     - State the picker reading rule: an answer that is only a selected label is the person's choice, and the option text in the Q line is the interviewer's wording, not a quote.
+     - In the token-estimate step, replace the one-liner as the primary instruction with `python3 scripts/update_token_estimate.py <extractions-root>/<slug>/profile.md`, report the value it prints, and keep the one-liner as the stated by-hand fallback for when the script cannot run.
+     - Name the script under Inputs and Outputs and Resources.
+   - In metacognition/skills/calibrate/SKILL.md:
+     - In the fold-back step, after profile.md is edited, run `python3 scripts/update_token_estimate.py` on it, and keep a by-hand fallback sentence that matches compile's.
+     - Name the script under Inputs and Outputs and Resources.
+   - Run `just sync`. If src/references/profile-format.md changed, update docs/formats/profile.md in the same step.
 
 4. Verify:
-   - `just check` exits 0 and `claude plugin validate ./metacognition` passes.
+   - `uv run pytest -q` passes, including both manifest tests; `just check` exits 0; `claude plugin validate ./metacognition` passes.
 
 5. Document:
-   - none
+   - CLAUDE.md: the compile and calibrate slices ship the estimate script, and the synced file count.
 ```
 
-## Section 6: Evals and Docs
+### Step 11: Ground Skillify in the Provider Baseline (task)
 
-Goal R9.
+**NOTE**: Goals R6 and R12, issue 10. `plugin-dev` is a public plugin and is recommended, never required: every sentence that uses it carries the fallback. On claude.ai chat another plugin's skill cannot be loaded, so the fallback is the normal path there. The `exemplar` setting and `resolve_config.py` do not change; only what skillify does with a missing exemplar changes. `src/references/settings.md` must stay in step with `resolve_config.py`. An augment never changes a SKILL.md without a diff the person has reviewed; that invariant stands, and this step adds a decision before the diff, not a way around it.
+
+```text
+1. Scope:
+   - Artifacts: metacognition/skills/skillify/SKILL.md, src/references/settings.md, src/references/skill-scaffold.md if it describes the exemplar, the synced copies.
+   - Desired end state: skillify loads the provider baseline with a stated fallback, treats the exemplar as an advanced option and skips a missing one silently, states the precedence order, assesses structure before an augment diff, and reports exports.
+
+2. Tooling:
+   - Skills: plugin-dev:skill-development
+   - MCPs: none
+   - External: just sync, python3 tools/prose_scrub.py, claude plugin validate ./metacognition
+
+3. Do the work:
+   - In metacognition/skills/skillify/SKILL.md:
+     - In Read First, add the baseline load: before writing a scaffold or proposing a structure, load `plugin-dev:skill-development` through the Skill tool. When it is not installed, or the surface cannot load another plugin's skill, say so in one line, continue on `references/skill-scaffold.md`, and recommend the install in the finish message.
+     - Rewrite the exemplar paragraph: the exemplar is an advanced option; with no setting, or a setting whose path does not exist, skip the read with no message; when one exists it may shape the output, and the baseline review still runs and its findings are answered, not skipped.
+     - State the precedence order in one place: the person's decision, then the provider baseline review, then the exemplar, then the bundled templates.
+     - In the augment path, before the content diff is drafted, add the structural assessment: description triggering, progressive disclosure, size, and reference layout, using the `plugin-dev:skill-reviewer` agent where it can be dispatched and the loaded baseline otherwise. When the structure holds, say so in one line and continue. When it does not, present the best alternative layout beside keep-as-is with the findings as the reasoning, and wait for the person's choice. State that a restructure is applied only on that explicit choice and still goes through a reviewed diff.
+     - State that --dry-run shows the assessment and the options and applies nothing.
+     - In the finish message, list the archive's exports as follow-up work for other skills, and state that exports are never written into the produced skill.
+     - Confirm in the text that the section map reads `### Qnn [<category>]` and ignores the tags after the category.
+     - Update Inputs and Outputs: the baseline skill and the reviewer agent are optional and external, never files in this skill's slice.
+   - In src/references/settings.md: describe `exemplar` as an advanced option most people will not set, and say a path that does not exist is skipped silently. Change nothing about the tiers, the keys, or the `exists` field.
+   - Run `just sync`.
+
+4. Verify:
+   - `just check` exits 0; `claude plugin validate ./metacognition` passes; `grep -n "not found" metacognition/skills/skillify/SKILL.md` shows no instruction to tell the person about a missing exemplar.
+
+5. Document:
+   - CLAUDE.md: skillify uses plugin-dev when present, and the exemplar is an advanced option.
+```
+
+## Section 7: Evals and Docs
+
+Goals R9 and R12.
 The evals follow the skill text, and the reader-facing pages say what the skills now do.
 
 **Tools:**
@@ -403,14 +523,14 @@ The evals follow the skill text, and the reader-facing pages say what the skills
 - MCPs: none
 - Linters: python3 tools/prose_scrub.py
 
-### Step 9: Update the Design and Interview Evals (task)
+### Step 12: Update the Evals (task)
 
 **NOTE**: An eval expectation must be something the skill text states; check each one against the exact wording of the skill it tests. `tests/test_evals.py` requires every fixture path an eval names to exist. Evals are not a gate and are not run in this step.
 
 ```text
 1. Scope:
-   - Artifacts: evals/interview/evals.json, evals/design/evals.json, evals/compile/evals.json, evals/README.md.
-   - Desired end state: the evals describe the behavior of Steps 6 to 8.
+   - Artifacts: evals/interview/evals.json, evals/design/evals.json, evals/compile/evals.json, evals/skillify/evals.json, evals/README.md, and a new fixture plugin under tests/fixtures/plugins/.
+   - Desired end state: the evals describe the behavior of Steps 8 to 11.
 
 2. Tooling:
    - Skills: none
@@ -421,7 +541,10 @@ The evals follow the skill text, and the reader-facing pages say what the skills
    - In evals/interview/evals.json: revise any expectation that says one question per turn; add one eval that runs against a scratch copy of tests/fixtures/extractions/woodworking-battery and expects a battery once the category's shape is known, logged with the items tag and counted as probes; add one eval where the person defers to standard practice and the expected output is same-turn research, ratification, and an evidence entry, or an Open research line marked unresolved when the session has no web access.
    - In evals/design/evals.json: add expectations that an artifact path with no content is reported as unavailable at design time and that every register is targeted in the category map.
    - In evals/compile/evals.json: add an eval on the woodworking-battery fixture expecting exports in compile-log.md and absent from the profile body.
-   - In evals/README.md: describe the new evals in the style of the existing entries.
+   - Create tests/fixtures/plugins/woodshop-sprawl/, a synthetic fixture plugin with one skill whose structure is deliberately poor: a vague description with no trigger phrases, one oversized SKILL.md, and no references. Do not edit the existing woodshop fixture.
+   - In evals/skillify/evals.json: add two augment evals. One targets the existing woodshop fixture skill and expects the one-line verdict that the structure holds, followed by the diff path. The other targets woodshop-sprawl and expects the findings, the alternative layout beside keep-as-is, and no diff drafted before the person chooses. Add expectations that a missing exemplar produces no message and that the finish message recommends the companion install when the baseline could not be loaded.
+   - In evals/compile/evals.json and evals/calibrate/evals.json: where an expectation describes the token estimate step, say it is produced by the script or by the stated fallback.
+   - In evals/README.md: describe the new evals and the new fixture in the style of the existing entries.
 
 4. Verify:
    - `uv run pytest tests/test_evals.py -q` passes and `just check` exits 0.
@@ -430,13 +553,13 @@ The evals follow the skill text, and the reader-facing pages say what the skills
    - none
 ```
 
-### Step 10: Update the Stage Pages and the Front Door (task)
+### Step 13: Update the Stage Pages and the Front Door (task)
 
-**NOTE**: The format pages and the Method page changed in Step 1. This step covers the pages that describe what the stages do. The doctrine guard scans `docs/`, so the repo slug and the credit line stay in the README's marked sections.
+**NOTE**: The format pages and the Method page changed in Step 2. This step covers the pages that describe what the stages do. The doctrine guard scans `docs/`, so the repo slug and the credit line stay in the README's marked sections.
 
 ```text
 1. Scope:
-   - Artifacts: docs/stages/interview.md, docs/stages/design.md, docs/stages/compile.md, docs/stages/skillify.md, docs/stages/index.md, docs/index.md, README.md.
+   - Artifacts: docs/stages/interview.md, docs/stages/design.md, docs/stages/compile.md, docs/stages/calibrate.md, docs/stages/skillify.md, docs/stages/index.md, docs/index.md, docs/configuration.md, docs/getting-started.md, README.md.
    - Desired end state: no page says the interview asks one question at a time; each stage page describes the new behavior in the page's existing voice.
 
 2. Tooling:
@@ -447,8 +570,11 @@ The evals follow the skill text, and the reader-facing pages say what the skills
 3. Do the work:
    - docs/stages/interview.md: describe turns (an open question, or a short battery of three to six verdict items), same-turn research with ratification and what happens with no web access, the picker and its fallback, the progress note's contents, exports, and that each entry is saved as it is answered.
    - docs/stages/design.md: the artifact check and the register coverage rule. Leave "one scoping question at a time" as it is; that is still true.
-   - docs/stages/compile.md: evidence compiles to the written practice with its citation, and exports go to the compile log.
-   - docs/stages/skillify.md: exports are reported as follow-up work.
+   - docs/stages/compile.md: evidence compiles to the written practice with its citation, exports go to the compile log, and the token estimate is kept current by a script.
+   - docs/stages/calibrate.md: the token estimate is refreshed by the same script after a fold-back.
+   - docs/stages/skillify.md: exports are reported as follow-up work; skillify consults the provider's skill-craft guidance when the companion plugin is installed and says so when it is not; augment assesses the existing skill's structure first and never restructures without the person's choice.
+   - docs/configuration.md: present `exemplar` as an advanced option most people will not set, and say a missing exemplar is skipped silently. Keep the page in step with src/references/settings.md from Step 11.
+   - README.md: add the plugin-dev plugin as a highly recommended companion install, with the stage that uses it (skillify) and the statement that nothing requires it. Put the sentence where the docs can show it too: inside the install snippet section if it reads well on Getting Started, otherwise in its own short section.
    - docs/index.md, docs/stages/index.md, and README.md: change the lines that say the interview asks or you answer "one question at a time" to wording that is true for batteries, keeping each sentence short. Keep the README's three snippet marker pairs intact.
 
 4. Verify:
@@ -458,14 +584,14 @@ The evals follow the skill text, and the reader-facing pages say what the skills
    - none
 ```
 
-## Section 7: Version and Release Readiness
+## Section 8: Version and Release Readiness
 
 Goal R9.
 The version moves once, everywhere.
 
 **Tools:** none
 
-### Step 11: Set Version 0.2.0 and Refresh the Release Record (task)
+### Step 14: Set Version 0.2.0 and Refresh the Release Record (task)
 
 **NOTE**: The maintainer ruled `0.2.0` for this phase. Merging a manifest version with no tag publishes a release, so this step makes the pull request a release. `tests/test_skill_versions.py` fails until every source agrees, including `pyproject.toml` and the README's beta notice.
 
@@ -488,7 +614,7 @@ The version moves once, everywhere.
    - `just check` exits 0; `just release-dry` writes dist/metacognition-0.2.0.zip; `claude plugin validate ./metacognition` passes; `python3 tools/sync_skills.py --check` exits 0.
 
 5. Document:
-   - CLAUDE.md: the phase is built, the version is 0.2.0, the four shipped scripts, the two new fixtures, and that the plan is ready to archive after the merge.
+   - CLAUDE.md: the phase is built, the version is 0.2.0, the five shipped scripts, the new fixtures, and that the plan is ready to archive after the merge.
 ```
 
 ## Implementation Guidelines
@@ -510,7 +636,10 @@ The version moves once, everywhere.
 - `archive_append.py` followed by `validate_artifacts.py` exits 0 for an open probe, a battery, an evidence entry, a closing question, and each section line; each documented error exits 2 and leaves both files byte-identical.
 - `validate_artifacts.py` exits 0 on `woodworking-battery`, exits non-zero with `archive-battery-items` only on `battery-item-mismatch`, and gives the same result as before on every earlier fixture.
 - The agent's contract block equals `src/references/research-contract.md`, both request shapes included.
-- `sync_skills.py --check` is clean with the interview slice holding `research-contract.md` and `archive_append.py`.
+- `sync_skills.py --check` is clean with the interview slice holding `research-contract.md` and `archive_append.py`, and the compile and calibrate slices holding `update_token_estimate.py`.
 - The interview skill states the turn discipline, the three-way research fallback, the picker provenance rule, the probe-counting rule, and the capture conventions; the design skill states the artifact check and the register column.
 - The docs pages say what their sources say, and the Method page still counts sixteen rules.
+- `update_token_estimate.py` exits 0, 1, and 2 as Component L states, rewrites only the `token_estimate` line, and a `--check` run over the good fixtures is part of the test suite.
+- The floor is Python 3.12 everywhere it is stated, and CI runs 3.12 and 3.13.
+- Skillify loads the provider baseline with its fallback, skips a missing exemplar silently, and presents keep-or-restructure before an augment diff when the structure is challenged; the skillify eval covers both verdict paths.
 - Every version source reads `0.2.0`.

@@ -3,9 +3,21 @@
 Mirrors plan.md.
 Check a step only when every sub-step under it is done.
 
-## Section 1: Formats and References
+## Section 1: Toolchain Floor
 
-- [ ] Step 1: Extend the Archive, Interview Spec, and Technique References (task)
+- [ ] Step 1: Raise the Python Floor to 3.12 (task)
+  - [ ] pyproject.toml: requires-python, ruff target, mypy version
+  - [ ] uv lock
+  - [ ] ci.yml matrix 3.12 and 3.13
+  - [ ] Every remaining statement of the 3.11 floor in scripts, references, skills, docs
+  - [ ] just fmt, just sync
+  - [ ] docs/surface-check.md asks for the sandbox Python version
+  - [ ] Verify: grep shows history lines only, just check, sync check
+  - [ ] Document: CLAUDE.md note
+
+## Section 2: Formats and References
+
+- [ ] Step 2: Extend the Archive, Interview Spec, and Technique References (task)
   - [ ] archive-format.md: optional Open research and Exports sections, battery and evidence entries in the template
   - [ ] archive-format.md: probe types, items tag, battery body shape, counting rule
   - [ ] archive-format.md: picker provenance, capture conventions, registers may grow
@@ -16,9 +28,9 @@ Check a step only when every sub-step under it is done.
   - [ ] Verify: sync check, prose gate, just check
   - [ ] Document: CLAUDE.md note
 
-## Section 2: Validator
+## Section 3: Validator
 
-- [ ] Step 2: Probe Counts, the Battery Check, and Optional Sections in validate_artifacts.py
+- [ ] Step 3: Probe Counts, the Battery Check, and Optional Sections in validate_artifacts.py
   - [ ] RED: probe count, battery failures, items tag misuse, evidence count, section IDs, closing battery, two new fixtures
   - [ ] Document: module docstring check list
   - [ ] GREEN: heading parsing, probe counting, archive-battery-items, section ID check
@@ -31,9 +43,9 @@ Check a step only when every sub-step under it is done.
   - [ ] just sync
   - [ ] Verify coverage and just check
 
-## Section 3: The Append Script
+## Section 4: The Scripts
 
-- [ ] Step 3: archive_append.py for a Single Entry
+- [ ] Step 4: archive_append.py for a Single Entry
   - [ ] RED: Qnn output, entry placement, counters, README cell, validator round trip, file flags, normalization, errors write nothing, no temp files left
   - [ ] Document: module docstring
   - [ ] GREEN: archive_append.py, validate then write by rename
@@ -41,7 +53,7 @@ Check a step only when every sub-step under it is done.
   - [ ] GREEN: CLI entry point
   - [ ] REFACTOR: request parsing, archive text, README text as pure functions
   - [ ] Verify coverage and just check
-- [ ] Step 4: Batteries, Closing Questions, and Section Lines in archive_append.py
+- [ ] Step 5: Batteries, Closing Questions, and Section Lines in archive_append.py
   - [ ] RED: battery write and counts, items refusals, closing, saturated, ledger, export, research lines, evidence, combined run
   - [ ] Document: docstring flags
   - [ ] GREEN: extend the script
@@ -49,19 +61,27 @@ Check a step only when every sub-step under it is done.
   - [ ] GREEN: fix what the run exposes
   - [ ] REFACTOR: one table for section flags
   - [ ] Verify coverage and just check
+- [ ] Step 6: update_token_estimate.py
+  - [ ] RED: arithmetic, current profile untouched, stale rewrite, body line untouched, check mode, three exit-2 cases, several paths, validator agrees, no temp files
+  - [ ] Document: module docstring
+  - [ ] GREEN: the script, one estimate function shared with the validator
+  - [ ] RED: --check over every good-fixture profile, subprocess from another directory
+  - [ ] GREEN: CLI entry point
+  - [ ] REFACTOR: one pure text-in, text-out function
+  - [ ] Verify coverage and just check
 
-## Section 4: Research Contract and Agent
+## Section 5: Research Contract and Agent
 
-- [ ] Step 5: Add the Practice Lookup to the Research Contract and the Agent
+- [ ] Step 7: Add the Practice Lookup to the Research Contract and the Agent
   - [ ] RED: both request shapes named, practice lookup input, output, and no-results line
   - [ ] Document: research-contract.md practice lookup with one canonical example
   - [ ] GREEN: copy into the agent block, update the agent description and body
   - [ ] just sync
   - [ ] Verify: just check, claude plugin validate
 
-## Section 5: The Skills
+## Section 6: The Skills
 
-- [ ] Step 6: Rewrite the Interview Loop and Wire the Interview Slice (task)
+- [ ] Step 8: Rewrite the Interview Loop and Wire the Interview Slice (task)
   - [ ] MANIFEST and EXPECTED: interview gains research-contract.md and archive_append.py
   - [ ] Turn discipline with one canonical battery example
   - [ ] Live-research protocol with the three-way fallback and the Dispatches line
@@ -73,35 +93,55 @@ Check a step only when every sub-step under it is done.
   - [ ] just sync
   - [ ] Verify: pytest, sync check, claude plugin validate, just check
   - [ ] Document: CLAUDE.md note
-- [ ] Step 7: Design Checks Artifacts and Plans Register Coverage (task)
+- [ ] Step 9: Design Checks Artifacts and Plans Register Coverage (task)
   - [ ] Category map: Registers column, untargeted register rule, floors count probes
   - [ ] Seeds and forced-choice bank: concrete scenarios, battery-suited seeds
   - [ ] Artifact plan: availability check
   - [ ] Closure pass: register and artifact checks
   - [ ] Verify: just check, claude plugin validate
-- [ ] Step 8: Compile and Skillify Read the New Archive (task)
+- [ ] Step 10: Compile and Calibrate Read the New Archive and Use the Estimate Script (task)
+  - [ ] MANIFEST and EXPECTED: compile and calibrate gain update_token_estimate.py
   - [ ] Compile: battery verdicts, evidence rule, exports rule, meta-rule routing, picker reading rule
-  - [ ] Skillify: exports in the finish message, section map ignores later tags
-  - [ ] Sync and docs/formats/profile.md if profile-format.md changed
-  - [ ] Verify: just check, claude plugin validate
+  - [ ] Compile: token-estimate step runs the script, one-liner kept as fallback
+  - [ ] Calibrate: fold-back runs the script, fallback sentence
+  - [ ] Inputs and Outputs and Resources name the script in both skills
+  - [ ] just sync, and docs/formats/profile.md if profile-format.md changed
+  - [ ] Verify: pytest, just check, claude plugin validate
+  - [ ] Document: CLAUDE.md note
+- [ ] Step 11: Ground Skillify in the Provider Baseline (task)
+  - [ ] Read First: load the baseline skill, with the stated fallback
+  - [ ] Exemplar as an advanced option, missing one skipped silently
+  - [ ] Precedence order stated once
+  - [ ] Augment: structural assessment, keep-or-restructure, explicit choice only
+  - [ ] Dry run shows the assessment and applies nothing
+  - [ ] Finish message: exports as follow-up, install recommendation when the baseline was absent
+  - [ ] settings.md: exemplar as an advanced option
+  - [ ] just sync
+  - [ ] Verify: just check, claude plugin validate, grep
+  - [ ] Document: CLAUDE.md note
 
-## Section 6: Evals and Docs
+## Section 7: Evals and Docs
 
-- [ ] Step 9: Update the Design and Interview Evals (task)
+- [ ] Step 12: Update the Evals (task)
   - [ ] Interview evals: battery eval, deferral eval, revised turn expectations
   - [ ] Design evals: unavailable artifact, register coverage
   - [ ] Compile eval: exports in the compile log
+  - [ ] New fixture plugin tests/fixtures/plugins/woodshop-sprawl
+  - [ ] Skillify evals: structure holds, structure challenged, silent exemplar skip, install recommendation
+  - [ ] Compile and calibrate evals: token estimate by script or fallback
   - [ ] evals/README.md
   - [ ] Verify: test_evals, just check
-- [ ] Step 10: Update the Stage Pages and the Front Door (task)
+- [ ] Step 13: Update the Stage Pages and the Front Door (task)
   - [ ] docs/stages/interview.md
-  - [ ] docs/stages/design.md, compile.md, skillify.md
+  - [ ] docs/stages/design.md, compile.md, calibrate.md, skillify.md
+  - [ ] docs/configuration.md: exemplar as an advanced option
   - [ ] docs/index.md, docs/stages/index.md, README.md wording
+  - [ ] README.md: plugin-dev as a recommended companion install
   - [ ] Verify: grep for the old wording, just check
 
-## Section 7: Version and Release Readiness
+## Section 8: Version and Release Readiness
 
-- [ ] Step 11: Set Version 0.2.0 and Refresh the Release Record (task)
+- [ ] Step 14: Set Version 0.2.0 and Refresh the Release Record (task)
   - [ ] 0.2.0 in five SKILL.md files, both manifests, pyproject.toml, README beta section
   - [ ] uv lock
   - [ ] docs/surface-check.md version and automated-checks record
