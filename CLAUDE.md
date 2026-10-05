@@ -27,11 +27,11 @@ The Home and Getting Started pages include three marker-delimited sections of `R
 The beta section is the warning at the top of the docs home page; it carries the version and the repo link, and `tests/test_skill_versions.py` holds its version equal to the manifests, so a version change edits `README.md` too.
 Material hides the header's repo link on narrow screens, and a bare URL is not a link in the built site, so write repo links as Markdown links or in angle brackets.
 `evals/` at the top level holds the five stage `evals.json` files and one README; evals never go inside `metacognition/`, and they are not run as a gate.
-`spec.md` is the authority for what gets built; there is no `plan.md` or `todo.md` at the root until the next phase is planned.
+`spec.md` is the authority for what gets built, `plan.md` is the 11-step build order for the interview retro phase, and `todo.md` tracks progress.
 Read the spec's Invariants, Non-goals, and Deferred list before changing anything: they are hard constraints, and a step that crosses one needs a spec change first.
 Issue #3 (the profile ceiling raised to 10,000) is done and ships as `0.1.1`.
 The active phase is the interview retro (issue #4): the spec's Goals R1 to R9, Component K, and the retro-phase success criteria describe it, and the maintainer's rulings are recorded on the issue.
-It is specced but not planned or built; nothing under `metacognition/`, `src/`, `tests/`, `evals/`, or `docs/` reflects it yet, so do not read the spec's new invariant wording as a description of the shipped skills.
+It is specced and planned on the `interview-retro` branch but not built; nothing under `metacognition/`, `src/`, `tests/`, `evals/`, or `docs/` reflects it yet, so do not read the spec's new invariant wording as a description of the shipped skills.
 Those research files are rewritten from private material and hold no interview answers; keep it that way, and never copy a private retro or archive into this repo verbatim.
 
 ## What Is Being Built

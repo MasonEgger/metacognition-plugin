@@ -81,10 +81,10 @@ Tools the `bpe:validator` agent should consult when reviewing diffs in `/bpe:goa
 
 **Verification command:** sh -c 'uv run pytest -q; rc=$?; [ "$rc" -eq 0 ] || [ "$rc" -eq 5 ]'
 
-**Notes:** The verification command accepts pytest's exit 5 (no tests collected) because plan Steps 1 to 4 land before the first test exists; from Step 5 on it is a plain green-suite check.
+**Notes:** The verification command accepts pytest's exit 5 (no tests collected), a leftover from the first phase's earliest steps; with tests in place it is a plain green-suite check.
 pytest is the goal signal and carries the structural guards (sync drift, sync manifest, version uniformity, upload constraints, doctrine grep, repo prose, eval definitions).
 `just check` is the full gate and adds `ruff format --check`, `ruff check`, `mypy --strict`, and `mkdocs build --strict`; the validator should run those on any diff that touches Python or docs.
-For skill and reference diffs the validator checks that every rule in the private source survives the port unless Component F's port rules remove it, that nothing on the doctrine guard's private-token list appears, and that each skill states its inputs and outputs by path.
+For skill and reference diffs the validator checks that every rule the file held before the diff survives unless a goal of the active phase changes it, that nothing on the doctrine guard's private-token list appears, that each skill states its inputs and outputs by path, and that every example is canonical.
 The Python standards skill is the maintainer's private one; a collaborator without it follows the Python bullet in Invariants.
 
 ## External tool candidates
