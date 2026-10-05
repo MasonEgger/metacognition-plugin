@@ -55,7 +55,7 @@ How the surfaces differ, as documented at claude.com/docs/plugins/platform-suppo
 - No working-directory guard. Every stage runs from any directory.
 - No top-level `bin/` directory in the plugin; claude.ai and Cowork refuse to install a plugin that has one.
 - Versions are uniform: every SKILL.md, `plugin.json`, `marketplace.json`, and `pyproject.toml` carry the same value. During beta the scheme is SemVer `0.x` (initial `0.1.0`); it flips to CalVer `YYYY.MM.DD` (with `.N` for a second release the same day) at the 1.0 maturity milestone. Versions move only on the maintainer's ruling.
-- Pipeline rules that hold on every surface: one question per turn; the interviewer never paraphrases at capture (dash and curly-quote codepoints are the one normalization); compile never resolves a tension and logs every cut; calibrate reads the profile and never the archive; every calibration artifact is labeled a probe that never ships; no stage starts the next one.
+- Pipeline rules that hold on every surface: one probe or one battery per turn (a battery is three to six closed verdict items in a single category; two open probes never share a turn, and a battery never mixes categories); a deferral to outside practice is researched in the same turn or recorded as open research, never banked silently; the interviewer never paraphrases at capture (dash and curly-quote codepoints are the one normalization); compile never resolves a tension and logs every cut; calibrate reads the profile and never the archive; every calibration artifact is labeled a probe that never ships; no stage starts the next one.
 - Augment is the default whenever a skill already exists for the domain, and an augment never changes a SKILL.md without a diff the person has reviewed.
 - Every setting has a default, and a missing config file is never an error. An unknown key or a wrong type in a config file is a loud error.
 - Every example in a skill or reference is canonical; weaker models copy examples verbatim.
@@ -102,7 +102,7 @@ Cached from `/bpe:plan` Pass 2 discovery (2026-10-01). The installed, invocable 
 - profile-ceiling: the profile token ceiling raised from 5,000 to 10,000, with its validator, format, fixture, docs, and eval changes, released as `v0.1.1`; issue #3, no plan archive (.ai-sessions/research/2026-10-02-profile-ceiling-port/)
 
 **Upcoming:**
-- interview retro: update the design and interview skills from the retro on the first full pipeline run (verdict batteries, live research in the interview, picker provenance, floors that count probes, an exports section, an archive append script). It changes the "one question per turn" invariant, so it needs its own spec slice and the maintainer's answers to the retro's open questions first. Tracked as issue #4; the retro is `.ai-sessions/research/2026-09-30-interview-retro/retro.md`.
+- interview retro (the active phase, specced under Goals): update the design and interview skills from the retro on the first full pipeline run. Tracked as issue #4; the retro is `.ai-sessions/research/2026-09-30-interview-retro/retro.md`. The maintainer's rulings of 2026-10-03 are recorded on the issue and carried in the goals: floors count probes; the append script is built in this phase; live research has no cap and its count is reported at checkpoints; the interview uses the design stage's three-way research fallback; the evidence probe is a row in rule 16's table; all nine recommendations are in scope; the phase ships as `0.2.0`.
 - private cutover: the private marketplace removes its own `metacognition/`, installs this plugin from this marketplace, and moves its Obsidian sync stage into its private `productivity` plugin. That work happens in the private repo and is specced there.
 
 **Deferred:**
@@ -118,9 +118,73 @@ Cached from `/bpe:plan` Pass 2 discovery (2026-10-01). The installed, invocable 
 
 ## Goals
 
-### Active Phase: Port From Private Main
+### Active Phase: Interview Retro
 
-Done means a person with no access to the private repo can install the plugin on any of the three surfaces and run all five stages, and the maintainer has changed nothing in the private repo.
+Done means a fresh interview run avoids the five failure modes the retro documents: an interview that is too reserved early, deferrals banked silently, floors that stop measuring coverage once batteries are used, four to five file edits per answer, and picker answers that mix the interviewer's words into the answer line.
+Each of the retro's nine recommendations is implemented by a goal below.
+Existing extractions stay valid: every format change is additive, and an archive written before this phase passes the validator unchanged.
+
+#### R1: Turn Discipline and Batteries
+
+- The interview loop's first rule becomes a turn discipline. A turn is one open probe, or one battery: three to six closed verdict items, all in one category, each answerable with a stance and a sentence. Two open probes never share a turn, and a battery never mixes categories.
+- Open probes lead early, while the map of the person's judgment is forming, and whenever an answer needs laddering. Batteries take over once a category's shape is known and what remains is collecting verdicts. A battery item that gets a surprising answer earns an open follow-up.
+- A request from the person for more concrete questions is a standing instruction for the rest of the interview, not a one-turn preference.
+- Question seeds and forced-choice entries favor concrete scenarios over abstract framings, in design and in the interview.
+- `battery` joins the probe types. Extraction theory rule 16's table gains two rows, the verdict battery and the evidence probe (R2), and the rule count stays sixteen.
+- Design's own scope Q&A stays one question at a time. This goal changes the interview only.
+
+#### R2: Live Research in the Interview
+
+- When the person defers to outside practice ("look up what is standard") or asks for research, the interview researches in the same turn. It never banks a deferral for a later stage.
+- Three-way fallback, the same as design's: dispatch the research agent where the surface loads plugin agents; otherwise run the same contract in-session with web access; with no web access, say so in one line, record the deferral under Open research as `unresolved`, and continue.
+- When research returns, the interviewer presents the bottom lines with their sources, asks the person to ratify, adjust, or reject each, and logs the outcome as its own question entry with probe type `evidence`: the question line carries the findings and links, the answer line carries the person's reaction verbatim. A deferral that committed in advance ("whatever the standard is, do that") still gets presented and ratified.
+- No cap on research rounds. Each 20-question progress note states the running count of research rounds.
+- The research contract gains a second request shape, the practice lookup: input is one question about practice in the domain plus the person's stated lean, output is a short list of bottom lines, each with a source link, or the `no relevant results` line (Component G).
+- Compile never writes a bare instruction to follow community practice. A ratified deferral compiles to the written practice with its citation; an `unresolved` one is listed in `<do_not_infer>` as not yet settled.
+
+#### R3: Picker Use and Provenance
+
+- Forced-choice probes, battery items the person answers by choosing, and research ratifications go through the host's choice picker when the surface has one. Open probes never do. With no picker, the same options are written as a lettered list in the turn.
+- A picked answer logs the selected label verbatim and nothing else, followed by any words the person added, verbatim. Option description text is the interviewer's, so it is written into the question line as part of the option and never into the answer line.
+
+#### R4: Floors Count Probes
+
+- A category's `asked` count is a count of probes, not turns. An open probe, a forced choice, or an evidence entry counts one; a battery counts its number of items.
+- `questions_asked` stays the count of `### Qnn` entries. The README's `interview n/floor` cell shows probes over the floor sum, may exceed the floor, and is marked complete when the archive's status flips.
+- The interview spec format states the counting rule beside the category map, so design's floors and the interview's counters measure the same thing. Default floors do not change.
+
+#### R5: Design Verifies Artifacts and Plans Register Coverage
+
+- Before writing the artifact plan, design checks that each local path exists and holds real content. A missing path or an empty skeleton is recorded in the plan as unavailable, and the person is told at design time. Where the surface has no file access, design says it could not check.
+- The category map gains a registers column naming which registers each category's questions target. A register that no category targets is a design-time error that design resolves with the person before writing the spec.
+- The interview's progress note reports register coverage beside category coverage. A question with no register-specific content takes the domain's primary register, the first in `registers`. A register that surfaces mid-interview is raised with the person and, if accepted, added to the archive's `registers`.
+
+#### R6: Exports
+
+- The archive gains an optional `## Exports` section, kept up during the interview like the ledger. One line per redirect: `- E01 (Q92): <topic> -> <destination>`, where the destination is a skill the person named or `unassigned`.
+- An export records taste the person voiced but assigned to a different skill's territory. Compile leaves export content out of the profile body and copies the list into `compile-log.md`. Skillify names the exports as follow-up work in its finish message and never writes them into the produced skill.
+
+#### R7: The Append Script
+
+- A fourth shipped script, `src/scripts/archive_append.py` (Component K), appends one entry and updates every counter in one call. The interview skill uses it in place of separate edits to the count, the category tally, the body, and the README cell.
+- When the script cannot run, the skill makes one edit to `archive.md` that carries the body and the frontmatter counters together, then one edit to the README cell.
+
+#### R8: Capture Conventions and Meta-Rule Routing
+
+- Written into the interview skill and the archive format: when the person interrupts and dictates an answer again, the corrected dictation replaces the answer; a question the person did not understand is not logged, and the reframed question that got an answer is the entry of record; labels in the conversation may drift, and the archive's contiguous numbering is authoritative.
+- Written into the compile skill: rules about how the person wants judgment exercised (when to reconsider a past decision, whose decisions outrank an adopted outside reference, removing before adding, how to raise a discouraged pattern, what posture to take where nothing is codified) are profile content. Compile places them in the existing sections; the seventeen profile sections and their order do not change.
+
+#### R9: Fixtures, Evals, Docs, and Version
+
+- A new synthetic fixture, `tests/fixtures/extractions/woodworking-battery`, exercises a battery, an evidence entry, an export, and an open-research line, and passes the validator. A new bad case, `extractions-bad/battery-item-mismatch`, fails with the battery finding only. The existing fixtures are not edited.
+- The design and interview evals follow the changed skill text: an interview eval expects a battery once a category's shape is known and same-turn research on a deferral; a design eval expects an unavailable artifact to be reported and every register to be targeted. Evals stay out of the gate.
+- Docs pages change with their sources in the same pull request: the interview, design, compile, and skillify stage pages, the `archive.md` and `interview-spec.md` format pages, and the Method page's rule 16 table.
+- The phase ships as `0.2.0` in every version source, including `pyproject.toml`, `uv.lock`, and the README's beta notice.
+
+### Shipped Baseline: Port From Private Main
+
+These goals describe what the first phase built and what still holds.
+A person with no access to the private repo can install the plugin on any of the three surfaces and run all five stages.
 
 #### G1: Repo Scaffold and Toolchain
 
@@ -138,18 +202,19 @@ The manifest is declared by hand in the tool, one entry per skill, starting from
 | Skill | References | Scripts |
 |---|---|---|
 | design | settings, extraction-theory, interview-spec-format, research-contract | yaml_subset, resolve_config |
-| interview | settings, extraction-theory, interview-spec-format, archive-format | yaml_subset, resolve_config, validate_artifacts |
+| interview | settings, extraction-theory, interview-spec-format, archive-format, research-contract | yaml_subset, resolve_config, validate_artifacts, archive_append |
 | compile | settings, extraction-theory, interview-spec-format, archive-format, profile-format | yaml_subset, resolve_config, validate_artifacts |
 | calibrate | settings, extraction-theory, interview-spec-format, profile-format, calibration-protocol | yaml_subset, resolve_config, validate_artifacts |
 | skillify | settings, extraction-theory, interview-spec-format, archive-format, profile-format, skill-scaffold | yaml_subset, resolve_config |
 
 #### G3: Shipped Scripts
 
-Three standard-library modules under `src/scripts/`, each with a CLI and a pytest suite (Components C, D, E):
+Four standard-library modules under `src/scripts/`, each with a CLI and a pytest suite (Components C, D, E, K):
 
 - `yaml_subset.py`: a strict parser for the YAML subset the artifact formats and config files use.
 - `validate_artifacts.py`: the private `validate-artifacts.py` ported onto `yaml_subset`, same nine checks, same findings, same exit codes, with a 10,000-token ceiling (5,000 on private `main` at the port commit, raised by issue #3).
 - `resolve_config.py`: the tiered settings resolver.
+- `archive_append.py`: appends one interview entry and updates every counter in one call (goal R7).
 
 Skills invoke them as `python3 scripts/<name>.py`.
 When a script cannot run (no code execution, or an interpreter older than 3.11), the skill applies the same rules by hand from its references and says so in one line.
@@ -165,6 +230,7 @@ Every behavior in the private skills survives unless a port rule removes or chan
 Port `agents/domain-research.md` with the model pin removed and no `${CLAUDE_PLUGIN_ROOT}` text.
 Its output contract lives once in `src/references/research-contract.md`; a test holds the agent file's contract block equal to it.
 Design dispatches the agent where the surface loads plugin agents, and otherwise runs the same contract itself in-session; with no web access it says so and continues on the scoping answers alone.
+The interview uses the same agent and the same three-way fallback for practice lookups (goal R2).
 
 #### G6: Fixtures and Evals
 
@@ -230,7 +296,7 @@ metacognition/                    the installable plugin
   skills/<stage>/scripts/         synced from src/scripts/
 src/references/                   settings, extraction-theory, interview-spec-format, archive-format,
                                   profile-format, calibration-protocol, skill-scaffold, research-contract
-src/scripts/                      yaml_subset.py, validate_artifacts.py, resolve_config.py
+src/scripts/                      yaml_subset.py, validate_artifacts.py, resolve_config.py, archive_append.py
 tools/                            sync_skills.py, build_zips.py, prose_scrub.py
 tests/                            pytest suites and fixtures/
 evals/                            README.md and <stage>/evals.json
@@ -280,8 +346,47 @@ A configured `exemplar` that does not exist is not an error here: skillify tells
 Input: one extraction directory.
 Output: exit 0 when clean; non-zero with a findings list otherwise.
 Checks, unchanged from private `main`: directory missing, directory empty, frontmatter parse, archive question numbering, archive category counts, profile token ceiling (10,000, raised from 5,000 by issue #3 after a four-register profile could not fit without cutting lines that passed the keep/cut test), token estimate mismatch, missing profile section, profile section order, incomplete golden example, calibration round contiguity.
+The archive category count is a count of probes (goal R4): each `### Qnn [<category>]` heading counts one, except a battery, which counts the number in its `[items: n]` tag.
+One check added by the interview retro phase, `archive-battery-items`: a heading with `[probe: battery]` carries `[items: n]` with n from 3 to 6, and its body holds exactly n numbered items under `**Q:**` and n numbered answers under `**A:**`; an `[items: n]` tag on any other probe type is also a finding.
+The optional `## Open research` and `## Exports` sections are accepted when present and never required; the validator checks only that their line IDs (`R01`, `E01`) run contiguously.
+An archive with no battery and neither optional section validates exactly as before.
 It owns structure only; prose belongs to `tools/prose_scrub.py`.
-`tests/test_validate_artifacts.py` is the private suite ported: pass on `woodworking`, fail on each `extractions-bad` case with the expected finding.
+`tests/test_validate_artifacts.py` is the private suite ported, plus the cases this phase adds: pass on `woodworking` and `woodworking-battery`, fail on each `extractions-bad` case with the expected finding.
+
+**The archive format after the interview retro phase** (`src/references/archive-format.md` is the full statement; this is the contract the validator and the append script share).
+
+```markdown
+## Contradiction ledger
+- L01 (Q07 vs Q23): "<claim A>" vs "<claim B>". Resolution: <...>
+
+## Open research
+- R01 (Q73): <what the person deferred to>. Status: unresolved | resolved in Q74
+
+## Exports
+- E01 (Q92): <topic> -> <destination skill or unassigned>
+
+## Questions
+### Q46 [<category>] [<register>] [probe: ladder]
+**Q:** <question>
+**A:** <verbatim answer>
+
+### Q47 [<category>] [<register>] [probe: battery] [items: 3]
+**Q:** <stem>
+1. <item>
+2. <item>
+3. <item>
+**A:**
+1. <verbatim answer>
+2. <verbatim answer>
+3. <verbatim answer>
+
+### Q74 [<category>] [<register>] [probe: evidence]
+**Q:** <bottom lines with source links, and the ratification question>
+**A:** <verbatim reaction>
+```
+
+Probe types: `forced-choice`, `ladder`, `contrast`, `artifact`, `critical-incident`, `triad`, `battery`, `evidence`.
+Every entry other than a battery keeps the two-line body.
 
 **Component F, the five skills and their port rules.**
 Each skill declares its inputs and outputs by path and keeps its private procedure.
@@ -308,8 +413,9 @@ Skillify changes beyond those rules:
 - Loader: on Claude Code, skillify may offer a `~/.claude/rules/<slug>.md` pointer so the skill loads for matching files, and writes it only on approval. On other surfaces the step is skipped.
 
 **Component G, `metacognition/agents/domain-research.md`.**
-Input: a domain sentence, the consumer capability, optional artifact paths.
-Output: the fixed four-block shape (dimensions, schools, vocabulary, artifact types) or the `no relevant results` line.
+Two request shapes.
+Domain survey (design): input is a domain sentence, the consumer capability, and optional artifact paths; output is the fixed four-block shape (dimensions, schools, vocabulary, artifact types) or the `no relevant results` line.
+Practice lookup (interview, goal R2): input is one question about practice in the domain and the person's stated lean; output is up to five bottom lines, each one sentence with a source link, or the `no relevant results` line.
 Read-only tools; never dispatches.
 The contract text equals `src/references/research-contract.md`, held by a test.
 
@@ -330,7 +436,30 @@ Output: a site that `mkdocs build --strict` builds with no warnings, deployed by
 The Method and File Formats pages are written from `src/references/` and say the same thing; when a reference changes, its page changes in the same pull request.
 Enabling Pages on the repository is a one-time manual step for the maintainer.
 
+**Component K, `src/scripts/archive_append.py`.**
+Input: one extraction directory and one entry: `--category`, `--register`, `--probe`, the question and the answer (each given inline or as a UTF-8 file, `--question-file` and `--answer-file`), and for a battery `--items n` with the items and answers as numbered lines.
+Optional: `--saturated` to flip the category's flag, `--ledger <line>`, `--export <line>`, and `--research <line>` to append one line to that section with the next ID, and `--closing` to log a closing question under the `[closing]` pseudo-category, which touches no category tally.
+Effect, in one run: assigns the next `Qnn`; appends the entry under `## Questions`; raises `questions_asked` by one and the category's `asked` by the entry's probe count; creates an optional section the first time a line is added to it; rewrites the README's `interview n/floor` cell.
+It applies the one capture normalization (dash and curly-quote codepoints) to the question and the answer and changes nothing else in them.
+It writes each file to a temporary name and renames it, archive first, so an interruption never leaves a half-written file.
+Output: the assigned `Qnn` on stdout. Exit 0 on success; exit 2 with one line naming the problem on a missing or unparseable archive, a category not in the frontmatter, an `--items` value outside 3 to 6 or disagreeing with the numbered lines, or `--items` without `--probe battery`; on any error nothing is written.
+An archive the script has appended to passes `validate_artifacts.py`; a test holds the two together.
+Standard library only, built on `yaml_subset`, test-first.
+
 ## Success criteria
+
+Interview retro phase:
+
+- Every recommendation in the retro maps to a goal R1 to R9, and each goal's text is present in the skill, reference, or script it names.
+- `archive_append.py` followed by `validate_artifacts.py` exits 0 for an open probe, a battery, an evidence entry, a closing question, and each optional section line; each documented error exits 2 and leaves both files byte-identical.
+- `validate_artifacts.py` exits 0 on `woodworking-battery`, exits non-zero with `archive-battery-items` only on `battery-item-mismatch`, and gives the same result as before on every fixture that existed before this phase.
+- The research contract block in the agent equals `src/references/research-contract.md`, both request shapes included.
+- `sync_skills.py --check` is clean with the interview slice holding `research-contract.md` and `archive_append.py`, and the manifest guard passes.
+- The interview skill states the turn discipline, the three-way research fallback, the picker provenance rule, the probe-counting rule, and the capture conventions; the design skill states the artifact check and the register column; none of them names a tool or a path outside its slice.
+- The docs pages named in R9 say what their sources say, and the Method page still counts sixteen rules.
+- Every version source reads `0.2.0`, and the merge to `main` publishes a `v0.2.0` pre-release.
+
+Baseline, still holding:
 
 - `just check` exits 0 locally and CI is green on the pull request that lands the phase.
 - `claude plugin validate ./metacognition` passes with no errors.
