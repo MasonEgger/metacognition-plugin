@@ -108,17 +108,17 @@ Check a step only when every sub-step under it is done.
   - [x] just sync, and docs/formats/profile.md if profile-format.md changed
   - [x] Verify: pytest, just check, claude plugin validate
   - [x] Document: CLAUDE.md note
-- [ ] Step 11: Ground Skillify in the Provider Baseline (task)
-  - [ ] Read First: load the baseline skill, with the stated fallback
-  - [ ] Exemplar as an advanced option, missing one skipped silently
-  - [ ] Precedence order stated once
-  - [ ] Augment: structural assessment, keep-or-restructure, explicit choice only
-  - [ ] Dry run shows the assessment and applies nothing
-  - [ ] Finish message: exports as follow-up, install recommendation when the baseline was absent
-  - [ ] settings.md: exemplar as an advanced option
-  - [ ] just sync
-  - [ ] Verify: just check, claude plugin validate, grep
-  - [ ] Document: CLAUDE.md note
+- [x] Step 11: Ground Skillify in the Provider Baseline (task)
+  - [x] Read First: load the baseline skill, with the stated fallback
+  - [x] Exemplar as an advanced option, missing one skipped silently
+  - [x] Precedence order stated once
+  - [x] Augment: structural assessment, keep-or-restructure, explicit choice only
+  - [x] Dry run shows the assessment and applies nothing
+  - [x] Finish message: exports as follow-up, install recommendation when the baseline was absent
+  - [x] settings.md: exemplar as an advanced option
+  - [x] just sync
+  - [x] Verify: just check, claude plugin validate, grep
+  - [x] Document: CLAUDE.md note
 
 ## Section 7: Evals and Docs
 

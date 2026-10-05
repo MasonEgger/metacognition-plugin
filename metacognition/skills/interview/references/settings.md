@@ -11,7 +11,7 @@ The script and this reference must agree exactly; a change to one is a change to
 | Key | Meaning | Default |
 |---|---|---|
 | `extractions_root` | Where extraction directories live. Each extraction is `<root>/<slug>/`. | `extractions` |
-| `exemplar` | Path to a skill, either its directory or its `SKILL.md`, whose shape skillify should match. | none |
+| `exemplar` | Advanced option most people will not set. Path to a skill, either its directory or its `SKILL.md`, whose shape skillify may use. | none |
 
 No other key exists.
 Every setting has a default, so no config file is ever required.
@@ -81,7 +81,7 @@ These are not errors:
 - **A missing file**, at any tier. A missing file is skipped silently.
 - **A null value.** `exemplar:` with nothing after the colon counts as unset, so the next tier down supplies the value.
 - **An exemplar that does not exist.** The setting resolves normally and is reported as not existing.
-  Skillify tells the person the exemplar was not found and continues on `references/skill-scaffold.md` alone.
+  Skillify skips a path that does not exist silently, with no message, and continues without it.
 
 ### Run-Time Values
 
