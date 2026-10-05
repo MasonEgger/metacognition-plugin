@@ -2,7 +2,7 @@
 name: compile
 version: 0.1.1
 description: 'This skill should be used when the user asks to "compile the archive for a domain", "compress the interview into a profile", "compile a domain slug into profile.md", "run compile on the completed interview", or runs `/metacognition:compile`. Compresses a completed interview archive into the compressed `profile.md`, applying the keep/cut test to every candidate line and logging every cut to `compile-log.md`. It never asks the person a new taste question; that is the job of `/metacognition:interview`.'
-compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.11 or newer; without them the skill applies the same rules by hand. It reads the extraction files design and interview wrote and writes profile.md and compile-log.md in the same directory, so it needs file access or the files uploaded to the conversation.'
+compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.12 or newer; without them the skill applies the same rules by hand. It reads the extraction files design and interview wrote and writes profile.md and compile-log.md in the same directory, so it needs file access or the files uploaded to the conversation.'
 ---
 
 # Compile
@@ -32,7 +32,7 @@ It is the single source for `profile.md`'s frontmatter fields, its seventeen sec
 2. Resolve settings and the extraction root.
 Run `python3 scripts/resolve_config.py`, passing `--extractions-root <dir>` when that flag was given and `--set key=value` for any setting the person stated in the conversation or in Project instructions.
 Read the JSON it prints, relay any `Loaded config from: <path>` line it printed, and state the root in one line: "Extraction root: `<path>`".
-When the script cannot run (no code execution, or an interpreter older than Python 3.11), apply the same tiers by hand from `references/settings.md`, and say so in one line.
+When the script cannot run (no code execution, or an interpreter older than Python 3.12), apply the same tiers by hand from `references/settings.md`, and say so in one line.
 3. Resolve the slug: if `[domain-slug]` was passed, use it directly; if it was omitted, use the only extraction under the root and error if there are zero or several, naming each candidate slug in the error so the person can retry with one named.
 4. Load `<extractions-root>/<slug>/interview-spec.md`.
 Missing means there is nothing compile can ground its frontmatter in; stop and name `/metacognition:design <domain>` as the prerequisite.
@@ -105,7 +105,7 @@ A domain the archive never touched belongs here, explicitly named, rather than l
 
 After `profile.md` and `compile-log.md` are both written, run `python3 scripts/validate_artifacts.py <extractions-root>/<slug>` against the extraction and resolve every finding it reports before telling the person compile is done.
 A finding here, a missing section, an out-of-order section, an incomplete golden example, a stale `token_estimate`, means the just-written `profile.md` does not satisfy the structural contract downstream stages assume; fix it now, while this session's context is still loaded, rather than leaving it for calibrate or skillify to trip over.
-When the script cannot run (no code execution, or an interpreter older than Python 3.11), say so in one line and check the same things by hand against `references/profile-format.md`: the frontmatter parses, the body stays at or under the 10,000-token ceiling counted as characters divided by four, the stored `token_estimate` equals that same count, all seventeen sections are present in the fixed order, and every golden example carries `<bad>`, `<good>`, and `<why>`.
+When the script cannot run (no code execution, or an interpreter older than Python 3.12), say so in one line and check the same things by hand against `references/profile-format.md`: the frontmatter parses, the body stays at or under the 10,000-token ceiling counted as characters divided by four, the stored `token_estimate` equals that same count, all seventeen sections are present in the fixed order, and every golden example carries `<bad>`, `<good>`, and `<why>`.
 
 ## Finish
 

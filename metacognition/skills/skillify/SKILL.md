@@ -2,7 +2,7 @@
 name: skillify
 version: 0.1.1
 description: 'This skill should be used when the user asks to "skillify a domain", "turn the profile into a skill", "turn this profile into a skill", "augment a skill with the profile", "scaffold a new skill from the profile", "greenfield a skill for a domain", "replace a skill with the profile", or runs `/metacognition:skillify`. Turns a calibrated `profile.md` into a taste skill the person actually invokes: greenfield when no `target_skill` is set, augment (the default whenever one is) otherwise. The augment path always stops at a reviewed `SKILL.md` diff; nothing lands in an existing skill without the person''s approval.'
-compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.11 or newer; without them the skill applies the same rules by hand. It reads the extraction files and writes a skill directory, plus a zip package where a zip command can run, so it needs file access or the files uploaded to the conversation.'
+compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.12 or newer; without them the skill applies the same rules by hand. It reads the extraction files and writes a skill directory, plus a zip package where a zip command can run, so it needs file access or the files uploaded to the conversation.'
 ---
 
 # Skillify
@@ -41,7 +41,7 @@ If it is missing, ask for it and stop rather than falling back to "the only extr
 2. Resolve settings and the extraction root.
 Run `python3 scripts/resolve_config.py`, passing `--extractions-root <dir>` when that flag was given and `--set key=value` for any setting the person stated in the conversation or in Project instructions.
 Read the JSON it prints, which carries the `exemplar` setting too, its value and its `exists` boolean; relay any `Loaded config from: <path>` line it printed, and state the root in one line: "Extraction root: `<path>`".
-When the script cannot run (no code execution, or an interpreter older than Python 3.11), apply the same tiers by hand from `references/settings.md`, and say so in one line.
+When the script cannot run (no code execution, or an interpreter older than Python 3.12), apply the same tiers by hand from `references/settings.md`, and say so in one line.
 3. Load `<extractions-root>/<domain-slug>/profile.md`.
 Missing means there is nothing to skillify yet; stop and name `/metacognition:compile <domain-slug>` as the prerequisite.
 4. Check `profile.md`'s frontmatter `calibrated` field.

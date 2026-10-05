@@ -2,7 +2,7 @@
 name: interview
 version: 0.1.1
 description: 'This skill should be used when the user asks to "run the taste interview for a domain", "interview me about a domain", "start the extraction interview", "resume the interview for a domain", "continue the taste interview", or runs `/metacognition:interview`. Runs the interview a prior `/metacognition:design` session scoped, asking one question at a time and writing `archive.md` incrementally. It never compiles the archive into a profile; that is the job of `/metacognition:compile`.'
-compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.11 or newer; without them the skill applies the same rules by hand. It reads the extraction files design wrote and writes archive.md in the same directory, so it needs file access or the files uploaded to the conversation.'
+compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.12 or newer; without them the skill applies the same rules by hand. It reads the extraction files design wrote and writes archive.md in the same directory, so it needs file access or the files uploaded to the conversation.'
 ---
 
 # Interview
@@ -36,7 +36,7 @@ Then read the extraction's `interview-spec.md`, the category map, question seeds
 2. Resolve settings and the extraction root.
 Run `python3 scripts/resolve_config.py`, passing `--extractions-root <dir>` when that flag was given and `--set key=value` for any setting the person stated in the conversation or in Project instructions.
 Read the JSON it prints, relay any `Loaded config from: <path>` line it printed, and state the root in one line: "Extraction root: `<path>`".
-When the script cannot run (no code execution, or an interpreter older than Python 3.11), apply the same tiers by hand from `references/settings.md`, and say so in one line.
+When the script cannot run (no code execution, or an interpreter older than Python 3.12), apply the same tiers by hand from `references/settings.md`, and say so in one line.
 3. Resolve the slug: if `[domain-slug]` was passed, use it directly; if it was omitted, use the only extraction under the root and error if there are zero or several, naming each candidate slug in the error so the person can retry with one named.
 4. Load `<extractions-root>/<slug>/interview-spec.md`.
 Missing means there is nothing to interview against yet; stop and name `/metacognition:design <domain>` as the prerequisite.
@@ -132,7 +132,7 @@ Only after the LAST closer listed in the spec is logged, whether that is the thi
 
 After setting `status: complete`, run `python3 scripts/validate_artifacts.py <extractions-root>/<slug>` against the just-completed extraction and resolve every finding it reports before telling the person the archive is done.
 A finding here means the archive as written does not satisfy the structural contract `/metacognition:compile` will assume; fix it now, while the interview's own state is still loaded, rather than leaving it for compile to trip over.
-When the script cannot run (no code execution, or an interpreter older than Python 3.11), say so in one line and check the same things by hand against `references/archive-format.md`: the frontmatter parses, the `### Qnn` numbering is contiguous from Q01 with no gap and no repeat, and each category's `asked` count matches the headings that carry it.
+When the script cannot run (no code execution, or an interpreter older than Python 3.12), say so in one line and check the same things by hand against `references/archive-format.md`: the frontmatter parses, the `### Qnn` numbering is contiguous from Q01 with no gap and no repeat, and each category's `asked` count matches the headings that carry it.
 
 Tell the person the archive is complete and name `/metacognition:compile <domain-slug>` as the next stage, together with the file written, `<extractions-root>/<slug>/archive.md`; never run it automatically.
 Then stop.

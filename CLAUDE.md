@@ -31,7 +31,7 @@ Material hides the header's repo link on narrow screens, and a bare URL is not a
 Read the spec's Invariants, Non-goals, and Deferred list before changing anything: they are hard constraints, and a step that crosses one needs a spec change first.
 Issue #3 (the profile ceiling raised to 10,000) is done and ships as `0.1.1`.
 The active phase is the interview retro (issue #4), widened to carry issue #9 (a token-estimate script and the Python 3.12 floor) and issue #10 (skillify grounded in the `plugin-dev` baseline): the spec's Goals R1 to R12, Components K and L, and the retro-phase success criteria describe it.
-The spec already states a Python 3.12 floor and five shipped scripts; the repo is still on 3.11 with three scripts until the plan's steps land.
+The spec already states a Python 3.12 floor and five shipped scripts; the repo now runs on the 3.12 floor (CI runs 3.12 and 3.13) and still has three scripts until the plan's later steps land.
 It is specced and planned on the `interview-retro` branch but not built; nothing under `metacognition/`, `src/`, `tests/`, `evals/`, or `docs/` reflects it yet, so do not read the spec's new invariant wording as a description of the shipped skills.
 Those research files are rewritten from private material and hold no interview answers; keep it that way, and never copy a private retro or archive into this repo verbatim.
 
@@ -53,7 +53,7 @@ A pytest drift guard fails when a copy differs from its source, and a manifest g
 
 Each skill must run alone in the claude.ai per-skill sandbox, which drives three rules.
 A skill reaches its files by relative path only, so `${CLAUDE_PLUGIN_ROOT}` and `../` never appear in a skill.
-Scripts under `src/scripts/` import only the Python standard library and run on Python 3.11 or newer.
+Scripts under `src/scripts/` import only the Python standard library and run on Python 3.12 or newer.
 When a script cannot run, the skill applies the same rules by hand from its references.
 
 `yaml_subset.py` is a strict parser for the YAML subset the artifact formats use; `resolve_config.py` and `validate_artifacts.py` build on it.
@@ -94,6 +94,6 @@ A failing `release-dry` names the file to fix.
   `tests/test_repo_prose.py` runs it over the repo's own prose, so new docs, session files, and skills must pass it.
   Describe a finding by its rule name; never quote the banned list or the dirty fixture's lines.
 - GitHub Actions are pinned to commit SHAs.
-  CI runs the gate on pull requests and on push to main, for Python 3.11 and 3.13.
+  CI runs the gate on pull requests and on push to main, for Python 3.12 and 3.13.
   A push to main with a manifest version that has no tag publishes a release, so a version change in the manifests is a release decision.
   Action SHAs are looked up through the API, never written from memory.

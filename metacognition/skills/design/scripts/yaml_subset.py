@@ -38,10 +38,9 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TypeAlias
 
-YamlValue: TypeAlias = "str | int | bool | datetime.date | None | list[YamlValue] | dict[str, YamlValue]"
-YamlMap: TypeAlias = dict[str, YamlValue]
+type YamlValue = str | int | bool | datetime.date | None | list[YamlValue] | dict[str, YamlValue]
+type YamlMap = dict[str, YamlValue]
 
 _INDICATOR_ERRORS = {
     "&": "anchors are not supported",

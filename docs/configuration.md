@@ -6,7 +6,7 @@ This page lists the two settings, the five tiers they can come from, and the opt
 
 Every stage begins by resolving these settings and stating the extraction root it will use in one line.
 `python3 scripts/resolve_config.py` does the resolving.
-When the script cannot run, because the surface has no code execution or the interpreter is older than Python 3.11, the stage applies the same rules by hand and says so in one line.
+When the script cannot run, because the surface has no code execution or the interpreter is older than Python 3.12, the stage applies the same rules by hand and says so in one line.
 
 ## The Two Keys
 

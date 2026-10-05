@@ -2,7 +2,7 @@
 
 Every stage starts by resolving two settings and stating the extraction root it will use in one line.
 `python3 scripts/resolve_config.py` does the resolving.
-This reference holds the same rules so a skill can apply them by hand when the script cannot run: no code execution on the surface, or an interpreter older than Python 3.11.
+This reference holds the same rules so a skill can apply them by hand when the script cannot run: no code execution on the surface, or an interpreter older than Python 3.12.
 When a skill falls back to the by-hand rules, it says so in one line.
 The script and this reference must agree exactly; a change to one is a change to both.
 

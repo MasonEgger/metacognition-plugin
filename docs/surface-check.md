@@ -108,7 +108,7 @@ Result:
 
 ## If Something Fails
 
-The claude.ai check rests on one assumption: the sandbox runs the shipped scripts on Python 3.11 or newer.
+The claude.ai check rests on one assumption: the sandbox runs the shipped scripts on Python 3.12 or newer.
 If the check shows an older Python, the fix is to lower the floor in `pyproject.toml` and the scripts.
 It is not to add a dependency.
 

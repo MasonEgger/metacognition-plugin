@@ -44,7 +44,7 @@ On claude.ai chat, design runs the same research itself, in the conversation.
 With no web access, design says so and continues from your scoping answers alone.
 
 The shipped scripts resolve your settings and check the structure of the extraction files.
-They need code execution and Python 3.11 or newer.
+They need code execution and Python 3.12 or newer.
 When a stage cannot run them, it applies the same rules by hand and says so in one line.
 
 ## Run the Whole Pipeline in One claude.ai Conversation

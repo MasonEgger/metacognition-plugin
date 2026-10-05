@@ -5,15 +5,15 @@ Check a step only when every sub-step under it is done.
 
 ## Section 1: Toolchain Floor
 
-- [ ] Step 1: Raise the Python Floor to 3.12 (task)
-  - [ ] pyproject.toml: requires-python, ruff target, mypy version
-  - [ ] uv lock
-  - [ ] ci.yml matrix 3.12 and 3.13
-  - [ ] Every remaining statement of the 3.11 floor in scripts, references, skills, docs
-  - [ ] just fmt, just sync
-  - [ ] docs/surface-check.md asks for the sandbox Python version
-  - [ ] Verify: grep shows history lines only, just check, sync check
-  - [ ] Document: CLAUDE.md note
+- [x] Step 1: Raise the Python Floor to 3.12 (task)
+  - [x] pyproject.toml: requires-python, ruff target, mypy version
+  - [x] uv lock
+  - [x] ci.yml matrix 3.12 and 3.13
+  - [x] Every remaining statement of the 3.11 floor in scripts, references, skills, docs
+  - [x] just fmt, just sync
+  - [x] docs/surface-check.md asks for the sandbox Python version
+  - [x] Verify: grep shows history lines only, just check, sync check
+  - [x] Document: CLAUDE.md note
 
 ## Section 2: Formats and References
 

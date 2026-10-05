@@ -1,4 +1,4 @@
-# CI: runs the gate (just check) on Python 3.11 and 3.13 for every pull request
+# CI: runs the gate (just check) on Python 3.12 and 3.13 for every pull request
 # and push to main, and deploys the docs to GitHub Pages on push to main.
 # Every action is pinned to a full commit SHA by project rule; the tag is in the comment.
 name: CI
@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.11", "3.13"]
+        python-version: ["3.12", "3.13"]
     env:
       # uv uses this interpreter for every `uv run` and `uv sync` in the job.
       UV_PYTHON: ${{ matrix.python-version }}

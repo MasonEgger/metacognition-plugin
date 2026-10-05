@@ -2,7 +2,7 @@
 name: design
 version: 0.1.1
 description: 'This skill should be used when the user asks to "design an interview for a domain", "scope a new taste extraction", "design the extraction for a domain", "build the interview spec for a domain", "design an augment interview against an existing skill", or runs `/metacognition:design`. Produces two artifacts: `interview-spec.md` and the extraction README. It never asks the person a taste question itself; that is the job of /metacognition:interview.'
-compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.11 or newer; without them the skill applies the same rules by hand. Research uses the plugin research agent where the surface loads plugin agents, and otherwise runs in-session; it needs web access, or it continues on the scoping answers alone.'
+compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.12 or newer; without them the skill applies the same rules by hand. Research uses the plugin research agent where the surface loads plugin agents, and otherwise runs in-session; it needs web access, or it continues on the scoping answers alone.'
 ---
 
 # Design
@@ -28,7 +28,7 @@ Every rule this skill leans on below, stated vs. revealed preference (rule 1), r
 2. Resolve settings and the extraction root.
 Run `python3 scripts/resolve_config.py`, passing `--extractions-root <dir>` when that flag was given and `--set key=value` for any setting the person stated in the conversation or in Project instructions.
 Read the JSON it prints, relay any `Loaded config from: <path>` line it printed, and state the root in one line: "Extraction root: `<path>`".
-When the script cannot run (no code execution, or an interpreter older than Python 3.11), apply the same tiers by hand from `references/settings.md`, and say so in one line.
+When the script cannot run (no code execution, or an interpreter older than Python 3.12), apply the same tiers by hand from `references/settings.md`, and say so in one line.
 3. Derive the domain slug from the domain statement: lowercase it, restrict to ASCII, collapse every run of spaces and punctuation to a single hyphen, strip leading and trailing hyphens.
 Print the derived slug back to the person ("Domain slug: `<slug>`") before continuing, so a bad derivation is caught immediately instead of after nine steps of work.
 4. If `<extractions-root>/<slug>/interview-spec.md` already exists, say so and ask whether to overwrite it or restate the domain, as the opening move of scope Q&A rather than a separate gate.
