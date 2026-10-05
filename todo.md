@@ -53,14 +53,14 @@ Check a step only when every sub-step under it is done.
   - [x] GREEN: CLI entry point
   - [x] REFACTOR: request parsing, archive text, README text as pure functions
   - [x] Verify coverage and just check
-- [ ] Step 5: Batteries, Closing Questions, and Section Lines in archive_append.py
-  - [ ] RED: battery write and counts, items refusals, closing, saturated, ledger, export, research lines, evidence, combined run
-  - [ ] Document: docstring flags
-  - [ ] GREEN: extend the script
-  - [ ] RED: scripted short interview round trip
-  - [ ] GREEN: fix what the run exposes
-  - [ ] REFACTOR: one table for section flags
-  - [ ] Verify coverage and just check
+- [x] Step 5: Batteries, Closing Questions, and Section Lines in archive_append.py
+  - [x] RED: battery write and counts, items refusals, closing, saturated, ledger, export, research lines, evidence, combined run
+  - [x] Document: docstring flags
+  - [x] GREEN: extend the script
+  - [x] RED: scripted short interview round trip
+  - [x] GREEN: fix what the run exposes
+  - [x] REFACTOR: one table for section flags
+  - [x] Verify coverage and just check
 - [ ] Step 6: update_token_estimate.py
   - [ ] RED: arithmetic, current profile untouched, stale rewrite, body line untouched, check mode, three exit-2 cases, several paths, validator agrees, no temp files
   - [ ] Document: module docstring

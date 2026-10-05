@@ -1,19 +1,21 @@
-# ABOUTME: Appends one single-probe entry to a metacognition extraction's archive.md and updates every counter.
+# ABOUTME: Appends one entry (a probe or a battery) to a metacognition archive.md and updates every counter.
 # ABOUTME: Rewrites only the questions_asked and category lines and the README interview cell, by temp file and rename.
 """Append one entry to an extraction's ``archive.md``. Standard library only, Python 3.12 or newer.
 
 Usage, from a skill directory:
 
-    python3 scripts/archive_append.py <extraction-dir> --category <name> --register <name> --probe <type> \\
-        (--question <text> | --question-file <path>) (--answer <text> | --answer-file <path>)
+    python3 scripts/archive_append.py <extraction-dir> (--category <name> | --closing) --register <name> \\
+        --probe <type> (--question <text> | --question-file <path>) (--answer <text> | --answer-file <path>) \\
+        [--items <n>] [--saturated] [--ledger <line>] [--research <line>] [--export <line>]
 
 In one run the script:
 
 - assigns the next ``Qnn`` (one more than the last ``### Qnn`` heading, zero-padded like it);
 - appends ``### Qnn [<category>] [<register>] [probe: <type>]`` and the two-line ``**Q:**`` / ``**A:**`` body
   as the last thing under ``## Questions``;
-- raises ``questions_asked`` by one and the category's ``asked`` by one, rewriting only those two
-  frontmatter lines and leaving every other byte of the frontmatter alone;
+- raises ``questions_asked`` by one and the category's ``asked`` by the entry's probe count (one, or ``n``
+  for a battery), rewriting only those two frontmatter lines and leaving every other byte of the
+  frontmatter alone;
 - rewrites the README status table's ``interview n/floor`` cell to the new probe total over the floor
   sum, changing no other cell;
 - applies the one capture normalization, mapping en-dash, em-dash, and the curly single and double
@@ -22,14 +24,32 @@ In one run the script:
   ``--answer-file`` is read as UTF-8 and loses one trailing line terminator, so a file that ends in a
   newline gives the same entry as the inline text.
 
-This version handles single entries only. ``--probe battery`` is refused.
+Battery: ``--probe battery --items <n>`` (n from 3 to 6). The question is the stem on its own line followed
+by n lines ``1. ...`` through ``n. ...``; the answer is n lines numbered the same way. The script counts the
+numbered lines itself and refuses a mismatch with ``--items``, a stem that is itself numbered, and any other
+line. The heading gains ``[items: n]`` and the body is the stem on the ``**Q:**`` line, the numbered items, a
+bare ``**A:**`` line, then the numbered answers. ``--items`` with any other probe type is refused.
+
+Closing question: ``--closing`` (instead of ``--category``) logs the entry under the ``[closing]``
+pseudo-category. It raises ``questions_asked`` by one, changes no category count, and leaves the README
+probe total unchanged. Giving ``--category`` or ``--saturated`` with it, or a battery, is refused.
+
+Saturation: ``--saturated`` sets the entry's category ``saturated`` flag to true and touches no other category.
+
+Section lines: ``--ledger``, ``--research``, and ``--export`` each append one line to ``## Contradiction
+ledger``, ``## Open research``, or ``## Exports`` with the next ID (``L01``, ``R01``, ``E01``, contiguous).
+The caller passes everything after the ID, starting with the parenthesized question reference, for
+example ``--research "(Q73): <what was deferred>. Status: unresolved"``, ``--export "(Q92): <topic> ->
+<destination skill or unassigned>"``, or ``--ledger '(Q07 vs Q23): "<claim A>" vs "<claim B>". Resolution:
+<text>'``. A line must be one line and start with ``(``. A section the archive lacks is created the first
+time a line is added, in the order ledger, Open research, Exports, Questions.
 
 The assigned ``Qnn`` prints to stdout and the exit code is 0. On any problem (a missing or unreadable
 ``archive.md`` or ``README.md``, an archive with no parseable frontmatter or no ``## Questions`` section,
 a category not in the frontmatter, a missing answer or question, a bad request) the script prints one line
 naming the problem to stderr and exits 2, including an embedded line break in the question or answer of a
-single entry and an OSError while writing. Everything is validated and both new file contents are built in
-memory before anything is written. Both are then written to temporary names in their own directory; if
+non-battery entry and an OSError while writing. Everything is validated and both new file contents are built
+in memory before anything is written. Both are then written to temporary names in their own directory; if
 either temporary write fails, both originals are untouched and no temporary file remains. Only then are the
 two renames made, archive first. A failure between the renames (not expected on a normal filesystem) would
 leave the archive one entry ahead of the README cell; the next successful append corrects the cell, because
@@ -60,6 +80,9 @@ EXIT_ERROR = 2
 MIN_NUMBER_WIDTH = 2
 README_CELL_INDEX = 2
 README_MIN_PARTS = 7
+BATTERY_PROBE = "battery"
+CLOSING_CATEGORY = "closing"
+BATTERY_ITEMS_RANGE = range(3, 7)
 
 NORMALIZATION = str.maketrans(
     {
@@ -75,7 +98,26 @@ HEADING_NUMBER_PATTERN = re.compile(r"^### Q(\d+)", re.MULTILINE)
 SECTION_PATTERN = re.compile(r"^## ", re.MULTILINE)
 QUESTIONS_HEADING_PATTERN = re.compile(r"^## Questions[ \t]*$", re.MULTILINE)
 ASKED_PATTERN = re.compile(r"asked: *\d+")
+SATURATED_PATTERN = re.compile(r"saturated: *(?:true|false)")
 INTERVIEW_CELL_PATTERN = re.compile(r"\d+/\d+")
+NUMBERED_LINE_PATTERN = re.compile(r"^(\d+)\. \S")
+
+
+@dataclasses.dataclass(frozen=True)
+class SectionSpec:
+    """One optional line-list section of the archive: its request key, heading, and line-ID prefix."""
+
+    key: str
+    heading: str
+    id_prefix: str
+
+
+# In archive order: each section sits before every later one and before ``## Questions``.
+SECTIONS = (
+    SectionSpec("ledger", "Contradiction ledger", "L"),
+    SectionSpec("research", "Open research", "R"),
+    SectionSpec("export", "Exports", "E"),
+)
 
 
 class ArchiveAppendError(Exception):
@@ -84,16 +126,24 @@ class ArchiveAppendError(Exception):
 
 @dataclasses.dataclass(frozen=True)
 class Request:
-    """One parsed append request. The question and answer are text, or None when a file supplies them."""
+    """One parsed append request. The question and answer are text, or None when a file supplies them.
+
+    category is None exactly when closing is true. section_lines maps a SectionSpec key to the caller's
+    line (everything after the ID); items is set exactly when the probe is a battery.
+    """
 
     directory: Path
-    category: str
+    category: str | None
     register: str
     probe: str
     question: str | None
     question_file: Path | None
     answer: str | None
     answer_file: Path | None
+    items: int | None
+    closing: bool
+    saturated: bool
+    section_lines: dict[str, str]
 
 
 @dataclasses.dataclass(frozen=True)
@@ -120,16 +170,30 @@ def normalize(text: str) -> str:
 
 def parse_request(argv: Sequence[str]) -> Request:
     """Turn command-line arguments into a Request, refusing a malformed one. Touches no file."""
-    parser = _RequestParser(prog="archive_append.py", description="Append one single-probe archive entry.")
+    parser = _RequestParser(prog="archive_append.py", description="Append one archive entry.")
     parser.add_argument("directory", type=Path)
-    parser.add_argument("--category", required=True)
+    parser.add_argument("--category")
     parser.add_argument("--register", required=True)
     parser.add_argument("--probe", required=True)
     parser.add_argument("--question")
     parser.add_argument("--question-file", type=Path)
     parser.add_argument("--answer")
     parser.add_argument("--answer-file", type=Path)
+    parser.add_argument("--items", type=int)
+    parser.add_argument("--closing", action="store_true")
+    parser.add_argument("--saturated", action="store_true")
+    for section in SECTIONS:
+        parser.add_argument(f"--{section.key}", dest=section.key)
     namespace = parser.parse_args(list(argv))
+    if namespace.closing:
+        if namespace.category is not None:
+            raise ArchiveAppendError("--closing logs under [closing]: do not give --category with it")
+        if namespace.saturated:
+            raise ArchiveAppendError("--saturated names a category's flag: it cannot go with --closing")
+        if namespace.probe == BATTERY_PROBE:
+            raise ArchiveAppendError("--closing cannot log a battery: a closing question is a single probe")
+    elif namespace.category is None:
+        raise ArchiveAppendError("missing --category: give one, or --closing")
     if namespace.question is None and namespace.question_file is None:
         raise ArchiveAppendError("missing question: give --question or --question-file")
     if namespace.answer is None and namespace.answer_file is None:
@@ -139,10 +203,25 @@ def parse_request(argv: Sequence[str]) -> Request:
         ("register", namespace.register),
         ("probe", namespace.probe),
     ):
-        if not value or "]" in value or "[" in value or "\n" in value:
+        if value is not None and (not value or "]" in value or "[" in value or "\n" in value):
             raise ArchiveAppendError(f"bad {field}: {value!r} cannot appear in an entry heading")
-    if namespace.probe == "battery":
-        raise ArchiveAppendError("battery entries are not supported yet: only single probes can be appended")
+    if namespace.probe == BATTERY_PROBE:
+        if namespace.items is None:
+            raise ArchiveAppendError("a battery needs --items n (3 to 6)")
+        if namespace.items not in BATTERY_ITEMS_RANGE:
+            raise ArchiveAppendError(f"--items {namespace.items} is outside 3 to 6")
+    elif namespace.items is not None:
+        raise ArchiveAppendError(f"--items goes only with --probe battery, not --probe {namespace.probe}")
+    section_lines: dict[str, str] = {}
+    for section in SECTIONS:
+        line: str | None = getattr(namespace, section.key)
+        if line is None:
+            continue
+        if "\n" in line or "\r" in line or not line.startswith("("):
+            raise ArchiveAppendError(
+                f"bad --{section.key} line: give one line starting with the parenthesized question reference"
+            )
+        section_lines[section.key] = line
     return Request(
         directory=namespace.directory,
         category=namespace.category,
@@ -152,6 +231,10 @@ def parse_request(argv: Sequence[str]) -> Request:
         question_file=namespace.question_file,
         answer=namespace.answer,
         answer_file=namespace.answer_file,
+        items=namespace.items,
+        closing=namespace.closing,
+        saturated=namespace.saturated,
+        section_lines=section_lines,
     )
 
 
@@ -161,26 +244,103 @@ def _with_line_ending(original: str, replacement: str) -> str:
     return replacement + original[len(stripped) :]
 
 
-def _rewrite_frontmatter_lines(lines: list[str], request: Request, new_total: int, new_asked: int) -> None:
-    """Rewrite the questions_asked line and the request category's line in place, in a frontmatter line list."""
+def _rewrite_frontmatter_lines(lines: list[str], request: Request, new_total: int, new_asked: int | None) -> None:
+    """Rewrite the questions_asked line and, unless new_asked is None, the request category's line in place."""
     asked_index = next((index for index, line in enumerate(lines) if line.startswith("questions_asked:")), None)
     categories_index = next((index for index, line in enumerate(lines) if line.startswith("categories:")), None)
     if asked_index is None or categories_index is None:
         raise ArchiveAppendError("archive.md frontmatter has no questions_asked or categories line")
     lines[asked_index] = _with_line_ending(lines[asked_index], f"questions_asked: {new_total}")
+    if new_asked is None:
+        return
     prefix = f"{request.category}:"
     for index in range(categories_index + 1, len(lines)):
         if lines[index].strip().startswith(prefix) and lines[index][:1].isspace():
-            lines[index] = ASKED_PATTERN.sub(f"asked: {new_asked}", lines[index], count=1)
+            rewritten = ASKED_PATTERN.sub(f"asked: {new_asked}", lines[index], count=1)
+            if request.saturated:
+                rewritten = SATURATED_PATTERN.sub("saturated: true", rewritten, count=1)
+            lines[index] = rewritten
             return
     raise ArchiveAppendError(f"category {request.category!r} has no line under categories in archive.md")
 
 
-def compute_new_archive(archive_text: str, request: Request, question: str, answer: str) -> NewArchive:
-    """Return the archive text with the entry appended and the counters raised. Touches no file.
+def _battery_lines(text: str, description: str, items: int, *, skip_stem: bool) -> tuple[str, list[str]]:
+    """Split a battery's text into its stem (empty for an answer) and its numbered lines without the numbers.
 
     Raises:
-        ArchiveAppendError: On unparseable frontmatter, an unknown category, or no ``## Questions`` section.
+        ArchiveAppendError: When a line is not numbered, the numbers are not 1 to items, or the count differs.
+    """
+    lines = text.splitlines()
+    stem = ""
+    if skip_stem:
+        stem, lines = lines[0], lines[1:]
+        if NUMBERED_LINE_PATTERN.match(stem):
+            raise ArchiveAppendError("battery question needs a stem line before its numbered items")
+    numbers: list[int] = []
+    contents: list[str] = []
+    for line in lines:
+        match = NUMBERED_LINE_PATTERN.match(line)
+        if match is None:
+            raise ArchiveAppendError(f"battery {description} has a line that is not a numbered item: {line[:30]!r}")
+        numbers.append(int(match.group(1)))
+        contents.append(line)
+    if numbers != list(range(1, items + 1)):
+        raise ArchiveAppendError(f"battery {description} has numbered lines {numbers}, not 1 to {items} for --items")
+    return stem, contents
+
+
+def _entry_text(request: Request, label: str, question: str, answer: str) -> str:
+    """Return the heading and body of the new entry, normalized, with the shape its probe type needs."""
+    category = CLOSING_CATEGORY if request.category is None else request.category
+    heading = f"### {label} [{category}] [{request.register}] [probe: {request.probe}]"
+    if request.items is None:
+        _require_one_line(question, "question")
+        _require_one_line(answer, "answer")
+        return f"{heading}\n**Q:** {normalize(question)}\n**A:** {normalize(answer)}\n"
+    stem, items = _battery_lines(normalize(question), "question", request.items, skip_stem=True)
+    _, answers = _battery_lines(normalize(answer), "answer", request.items, skip_stem=False)
+    return (
+        f"{heading} [items: {request.items}]\n**Q:** {stem}\n"
+        + "\n".join(items)
+        + "\n**A:**\n"
+        + "\n".join(answers)
+        + "\n"
+    )
+
+
+def _add_section_line(body: str, section: SectionSpec, line: str, later_headings: Sequence[str]) -> str:
+    """Return body with one line, carrying the next ID, added to section; create the section if it is absent.
+
+    A new section goes just before the first of later_headings that exists in body.
+    """
+    heading = re.search(rf"^## {re.escape(section.heading)}[ \t]*$", body, re.MULTILINE)
+    if heading is None:
+        for later in later_headings:
+            match = re.search(rf"^## {re.escape(later)}[ \t]*$", body, re.MULTILINE)
+            if match is not None:
+                new_section = f"## {section.heading}\n\n- {section.id_prefix}01 {line}\n\n"
+                return body[: match.start()] + new_section + body[match.start() :]
+        raise ArchiveAppendError("archive.md has no '## Questions' section")
+    following = SECTION_PATTERN.search(body, heading.end())
+    section_end = following.start() if following else len(body)
+    numbers = [
+        int(number)
+        for number in re.findall(rf"^- {section.id_prefix}(\d+)\b", body[heading.end() : section_end], re.MULTILINE)
+    ]
+    identifier = f"{section.id_prefix}{(max(numbers) if numbers else 0) + 1:02d}"
+    before = body[:section_end].rstrip("\n")
+    after = body[section_end:]
+    return f"{before}\n- {identifier} {line}\n" + (f"\n{after}" if after else "")
+
+
+def compute_new_archive(archive_text: str, request: Request, question: str, answer: str) -> NewArchive:
+    """Return the archive text with the entry appended, the counters raised, and section lines added.
+
+    Touches no file.
+
+    Raises:
+        ArchiveAppendError: On unparseable frontmatter, an unknown category, a malformed battery, or no
+            ``## Questions`` section.
     """
     frontmatter = extract_frontmatter(archive_text)
     if frontmatter is None:
@@ -193,7 +353,7 @@ def compute_new_archive(archive_text: str, request: Request, question: str, answ
     total = data.get("questions_asked")
     if not isinstance(categories, dict) or not isinstance(total, int) or isinstance(total, bool):
         raise ArchiveAppendError("archive.md frontmatter needs a categories map and an integer questions_asked")
-    if request.category not in categories:
+    if request.category is not None and request.category not in categories:
         raise ArchiveAppendError(f"category {request.category!r} is not in the archive.md frontmatter")
     counts: dict[str, tuple[int, int]] = {}
     for name, entry in categories.items():
@@ -202,16 +362,22 @@ def compute_new_archive(archive_text: str, request: Request, question: str, answ
         if not isinstance(asked, int) or not isinstance(floor, int):
             raise ArchiveAppendError("archive.md frontmatter categories need integer asked and floor counts")
         counts[name] = (asked, floor)
-    asked_total = sum(asked for asked, _ in counts.values()) + 1
+    probe_count = 0 if request.category is None else (request.items or 1)
+    asked_total = sum(asked for asked, _ in counts.values()) + probe_count
     floor_total = sum(floor for _, floor in counts.values())
-    category_asked = counts[request.category][0]
+    new_category_asked = None if request.category is None else counts[request.category][0] + probe_count
 
     lines = archive_text.splitlines(keepends=True)
     closing_index = next(index for index in range(1, len(lines)) if lines[index].rstrip() == "---")
     frontmatter_lines = lines[1:closing_index]
-    _rewrite_frontmatter_lines(frontmatter_lines, request, total + 1, category_asked + 1)
+    _rewrite_frontmatter_lines(frontmatter_lines, request, total + 1, new_category_asked)
     head = "".join([lines[0], *frontmatter_lines, lines[closing_index]])
     body = "".join(lines[closing_index + 1 :])
+
+    for position, section in enumerate(SECTIONS):
+        if section.key in request.section_lines:
+            later = [later_section.heading for later_section in SECTIONS[position + 1 :]] + ["Questions"]
+            body = _add_section_line(body, section, request.section_lines[section.key], later)
 
     questions = QUESTIONS_HEADING_PATTERN.search(body)
     if questions is None:
@@ -221,10 +387,7 @@ def compute_new_archive(archive_text: str, request: Request, question: str, answ
     numbers = HEADING_NUMBER_PATTERN.findall(body[questions.end() : section_end])
     width = max(MIN_NUMBER_WIDTH, len(numbers[-1])) if numbers else MIN_NUMBER_WIDTH
     label = f"Q{(int(numbers[-1]) if numbers else 0) + 1:0{width}d}"
-    entry = (
-        f"### {label} [{request.category}] [{request.register}] [probe: {request.probe}]\n"
-        f"**Q:** {normalize(question)}\n**A:** {normalize(answer)}\n"
-    )
+    entry = _entry_text(request, label, question, answer)
     before = body[:section_end].rstrip("\n")
     after = body[section_end:]
     new_body = f"{before}\n\n{entry}" + (f"\n{after}" if after else "")
@@ -280,7 +443,7 @@ def _text_from(inline: str | None, path: Path | None, description: str) -> str:
 def _require_one_line(text: str, description: str) -> None:
     """Refuse text with an embedded line break, which would break a two-line entry body."""
     if "\n" in text or "\r" in text:
-        raise ArchiveAppendError(f"{description} has a line break: a single entry needs a one-line {description}")
+        raise ArchiveAppendError(f"{description} has a line break: a non-battery entry needs a one-line {description}")
 
 
 def _write_temporary(path: Path, text: str) -> Path:
@@ -301,9 +464,6 @@ def apply_request(request: Request) -> str:
     readme_text = _read_text(readme_path, "README")
     question = _text_from(request.question, request.question_file, "question")
     answer = _text_from(request.answer, request.answer_file, "answer")
-    if request.probe != "battery":
-        _require_one_line(question, "question")
-        _require_one_line(answer, "answer")
     new_archive = compute_new_archive(archive_text, request, question, answer)
     new_readme = compute_new_readme(readme_text, new_archive.probe_total, new_archive.floor_total)
     temporaries: list[Path] = []
