@@ -45,14 +45,14 @@ Check a step only when every sub-step under it is done.
 
 ## Section 4: The Scripts
 
-- [ ] Step 4: archive_append.py for a Single Entry
-  - [ ] RED: Qnn output, entry placement, counters, README cell, validator round trip, file flags, normalization, errors write nothing, no temp files left
-  - [ ] Document: module docstring
-  - [ ] GREEN: archive_append.py, validate then write by rename
-  - [ ] RED: three appends in a row, subprocess from another directory
-  - [ ] GREEN: CLI entry point
-  - [ ] REFACTOR: request parsing, archive text, README text as pure functions
-  - [ ] Verify coverage and just check
+- [x] Step 4: archive_append.py for a Single Entry
+  - [x] RED: Qnn output, entry placement, counters, README cell, validator round trip, file flags, normalization, errors write nothing, no temp files left
+  - [x] Document: module docstring
+  - [x] GREEN: archive_append.py, validate then write by rename
+  - [x] RED: three appends in a row, subprocess from another directory
+  - [x] GREEN: CLI entry point
+  - [x] REFACTOR: request parsing, archive text, README text as pure functions
+  - [x] Verify coverage and just check
 - [ ] Step 5: Batteries, Closing Questions, and Section Lines in archive_append.py
   - [ ] RED: battery write and counts, items refusals, closing, saturated, ledger, export, research lines, evidence, combined run
   - [ ] Document: docstring flags

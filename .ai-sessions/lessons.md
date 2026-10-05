@@ -2,6 +2,8 @@
 
 ## Recent
 <!-- 10 most recent lessons, newest first -->
+- A round-trip test through the validator passes for inputs the format forbids when the validator does not check that rule, so the writer must enforce the two-line entry body itself (2026-10-05)
+- The prose gate does not flag literal dash and curly-quote codepoints inside .py files, so search for those codepoints before finalizing any script that handles those characters (2026-10-05)
 - The prose gate does not catch a doubled word, so a reviewer found one in a docs page; search the changed docs for repeated adjacent words before finalizing (2026-10-05)
 - Before moving a planning file, search the tests for its path; a guard that lists `plan.md` by name fails once the plan is archived (2026-10-03)
 - A docs theme can hide the header's repo link on narrow screens, and a bare URL is plain text in the built site, so put repo links and the version in the page body and read the built HTML to confirm they are clickable (2026-10-03)
@@ -10,8 +12,6 @@
 - GitHub Actions runs each `run:` step under `bash -e`, so reading `$?` on the line after a command never happens when that command exits non-zero; capture the code in the same command (`rc=0; cmd || rc=$?`) and test the step's script locally with `bash -e` (2026-10-02)
 - A step that prepares a manual check must leave every result slot visibly empty and keep automated checks in a separately labeled section, so a prepared checklist is never mistaken for a completed check (2026-10-01)
 - A README's first sentence must agree with its own install section about which surfaces the project supports; check the opening line against the spec's scope statement before finalizing (2026-10-01)
-- When a guard over a docs tree forbids a string the docs must display, keep the string in a file the guard exempts by design and include it at build time with a checked snippet, so the guard stays whole and the build fails if the source section goes missing (2026-10-01)
-- Look up a GitHub Action's commit SHA from the tag ref through the API, dereference annotated tags, and confirm the result against the commits endpoint; never write a SHA from memory (2026-10-01)
 
 ## Security
 - Material derived from a real interview is private by default: rewrite it for the public repo with no quoted answers, then search the result and any issue text for private tokens before filing, because the doctrine guard does not scan `.ai-sessions/` or GitHub issues (2026-10-02)
@@ -35,6 +35,7 @@
 - A review ruling that contradicts a spec invariant needs a spec edit in the same pass, then `/bpe:plan --regen`, or plan and spec drift (2026-10-01)
 
 ## Testing
+- A round-trip test through the validator passes for inputs the format forbids when the validator does not check that rule, so the writer must enforce the two-line entry body itself (2026-10-05)
 - A guard test over an existing tree cannot show RED on the tree itself, so write its detection logic test-first against planted input under tmp_path, then point it at the real tree, and never plant anything in the repo (2026-10-01)
 - To hold a block inside one file equal to another file, delimit it with a marker pair that appears exactly once, and have the test fail on a missing, repeated, or empty block, not only on a mismatch (2026-10-01)
 - Before treating a ported fixture that fails validation as broken, check the source history for whether the failure is intentional (woodworking-truncated fails archive-category-count on purpose), then pin the expected finding with a test (2026-10-01)
@@ -56,6 +57,7 @@
 - Look up a GitHub Action's commit SHA from the tag ref through the API, dereference annotated tags, and confirm the result against the commits endpoint; never write a SHA from memory (2026-10-01)
 
 ## Python
+- The prose gate does not flag literal dash and curly-quote codepoints inside .py files, so search for those codepoints before finalizing any script that handles those characters (2026-10-05)
 - A shipped script that imports a sibling module must work both as a package import under pytest and as a direct `python3 scripts/<name>.py` run: import the package path first, fall back to the sibling name on ModuleNotFoundError, and prove the direct case with a subprocess test from another working directory (2026-10-01)
 - When stripping a comment from a line, quote tracking must apply the same escape rules as the string reader: '' doubling in single quotes and backslash escapes in double quotes; otherwise a # after an escaped quote is read as a comment start (2026-10-01)
 - PyYAML's safe_load returns datetime.date for a bare YYYY-MM-DD scalar, so a parser that must match it has to return a date object, and JSON output then needs a default hook to print dates as ISO strings (2026-10-01)
