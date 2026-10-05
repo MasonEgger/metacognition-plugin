@@ -1,8 +1,8 @@
 [project]
 name = "metacognition-plugin"
-version = "0.1.1"
+version = "0.2.0"
 description = "Dev tooling for the metacognition Claude plugin. Not published."
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = []
 
 [dependency-groups]
@@ -21,14 +21,14 @@ package = false
 
 [tool.ruff]
 line-length = 120
-target-version = "py311"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "W", "F", "I", "N", "UP", "B", "SIM", "C4", "TC"]
 
 [tool.mypy]
 strict = true
-python_version = "3.11"
+python_version = "3.12"
 files = ["src/scripts", "tools", "tests"]
 
 [tool.pytest.ini_options]

@@ -31,7 +31,21 @@ With `--replace`, it writes a new skill beside the old one and tells you which o
 In augment mode, skillify shows you a diff to the existing `SKILL.md` first, with a profile-load step and a table of every existing rule the profile contradicts.
 Nothing in the existing skill changes until you approve that diff.
 Where both sides carry comparable evidence, the call is flagged for you and never decided by skillify.
-You can set the `exemplar` setting to point skillify at a skill whose shape yours should match. See [Configuration](../configuration.md).
+
+Before it writes a scaffold or proposes a structure, skillify loads the provider's skill-craft guidance through the `plugin-dev` plugin's `skill-development` skill.
+When `plugin-dev` is not installed, or the surface cannot load another plugin's skill, skillify says so in one line and continues on its own templates.
+It then recommends installing `plugin-dev` in its closing message.
+The plugin is recommended and never required.
+
+When augmenting, skillify first assesses the existing skill's structure: description triggering, progressive disclosure, size, and reference layout.
+When the structure holds, it says so in one line and moves on to the diff.
+When it does not, skillify shows the best alternative layout beside keeping the skill as it is, with its findings as the reasoning, and waits for your choice.
+A restructure happens only on your explicit choice, and it still goes through a reviewed diff.
+With `--dry-run`, skillify shows the assessment and the options and applies nothing.
+
+There is an advanced `exemplar` setting for a skill whose shape yours may follow.
+Most people never set it, and skillify says nothing when it is unset or the path does not exist.
+See [Configuration](../configuration.md).
 
 ## What It Produces
 
@@ -45,6 +59,9 @@ The profile and archive are copied from the extraction, which stays the canonica
 The package includes the verbatim interview archive.
 Skillify tells you so before it creates the package.
 See [Privacy](../privacy.md).
+
+Skillify lists the archive's exports as follow-up work for other skills.
+It never writes them into the produced skill.
 
 Skillify never bumps a version and never edits a plugin or marketplace manifest.
 It reports what you may want to bump, in the scheme the target already uses.

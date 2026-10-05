@@ -1,8 +1,8 @@
 ---
 name: skillify
-version: 0.1.1
+version: 0.2.0
 description: 'This skill should be used when the user asks to "skillify a domain", "turn the profile into a skill", "turn this profile into a skill", "augment a skill with the profile", "scaffold a new skill from the profile", "greenfield a skill for a domain", "replace a skill with the profile", or runs `/metacognition:skillify`. Turns a calibrated `profile.md` into a taste skill the person actually invokes: greenfield when no `target_skill` is set, augment (the default whenever one is) otherwise. The augment path always stops at a reviewed `SKILL.md` diff; nothing lands in an existing skill without the person''s approval.'
-compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.11 or newer; without them the skill applies the same rules by hand. It reads the extraction files and writes a skill directory, plus a zip package where a zip command can run, so it needs file access or the files uploaded to the conversation.'
+compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.12 or newer; without them the skill applies the same rules by hand. It reads the extraction files and writes a skill directory, plus a zip package where a zip command can run, so it needs file access or the files uploaded to the conversation. The optional plugin-dev plugin, where installed, supplies a skill-structure baseline.'
 ---
 
 # Skillify
@@ -28,10 +28,18 @@ This skill does not restate any of them, only applies them.
 Then read `references/profile-format.md` and `references/archive-format.md`.
 Both are pointers this skill reads directly rather than restates: the profile frontmatter's `target_skill` field is what step 7 of Preflight below resolves, and the archive's `### Qnn [<category>]` heading shape is what step 3 derives the produced skill's section map from.
 
-Then, once Preflight step 2 has resolved the settings, read the skill the `exemplar` setting names as the exemplar for every produced file's shape.
-Read it live, never from memory or a cached copy: it may have changed since the scaffold's templates were written.
-Without an `exemplar` setting, `references/skill-scaffold.md` is the only template; its templates are complete on their own.
-When the setting names a path that does not exist (`exists` is `false` in the resolved settings), that is not an error: tell the person the exemplar was not found, and continue on the scaffold alone.
+Before writing a scaffold or proposing a structure, load the provider baseline: invoke `plugin-dev:skill-development` through the Skill tool.
+When that plugin is not installed, or the surface cannot load another plugin's skill (claude.ai chat), say so in one line, continue on `references/skill-scaffold.md`, and recommend installing `plugin-dev` in the finish message.
+The baseline is recommended, never required; nothing here fails without it.
+
+Then, once Preflight step 2 has resolved the settings, check the `exemplar` setting.
+The exemplar is an advanced option most people never set.
+With no `exemplar` setting, or a setting whose path does not exist (`exists` is `false` in the resolved settings), skip the read and say nothing about it.
+When one exists, read it live, never from memory or a cached copy, and let it shape the produced files.
+The baseline review still runs, and its findings are answered, not skipped.
+
+Precedence, in this order: the person's decision, then the provider baseline review, then the exemplar, then the bundled templates in `references/skill-scaffold.md`.
+Those templates are complete on their own when nothing above them applies.
 
 ## Preflight
 
@@ -41,7 +49,7 @@ If it is missing, ask for it and stop rather than falling back to "the only extr
 2. Resolve settings and the extraction root.
 Run `python3 scripts/resolve_config.py`, passing `--extractions-root <dir>` when that flag was given and `--set key=value` for any setting the person stated in the conversation or in Project instructions.
 Read the JSON it prints, which carries the `exemplar` setting too, its value and its `exists` boolean; relay any `Loaded config from: <path>` line it printed, and state the root in one line: "Extraction root: `<path>`".
-When the script cannot run (no code execution, or an interpreter older than Python 3.11), apply the same tiers by hand from `references/settings.md`, and say so in one line.
+When the script cannot run (no code execution, or an interpreter older than Python 3.12), apply the same tiers by hand from `references/settings.md`, and say so in one line.
 3. Load `<extractions-root>/<domain-slug>/profile.md`.
 Missing means there is nothing to skillify yet; stop and name `/metacognition:compile <domain-slug>` as the prerequisite.
 4. Check `profile.md`'s frontmatter `calibrated` field.
@@ -71,6 +79,7 @@ Still the greenfield path, aimed at a directory next to the old one; report at t
 `--into` resolves the same two ways: a bare plugin name resolves to `<working directory>/<plugin>/`, and a directory path is used directly, absolute paths included, the same scratch-copy case for greenfield evals.
 
 `--dry-run` applies to every mode: it stops at the proposed files and the diff, and writes nothing, packages nothing, regardless of what the person would otherwise approve.
+In augment mode it also shows the structural assessment and the layout options from step 3, and applies nothing.
 A dry run never asks for approval either, since there is nothing pending approval to write.
 
 ## The Six-Step Procedure
@@ -84,7 +93,7 @@ In greenfield mode there is no existing answer to skip; ask all four in full.
 
 ### 2. Read the Templates and Target Conventions
 
-Read `references/skill-scaffold.md` and the exemplar, if one was found, per Read First, if not already open from that step.
+Read `references/skill-scaffold.md` and the exemplar, if one exists, per Read First, if not already open from that step.
 Then read the target's other existing skills (every `SKILL.md` beside `<target-skill>`, in the same `skills/` directory) to match local conventions: heading style, how arguments are documented, whether skills there carry `version:` frontmatter at all.
 A produced skill that ignores its new home's own conventions is a worse fit than one that follows `skill-scaffold.md` alone.
 
@@ -93,6 +102,7 @@ A produced skill that ignores its new home's own conventions is a worse fit than
 Every produced or diffed `<target-skill>/SKILL.md`, in either mode, must read `<target-skill>/references/profile.md` in full on every invocation, never load `<target-skill>/references/archive.md` wholesale, instruct the grep-by-section-map lookup for the archive that `references/skill-scaffold.md`'s Deep-Reference Lookup Pattern gives, state the hard boundary explicitly, declare register handling, and list every uncertainty at the end of the task under "Open questions".
 A produced `<target-skill>/SKILL.md` meets the same upload constraints as this plugin's own skills: frontmatter keys limited to `name`, `description`, `compatibility`, and `version` only where a version is stamped; a `description` of at most 1,024 characters with no angle-bracket token, so no placeholder is left in it; a `compatibility` of at most 500 characters; and every path relative to the skill's own directory, per `references/skill-scaffold.md`'s Frontmatter Field Reference.
 The section map is derived mechanically from the archive's `### Qnn [<category>]` headings, grouping question numbers by category, exactly as `skill-scaffold.md`'s Deep-Reference Lookup Pattern section describes; skillify does not invent categories the archive does not already name.
+Tags after the category, such as `[items: n]`, are ignored and do not disturb the map.
 `[closing]` is excluded from this derivation: the closing questions belong to no category the interview spec scoped, per `references/archive-format.md`'s pseudo-category rule, so they earn no entry in the produced skill's section map.
 
 **Greenfield.** Scaffold `<target-skill>` from `skill-scaffold.md`'s SKILL.md template and mode-file template: `<target-skill>/SKILL.md`, `<target-skill>/references/profile.md` (copied from the extraction's canonical profile), `<target-skill>/references/archive.md` (copied from the extraction's canonical archive), and one `<target-skill>/references/mode-<name>.md` per mode selected in step 1.
@@ -106,7 +116,14 @@ Say so to the person before creating it, because a package meant for upload carr
 Then create `<extractions-root>/<domain-slug>/skill/<domain-slug>.zip` with `<domain-slug>/` as its single top-level entry, ready to upload: from `<extractions-root>/<domain-slug>/skill/`, run `python3 -m zipfile -c <domain-slug>.zip <domain-slug>/` (the Python standard library; `zip -r <domain-slug>.zip <domain-slug>/` does the same where that command exists), then list the archive with `python3 -m zipfile -l <domain-slug>.zip` and confirm every entry starts with `<domain-slug>/`.
 Where code execution is unavailable and the zip cannot be created, say so, leave the directory in place, and name it for the person to package.
 
-**Augment.** Prepare, but do not yet write, the copies of `<target-skill>/references/profile.md` and `<target-skill>/references/archive.md` that will land in the existing skill's directory, and the proposed diff to its `<target-skill>/SKILL.md`: a profile-load step inserted into the existing workflow (as early as the existing steps allow without breaking one that depends on order) plus a conflict table, per `skill-scaffold.md`'s Augment Diff Template, listing every existing rule the profile contradicts against the profile's own evidence and a proposed resolution.
+**Augment.** First assess the existing target skill's structure against the baseline: description triggering, progressive disclosure, size, and reference layout.
+Use the `plugin-dev:skill-reviewer` agent where it can be dispatched, and the loaded baseline otherwise; with neither available, assess against `references/skill-scaffold.md` and say the baseline was unavailable.
+When the structure holds, say so in one line and continue on the diff below.
+When it does not, present the best alternative layout beside keep-as-is, with the findings as the reasoning, and wait for the person's choice before drafting any diff.
+A restructure is applied only on that explicit choice, and it still goes through a reviewed diff.
+The assessment is a presented verdict, never an applied one.
+
+Then prepare, but do not yet write, the copies of `<target-skill>/references/profile.md` and `<target-skill>/references/archive.md` that will land in the existing skill's directory, and the proposed diff to its `<target-skill>/SKILL.md`: a profile-load step inserted into the existing workflow (as early as the existing steps allow without breaking one that depends on order) plus a conflict table, per `skill-scaffold.md`'s Augment Diff Template, listing every existing rule the profile contradicts against the profile's own evidence and a proposed resolution.
 Source conflicts by comparing the profile's `domain_laws`, `hard_refusals`, and `decision_rules` against the target `SKILL.md`'s current text; a rule the profile does not touch is not a row.
 Default the proposed resolution to the profile's answer when its evidence is the stronger of the two (a `hard_refusals` entry against an unsourced existing preference), and default to flagging the person's call when both sides carry comparable evidence; never resolve a genuine tie unilaterally.
 Present the full diff (profile-load step plus conflict table plus resolutions) to the person for review before any file changes.
@@ -142,20 +159,23 @@ Re-running skillify after a later calibration round replaces the skill's `<targe
 ## Finish
 
 End by naming what was written: the skill directory `<target-skill>` and its files, and, in the default case, the package `<extractions-root>/<domain-slug>/skill/<domain-slug>.zip` (or, under `--dry-run`, the plan that was printed).
+List the archive's Exports as follow-up work for other skills, and state that exports are never written into the produced skill.
+When the baseline could not be loaded, recommend installing `plugin-dev`.
 Skillify is the last stage; there is no next stage's command.
 Then stop.
 
 ## Inputs and Outputs
 
 - Reads: `references/skill-scaffold.md` (always, first); `references/profile-format.md` and `references/archive-format.md` (pointers for the section map and frontmatter fields); `references/settings.md` (to resolve settings by hand when the script cannot run); the skill the `exemplar` setting names, when one is set and exists, read fresh every run, never cached.
+Optional and external, never files in this skill's slice: the `plugin-dev:skill-development` skill, loaded through the Skill tool, and the `plugin-dev:skill-reviewer` agent, dispatched where the surface allows.
 `<extractions-root>/<domain-slug>/profile.md` and `interview-spec.md` (read only; this skill never edits the extraction's own canonical copies); `<extractions-root>/<domain-slug>/archive.md` (copied into the produced skill, never edited).
 In augment or replace mode, also the target skill's existing `<target-skill>/SKILL.md` and every file under its `<target-skill>/references/`, resolved from `target_skill` against the working directory.
 All extraction and target paths resolve against the working directory, `extractions` under it by default or the configured or passed root for the former.
 - Scripts: `python3 scripts/resolve_config.py` resolves the settings. It imports the sibling parser `scripts/yaml_subset.py`, which a skill never runs on its own.
 - Writes (skipped entirely under `--dry-run`): greenfield or replace, `<target-skill>/SKILL.md`, `<target-skill>/references/profile.md`, `<target-skill>/references/archive.md`, and one `<target-skill>/references/mode-*.md` per selected mode, plus `<extractions-root>/<domain-slug>/skill/<domain-slug>.zip` when no `--into` was given; augment, on approval only, the target skill's `<target-skill>/references/profile.md`, `<target-skill>/references/archive.md`, and the reviewed diff applied to its `<target-skill>/SKILL.md`; either mode, `<extractions-root>/<domain-slug>/README.md`'s skillify cell.
 A `~/.claude/rules/<domain-slug>.md` pointer, written only on the person's separate approval per step 5.
-- Dispatches: nothing.
-Skillify runs entirely in-session.
+- Dispatches: optionally the `plugin-dev:skill-reviewer` agent for the augment structural assessment; otherwise nothing.
+Skillify runs in-session.
 
 ## What This Skill Never Does
 

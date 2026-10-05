@@ -32,11 +32,11 @@ created: YYYY-MM-DD
 [3-5, each marked engaged/declined]
 
 ## Category map
-| Category | Maps to generic slot | Floor | Saturation rule |
+| Category | Maps to generic slot | Floor | Registers | Saturation rule |
 
 ## Question seeds
 ### <Category>
-- Seed: <question>  Probe: <forced-choice|ladder|contrast|artifact|critical-incident|triad>
+- Seed: <question>  Probe: <forced-choice|ladder|contrast|artifact|critical-incident|triad|battery>
 
 ## Artifact plan
 [paths, selection instructions, how each artifact is used; in augment mode the target skill's files come first]
@@ -82,14 +82,20 @@ Design does not invent findings; it cites what the agent returned, and drops wha
 **Unknown-unknowns surfaced.** Per extraction theory rule 13, 3 to 5 dimensions the person likely has real taste about but would not raise unprompted.
 Each is marked `engaged` or `declined`: engaged means the person confirmed it belongs in the interview and it earns a category or a question seed; declined means they ruled it out of scope for this extraction, and the decision is recorded here so a later design run does not re-surface the same question without cause.
 
-**Category map.** A table naming every category the interview will cover, the generic interview slot it feeds, one of the seven generic interview slots (Beliefs and contrarian takes, Mechanics, Aesthetic crimes, Voice and posture, Structural preferences, Hard nos, Red flags), or a sanctioned domain-specific addition (the design skill defines these), a floor (the minimum question count per extraction theory rule 10), and the saturation rule that lets interview stop asking early when three consecutive answers add no new constraint.
+**Category map.** A table naming every category the interview will cover, the generic interview slot it feeds, one of the seven generic interview slots (Beliefs and contrarian takes, Mechanics, Aesthetic crimes, Voice and posture, Structural preferences, Hard nos, Red flags), or a sanctioned domain-specific addition (the design skill defines these), a floor (the minimum probe count per extraction theory rule 10), the registers that category's questions target, and the saturation rule that lets interview stop asking early when three consecutive answers add no new constraint.
 A category maps to one of the seven generic interview slots, never to a `profile.md` section; compile is what turns an answered category into the corresponding profile section later, and that mapping is compile's job, not design's.
+The Registers column names which of the frontmatter `registers` each category's questions target, for example `shop` or `shop, client`.
+Every register in the frontmatter must appear in at least one row; a register no category targets is a design-time error, resolved with the person before the spec is written.
+A question with no register-specific content takes the domain's primary register, the first one in `registers`.
+A floor counts probes, not turns: an open probe, a forced choice, or an evidence entry counts one, and a battery counts its number of items.
+Design's floors and the interview's counters measure the same thing, and the default floors do not change.
 The floor guarantees coverage; saturation, not the floor, decides when a category is actually done.
 
-**Question seeds.** Grouped under a `### <Category>` heading per category in the map, each seed pairs a starting question with a named probe pattern: `forced-choice`, `ladder`, `contrast`, `artifact`, `critical-incident`, or `triad`, matching extraction theory's technique index (rule 16).
+**Question seeds.** Grouped under a `### <Category>` heading per category in the map, each seed pairs a starting question with a named probe pattern: `forced-choice`, `ladder`, `contrast`, `artifact`, `critical-incident`, `triad`, or `battery`, matching extraction theory's technique index (rule 16).
 Seeds are starting points, not a script; interview follows a thread when something interesting emerges.
 
 **Artifact plan.** Paths to every real artifact the interview will ground questions in, selection instructions when a category has more artifacts than the interview needs, and a note on how each artifact gets used (contrast pair, single grounding example, sorting set).
+Each local path is recorded as available or unavailable, with the reason (the path does not exist, or it holds only an empty skeleton), so the interview knows which artifacts it can ground a question in.
 In augment mode, the target skill's own files come first: an existing skill built from an earlier interview is itself an artifact, per extraction theory rule 7, a stated preference captured before, now probed against what the person says today.
 
 **Forced-choice bank.** Numbered `FC-01`, `FC-02`, and so on, each entry a pair of concrete options plus the standard probe, which, why, and what would flip your answer.
@@ -107,7 +113,8 @@ The table is the dashboard: there is no `/metacognition:status` command, because
 Columns, in order:
 
 - `design`: whether the interview spec exists and its creation date.
-- `interview n/floor`: questions asked so far over the sum of category floors, so a glance shows how far the interview has to go.
+- `interview n/floor`: probes asked so far over the sum of category floors, so a glance shows how far the interview has to go.
+  The count may exceed the floor sum, and the cell is marked complete when the archive's `status` flips to `complete`.
 - `compile tokens`: the compiled profile's estimated token count, the same figure `python3 scripts/validate_artifacts.py` recomputes and checks against the 10,000-token ceiling.
 - `calibrate rounds, last count`: how many calibration rounds have run, and the correction count of the most recent one, the number that has to trend down for the profile to reach the calibrated state.
 - `skillify -> plugin:skill (mode)`: once skillify has run, the target skill it produced or augmented, and whether it ran in augment or replace mode.

@@ -86,3 +86,59 @@ def test_agent_tools_are_read_only() -> None:
         declared = {str(tool) for tool in tools}
     assert declared, "the agent declares no tools"
     assert declared <= READ_ONLY_TOOLS, f"non-read-only tools: {sorted(declared - READ_ONLY_TOOLS)}"
+
+
+def _practice_section() -> str:
+    """Return the contract's practice lookup section, from its heading to the end of the text."""
+    contract = _contract_text()
+    marker = "\n## Practice Lookup\n"
+    assert contract.count(marker) == 1, "the contract needs exactly one Practice Lookup heading"
+    return contract[contract.index(marker) :]
+
+
+def test_contract_names_both_request_shapes() -> None:
+    contract = _contract_text()
+    assert "## Request Shapes" in contract
+    shapes_start = contract.index("## Request Shapes")
+    shapes = contract[shapes_start : contract.index("\n## ", shapes_start + 1)]
+    assert "domain survey" in shapes.lower()
+    assert "practice lookup" in shapes.lower()
+    assert "/metacognition:design" in shapes
+    assert "/metacognition:interview" in shapes
+
+
+def test_practice_lookup_states_input() -> None:
+    section = _practice_section().lower()
+    assert "one question about practice" in section
+    assert "stated lean" in section
+
+
+def test_practice_lookup_states_output_cap_and_source_links() -> None:
+    section = _practice_section().lower()
+    assert "at most five" in section
+    assert "bottom line" in section
+    assert "one sentence" in section
+    assert "source link" in section
+
+
+def test_practice_lookup_keeps_no_results_line_and_never_recommends() -> None:
+    section = _practice_section()
+    assert f"`{NO_RESULTS_LINE}`" in section
+    assert "never recommends" in section
+    assert "reports what sources say" in section
+
+
+def test_practice_lookup_has_woodworking_example_with_links() -> None:
+    section = _practice_section().lower()
+    assert "example" in section
+    assert "http" in section
+    assert "wood" in section
+
+
+def test_agent_mentions_interview_dispatch() -> None:
+    frontmatter = _frontmatter()
+    description = str(frontmatter["description"])
+    assert "practice lookup" in description.lower()
+    assert "/metacognition:interview" in description
+    body = _agent_text().split(END_MARKER, 1)[1]
+    assert "practice lookup" in body.lower()

@@ -20,15 +20,75 @@
       "id": 2,
       "eval_name": "skillify-dry-run-augment-writes-nothing",
       "prompt": "Create two scratch copies: SCRATCH=$(mktemp -d); cp -r tests/fixtures/extractions/woodworking-augment \"$SCRATCH/woodworking-augment\"; PLUGINS=$(mktemp -d); cp -r tests/fixtures/plugins/woodshop \"$PLUGINS/woodshop\". Rewrite the scratch extraction's target_skill to point at the scratch plugin copy in both interview-spec.md and profile.md, replacing the literal string tests/fixtures/plugins/woodshop/skills/woodworking with \"$PLUGINS/woodshop/skills/woodworking\" in each file. This rewritten value is an absolute directory path, one of the two sanctioned forms of target_skill per interview-spec-format.md and skillify/SKILL.md, used directly with no further resolution; it is how this eval points augment mode at a scratch copy rather than the committed fixture plugin. Record a checksum of the scratch plugin copy: BEFORE=$(find \"$PLUGINS/woodshop\" -type f -exec sha256sum {} \\; | sort | sha256sum). From the repo root, run /metacognition:skillify woodworking-augment --dry-run --extractions-root \"$SCRATCH\".",
-      "expected_output": "The proposed SKILL.md diff (a profile-load step plus a conflict table listing every existing rule the profile contradicts, sourced against the target SKILL.md's domain_laws, hard_refusals, and decision_rules, each with the profile's evidence and a proposed resolution) is printed for review; nothing is written to $PLUGINS/woodshop, since --dry-run stops before any file change.",
+      "expected_output": "A structural assessment of the existing skill (description triggering, progressive disclosure, size, and reference layout) is printed before any diff, using the plugin-dev reviewer agent or the loaded baseline where available, and otherwise the bundled scaffold with a statement that the baseline was unavailable. When the structure holds, the assessment is one line. When it does not, the alternative layout is shown beside keep-as-is, and because this is a dry run nothing waits on a choice. The proposed SKILL.md diff (a profile-load step plus a conflict table listing every existing rule the profile contradicts, sourced against the target SKILL.md's domain_laws, hard_refusals, and decision_rules, each with the profile's evidence and a proposed resolution) is printed for review; nothing is written to $PLUGINS/woodshop, since --dry-run stops before any file change.",
       "files": [],
       "assertions": [
         "the transcript states the extraction root in one line before the diff is printed",
         "the run resolves augment mode (target_skill set, --replace not passed)",
+        "the structural assessment appears before the proposed diff",
         "the proposed diff includes a profile-load step inserted into the existing workflow",
         "the proposed diff includes a conflict table with an evidence column and a proposed resolution per row",
         "re-running the same find and sha256sum pipeline over \"$PLUGINS/woodshop\" after the eval gives a value equal to $BEFORE",
         "$PLUGINS/woodshop/skills/woodworking/SKILL.md is byte-for-byte unchanged",
+        "$SCRATCH/woodworking-augment/README.md's skillify cell is unchanged (--dry-run skips that write)",
+        "git status --short tests/fixtures/ is empty after the run"
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "skillify-augment-assessment-comes-before-the-diff",
+      "prompt": "Create two scratch copies: SCRATCH=$(mktemp -d); cp -r tests/fixtures/extractions/woodworking-augment \"$SCRATCH/woodworking-augment\"; PLUGINS=$(mktemp -d); cp -r tests/fixtures/plugins/woodshop \"$PLUGINS/woodshop\". Rewrite the scratch extraction's target_skill to \"$PLUGINS/woodshop/skills/woodworking\" in both interview-spec.md and profile.md, replacing the literal string tests/fixtures/plugins/woodshop/skills/woodworking, as the augment dry-run eval does. Record a checksum of the scratch plugin copy: BEFORE=$(find \"$PLUGINS/woodshop\" -type f -exec sha256sum {} \\; | sort | sha256sum). From the repo root, run /metacognition:skillify woodworking-augment --dry-run --extractions-root \"$SCRATCH\". Tell the session, in conversation, that the exemplar setting is \"$SCRATCH/no-such-exemplar.md\", a path that does not exist. This eval does not depend on whether the plugin-dev plugin is installed; either documented baseline path passes.",
+      "expected_output": "The session assesses the target skill's structure before drafting or printing any diff, and names where the baseline came from: the plugin-dev skill-development baseline or reviewer agent where available, or a one-line statement that the baseline was unavailable and the assessment used the bundled scaffold. When the verdict is that the structure holds, it is a single line, followed by the diff path (profile-load step and conflict table). When the structure is challenged, the findings and the best alternative layout are shown beside keep-as-is, and nothing is applied. The missing exemplar produces no message of any kind. When the baseline could not be loaded, the finish message recommends installing plugin-dev. Nothing is written.",
+      "files": [],
+      "assertions": [
+        "the transcript states the extraction root in one line before the assessment",
+        "an assessment of the target skill's structure appears before any diff text, covering description triggering, progressive disclosure, size, and reference layout",
+        "the assessment says which source it used: the plugin-dev baseline, the plugin-dev reviewer agent, or the bundled scaffold with a one-line statement that the baseline was unavailable",
+        "when the assessment finds the structure holds, the verdict is one line and the diff path follows it",
+        "when the assessment finds the structure does not hold, the findings are given as the reasoning and the alternative layout appears beside keep-as-is",
+        "the missing exemplar path is never mentioned: no line says it was not found, skipped, or unavailable",
+        "when the baseline could not be loaded, the finish message recommends installing plugin-dev; when it was loaded, the message does not claim it was missing",
+        "the finish message names the printed plan, not written files, since --dry-run was passed",
+        "re-running the same find and sha256sum pipeline over \"$PLUGINS/woodshop\" after the eval gives a value equal to $BEFORE",
+        "$SCRATCH/woodworking-augment/README.md's skillify cell is unchanged (--dry-run skips that write)",
+        "git status --short tests/fixtures/ is empty after the run"
+      ]
+    },
+    {
+      "id": 4,
+      "eval_name": "skillify-augment-poor-structure-offers-a-choice",
+      "prompt": "Create two scratch copies: SCRATCH=$(mktemp -d); cp -r tests/fixtures/extractions/woodworking-augment \"$SCRATCH/woodworking-augment\"; PLUGINS=$(mktemp -d); cp -r tests/fixtures/plugins/woodshop-sprawl \"$PLUGINS/woodshop-sprawl\". Rewrite the scratch extraction's target_skill to \"$PLUGINS/woodshop-sprawl/skills/woodworking\" in both interview-spec.md and profile.md, replacing the literal string tests/fixtures/plugins/woodshop/skills/woodworking. Record a checksum of the scratch plugin copy: BEFORE=$(find \"$PLUGINS/woodshop-sprawl\" -type f -exec sha256sum {} \\; | sort | sha256sum). From the repo root, run /metacognition:skillify woodworking-augment --extractions-root \"$SCRATCH\"; do not pass --dry-run. Stop reading the transcript as soon as the session presents its options and waits for a choice; do not answer it. The woodshop-sprawl fixture is poorly structured on purpose. This eval does not depend on whether the plugin-dev plugin is installed; either documented baseline path passes.",
+      "expected_output": "The session assesses the target skill and finds the structure does not hold. It reports the findings: a description with no trigger phrases, one SKILL.md of roughly 1,600 words that holds joinery, finishing, safety, jig, and lumber content together, and no references directory. It presents the best alternative layout (a lean SKILL.md with the detail split into references) beside keep-as-is, with the findings as the reasoning, and then waits for the person's choice. No diff, no profile-load step, and no conflict table is drafted before the choice, and nothing is written.",
+      "files": [],
+      "assertions": [
+        "the transcript states the extraction root in one line before the assessment",
+        "the assessment finds the description vague: it names no trigger phrases and does not say when the skill should be used",
+        "the assessment finds SKILL.md oversized for one file, holding several separable topics such as joinery, finishing, safety, jigs, and lumber sourcing",
+        "the assessment finds the skill has no references directory, so nothing loads on demand",
+        "the assessment names its source: the plugin-dev baseline, the plugin-dev reviewer agent, or the bundled scaffold with a one-line statement that the baseline was unavailable",
+        "an alternative layout is presented beside a keep-as-is option, with the findings as the reasoning for the alternative",
+        "the session then waits for the person's choice and does not continue past the options",
+        "no proposed SKILL.md diff, profile-load step, or conflict table is printed before the person chooses",
+        "re-running the same find and sha256sum pipeline over \"$PLUGINS/woodshop-sprawl\" after the eval gives a value equal to $BEFORE, so nothing was restructured or written",
+        "$SCRATCH/woodworking-augment/README.md's skillify cell is unchanged",
+        "git status --short tests/fixtures/ is empty after the run"
+      ]
+    },
+    {
+      "id": 5,
+      "eval_name": "skillify-dry-run-augment-well-structured-holds",
+      "prompt": "Create two scratch copies: SCRATCH=$(mktemp -d); cp -r tests/fixtures/extractions/woodworking-augment \"$SCRATCH/woodworking-augment\"; PLUGINS=$(mktemp -d); cp -r tests/fixtures/plugins/woodshop-tidy \"$PLUGINS/woodshop-tidy\". Rewrite the scratch extraction's target_skill to \"$PLUGINS/woodshop-tidy/skills/joinery-review\" in both interview-spec.md and profile.md, replacing the literal string tests/fixtures/plugins/woodshop/skills/woodworking. Record a checksum of the scratch plugin copy: BEFORE=$(find \"$PLUGINS/woodshop-tidy\" -type f -exec sha256sum {} \\; | sort | sha256sum). From the repo root, run /metacognition:skillify woodworking-augment --dry-run --extractions-root \"$SCRATCH\". The woodshop-tidy fixture is well structured on purpose: a third-person description with trigger phrases, a lean SKILL.md, and its detail in one references file. This eval does not depend on whether the plugin-dev plugin is installed; either documented baseline path passes.",
+      "expected_output": "The session assesses the target skill's structure (description triggering, progressive disclosure, size, and reference layout) and finds that it holds. The verdict is one line, and the assessment names its source: the plugin-dev reviewer agent or the loaded baseline, or the bundled scaffold with a statement that the baseline was unavailable. No alternative layout is proposed and no choice is awaited. The session continues on the existing diff path: the proposed SKILL.md diff (a profile-load step plus a conflict table) is printed after the assessment. Because this is a dry run, nothing is written to $PLUGINS/woodshop-tidy.",
+      "files": [],
+      "assertions": [
+        "the transcript states the extraction root in one line before the assessment",
+        "the run resolves augment mode (target_skill set, --replace not passed)",
+        "the structural assessment appears before the proposed diff",
+        "the assessment verdict is a single line stating that the structure holds",
+        "the assessment names its source: the plugin-dev baseline, the plugin-dev reviewer agent, or the bundled scaffold with a one-line statement that the baseline was unavailable",
+        "no alternative layout is presented and no keep-as-is choice is offered, and the session does not wait for a choice",
+        "the session continues on the existing diff path, and the proposed diff includes a profile-load step and a conflict table",
+        "re-running the same find and sha256sum pipeline over \"$PLUGINS/woodshop-tidy\" after the eval gives a value equal to $BEFORE, so nothing was restructured or written",
         "$SCRATCH/woodworking-augment/README.md's skillify cell is unchanged (--dry-run skips that write)",
         "git status --short tests/fixtures/ is empty after the run"
       ]

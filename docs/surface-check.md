@@ -17,7 +17,7 @@ just release-dry
 ```
 
 That writes `dist/metacognition-<version>.zip`.
-The version comes from `.claude-plugin/marketplace.json`, which currently reads `0.1.1`, so the file is `dist/metacognition-0.1.1.zip`.
+The version comes from `.claude-plugin/marketplace.json`, which currently reads `0.2.0`, so the file is `dist/metacognition-0.2.0.zip`.
 The `dist/` directory is gitignored.
 
 Run this check from the locally built zip before merging this phase's pull request.
@@ -61,7 +61,7 @@ Result:
 
 Steps:
 
-- [ ] Upload `dist/metacognition-0.1.1.zip` through Customize, Plugins.
+- [ ] Upload `dist/metacognition-0.2.0.zip` through Customize, Plugins.
   Look for: the plugin appears in the list with no error.
 - [ ] Type "/" and invoke each of the five skills in turn: `design`, `interview`, `compile`, `calibrate`, `skillify`.
   Look for: each one is offered by the "/" menu and starts when picked.
@@ -90,7 +90,7 @@ Result:
 
 Steps:
 
-- [ ] Upload `dist/metacognition-0.1.1.zip`.
+- [ ] Upload `dist/metacognition-0.2.0.zip`.
   Look for: the plugin loads with no error.
 - [ ] Check that the five skills load.
   Look for: `design`, `interview`, `compile`, `calibrate`, and `skillify` are all present and invocable as `/metacognition:<stage>`.
@@ -108,7 +108,7 @@ Result:
 
 ## If Something Fails
 
-The claude.ai check rests on one assumption: the sandbox runs the shipped scripts on Python 3.11 or newer.
+The claude.ai check rests on one assumption: the sandbox runs the shipped scripts on Python 3.12 or newer.
 If the check shows an older Python, the fix is to lower the floor in `pyproject.toml` and the scripts.
 It is not to add a dependency.
 
@@ -116,13 +116,13 @@ Record any failure in the Notes slot of the surface where it happened, and open 
 
 ## Automated Checks Already Passing
 
-Run on 2026-10-03.
+Run on 2026-10-05.
 These are not a substitute for the surface results above.
 They cover the files in the repository, not a live surface.
 
 | Check | Output |
 |---|---|
 | `claude plugin validate ./metacognition` | Validation passed |
-| `just release-dry` | Wrote `dist/metacognition-0.1.1.zip`, 44 entries, with `metacognition/` as the single top-level entry |
+| `just release-dry` | Wrote `dist/metacognition-0.2.0.zip`, 48 entries, with `metacognition/` as the single top-level entry |
 | `python3 tools/sync_skills.py --check` | Exit 0, no output |
-| `uv run pytest -q` | 383 passed |
+| `uv run pytest -q` | 506 passed |

@@ -39,12 +39,13 @@ The surroundings differ.
 Two of those rows change what you see.
 
 The research agent is the one plugin agent.
-[Design](stages/design.md) dispatches it where the surface loads plugin agents.
-On claude.ai chat, design runs the same research itself, in the conversation.
+[Design](stages/design.md) dispatches it where the surface loads plugin agents, and so does [interview](stages/interview.md) when you defer to outside practice.
+On claude.ai chat, they run the same research themselves, in the conversation.
 With no web access, design says so and continues from your scoping answers alone.
+Interview says so too, and records the deferral as unresolved.
 
-The shipped scripts resolve your settings and check the structure of the extraction files.
-They need code execution and Python 3.11 or newer.
+The shipped scripts resolve your settings, write each interview entry, keep the profile's token estimate current, and check the structure of the extraction files.
+They need code execution and Python 3.12 or newer.
 When a stage cannot run them, it applies the same rules by hand and says so in one line.
 
 ## Run the Whole Pipeline in One claude.ai Conversation

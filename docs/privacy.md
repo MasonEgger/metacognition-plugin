@@ -12,6 +12,9 @@ The only change is that dash and curly-quote characters are straightened to a hy
 An archive can therefore hold anything you said in the interview, including opinions about named people, employers, and clients.
 Treat it as a transcript of you.
 
+An archive can also hold research findings with their source links, and a list of topics you assigned to other skills.
+Both travel with the archive wherever it goes, including into a skillify package.
+
 ## Keep the Extraction Root Out of Public Repositories
 
 Extraction files live under the extraction root, which is `./extractions` in the working directory unless you configure another path.
@@ -30,6 +33,7 @@ See [Configuration](configuration.md).
 ## A Skillify Package Includes the Archive
 
 A skill produced by [skillify](stages/skillify.md) carries `references/archive.md`, the verbatim interview archive, alongside the profile.
+That copy includes the research findings, their source links, and the list of topics assigned to other skills.
 The zip that skillify packages by default contains it too.
 Skillify says so before it creates the package.
 

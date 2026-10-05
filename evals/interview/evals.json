@@ -5,11 +5,12 @@
       "id": 1,
       "eval_name": "interview-first-question-smoke",
       "prompt": "Create a scratch copy of the woodworking fixture's interview-spec.md with no archive yet, so the interview starts fresh: SCRATCH=$(mktemp -d); mkdir -p \"$SCRATCH/woodworking\"; cp tests/fixtures/extractions/woodworking/interview-spec.md \"$SCRATCH/woodworking/interview-spec.md\". From the repo root, run /metacognition:interview woodworking --extractions-root \"$SCRATCH\". Stop reading the transcript as soon as the register check and the first question appear; do not answer it.",
-      "expected_output": "Preflight states the extraction root in one line, the register check states the single shop register back to the person before any question, then the first question is asked alone, drawn from interview-spec.md's question seeds; no archive.md carries a logged Q/A before that first question is asked.",
+      "expected_output": "Preflight states the extraction root in one line, the register check states the single shop register back to the person before any question, then the first turn is one open probe asked alone (never a second open probe in the same turn), drawn from interview-spec.md's question seeds; no archive.md carries a logged Q/A before that first question is asked.",
       "files": [],
       "assertions": [
         "the transcript states the extraction root in one line before the register check",
         "the register check names the shop register before any question is asked",
+        "the first turn is one open probe or one battery, never two open probes batched together",
         "the first question is drawn from interview-spec.md's Question seeds, never invented",
         "$SCRATCH/woodworking/archive.md, if created at all before the first question is logged, carries no ### Q01 entry yet",
         "git status --short tests/fixtures/ is empty after the run"
@@ -28,6 +29,48 @@
         "the L01 contradiction ledger entry is treated as already known, not re-derived or re-asked",
         "$SCRATCH/woodworking-truncated/archive.md's Q01 through Q06 entries are byte-for-byte unchanged after the run, matching tests/fixtures/extractions/woodworking-truncated/archive.md's Q01 through Q06",
         "the next question asked is numbered Q07, continuing from questions_asked: 6, rather than restarting the interview at Q01",
+        "git status --short tests/fixtures/ is empty after the run"
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "interview-battery-once-shape-is-known",
+      "prompt": "Create a scratch copy of the battery fixture, whose joinery category is already saturated and whose archive ends cleanly at Q06: SCRATCH=$(mktemp -d); cp -r tests/fixtures/extractions/woodworking-battery \"$SCRATCH/woodworking-battery\". Keep a copy of the first six entries to compare against: cp \"$SCRATCH/woodworking-battery/archive.md\" \"$SCRATCH/archive-before.md\". From the repo root, run /metacognition:interview woodworking-battery --resume --extractions-root \"$SCRATCH\". Play the person: when the resumed position is stated, say \"The categories I have not touched are mostly quick verdicts for me, so give me concrete questions from here on.\" When the interviewer asks its next turn, answer each item with a stance and one sentence, then stop as soon as that entry is logged; do not answer anything further.",
+      "expected_output": "The resumed position names Q07 as next. Because the person asked for concrete questions and the remaining work is collecting verdicts, the next turn is one battery of three to six closed verdict items, all in a single category, each a concrete scenario answerable with a stance and a sentence. The battery is written as one `### Q07 [<category>] [shop] [probe: battery] [items: n]` entry through scripts/archive_append.py (or, when the script cannot run, through the stated by-hand fallback of one edit to archive.md carrying the entry and the counters together, then one edit to the README cell). The category's asked count rises by n, questions_asked rises by one, and Q01 through Q06 stay byte for byte unchanged.",
+      "files": [],
+      "assertions": [
+        "the transcript states the extraction root in one line, then the resumed-position line names Q07 as next",
+        "the turn after the person's request holds one battery of three to six numbered closed items, not an open probe and not two questions of different kinds",
+        "every item in the battery belongs to one category; the battery does not mix categories",
+        "each battery item is a concrete scenario, not an abstract framing",
+        "$SCRATCH/woodworking-battery/archive.md gains one entry headed `### Q07` with the tags `[probe: battery]` and `[items: n]`, where n matches the number of items the battery asked",
+        "the Q07 entry is a battery entry: a stem line, items numbered `1.` to `n.`, and an answer block numbered the same way",
+        "the frontmatter shows questions_asked: 7 and the chosen category's asked count raised by n, so the battery is counted as n probes",
+        "the README's interview cell reads (8 + n)/9, probes over the floor sum",
+        "the entry was written with `python3 scripts/archive_append.py` (`--probe battery --items n`), or the run said the script could not run and used the one-edit by-hand fallback",
+        "the archive is not edited once per counter: no run of separate edits to the count, the category tally, and the body for this one answer",
+        "Q01 through Q06 in $SCRATCH/woodworking-battery/archive.md are byte for byte unchanged from $SCRATCH/archive-before.md",
+        "python3 scripts/validate_artifacts.py \"$SCRATCH/woodworking-battery\", run from the interview skill's own directory, exits 0",
+        "git status --short tests/fixtures/ is empty after the run"
+      ]
+    },
+    {
+      "id": 4,
+      "eval_name": "interview-deferral-researched-same-turn",
+      "prompt": "Create a scratch copy of the battery fixture: SCRATCH=$(mktemp -d); cp -r tests/fixtures/extractions/woodworking-battery \"$SCRATCH/woodworking-battery\". From the repo root, run /metacognition:interview woodworking-battery --resume --extractions-root \"$SCRATCH\". Play the person: when the interviewer asks its next question, whatever it is, answer \"I have no firm view on how dry kiln-dried hardwood should be before I mill it. Look up what is standard and I will go with that.\" Then react to whatever the interviewer presents next: if it presents bottom lines, say you accept the first and adjust the second, in your own words; if it says it cannot research, say \"fine, move on\". Stop as soon as the entry for that exchange is logged. The eval does not depend on live web results, so either documented research path passes.",
+      "expected_output": "The deferral is handled in the same turn it is made; it is not banked for a later stage and the interview does not move on silently. Where web access exists, the interviewer researches through the practice lookup shape (the research agent where the surface loads plugin agents, otherwise in-session), presents the bottom lines with their source links, asks the person to ratify, adjust, or reject each through the choice picker or a lettered list, and logs the outcome as its own `--probe evidence` entry: the question line carries the bottom lines with links and the ratification question, the answer line carries the person's reaction verbatim. Where there is no web access, the interviewer says so in one line, records the deferral under `## Open research` as an `R02` line ending `Status: unresolved`, and continues.",
+      "files": [],
+      "assertions": [
+        "the person's deferral is answered by research or by a one-line statement that no web access exists, in the same turn; the next question is not asked first",
+        "the transcript does not say the topic will be handled in compile or any later stage",
+        "when research ran: the bottom lines are shown with a source link each, or the interviewer states `no relevant results` plainly and records the deferral as unresolved",
+        "when research ran: the person is asked to ratify, adjust, or reject each bottom line, through the host's choice picker or a lettered list, never as an open probe",
+        "when research ran: archive.md gains a new entry tagged `[probe: evidence]` whose Q line holds the bottom lines with their source links and whose A line holds the person's reaction verbatim, with no option description text in the A line",
+        "when research ran: the evidence entry counts one probe in its category",
+        "when research did not run: archive.md's `## Open research` section gains an `R02` line that names what was deferred to and ends `Status: unresolved`, written through `--research` or the by-hand fallback",
+        "the deferral is never logged as a bare instruction to follow community practice with no source and no ratification",
+        "the entry was written with `python3 scripts/archive_append.py` or the stated by-hand fallback, not through several separate edits",
+        "Q01 through Q06 in $SCRATCH/woodworking-battery/archive.md are byte for byte unchanged",
         "git status --short tests/fixtures/ is empty after the run"
       ]
     }

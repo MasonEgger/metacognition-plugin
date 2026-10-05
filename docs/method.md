@@ -171,10 +171,14 @@ This table maps each technique to the situation where it earns its cost.
 | Think-aloud review | Have the person narrate their reaction to an artifact in real time, before they have composed an opinion. Catches instinct ahead of rationalization. |
 | Sorting | Give a stack of artifacts and ask for a rank order or a grouping. The boundaries drawn reveal categories the person would not state directly if asked. |
 | Boundary probing | Ask for the least acceptable version of something the person would still tolerate. Finds the edge of a standard rather than just its comfortable center. |
+| Verdict battery | Three to six closed items in one category, each answerable with a stance and a sentence. Use it once a category's shape is known and what remains is collecting verdicts. |
+| Evidence probe | Present researched practice with sources and ask the person to ratify, adjust, or reject it. The reaction to evidence is taste data in its own right. |
 
 A repertory grid works early, when the category map is still forming and the goal is finding dimensions.
 A critical incident works mid-interview, when a category needs grounding in something specific rather than another round of hypotheticals.
 Boundary probing works well late, once enough context exists to know what "acceptable" even means for this person.
+A verdict battery works once a category's shape is known, and a surprising answer to one item earns an open follow-up.
+An evidence probe works whenever you defer to outside practice or ask for research: the findings are shown with their sources, and your reaction is logged as you give it.
 
 ## How the Stages Use the Rules
 

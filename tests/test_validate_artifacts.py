@@ -396,3 +396,191 @@ def test_cli_subprocess_runs_from_another_directory(tmp_path: Path) -> None:
     assert good.stdout == ""
     assert bad.returncode == 1
     assert "frontmatter-parse" in bad.stdout
+
+
+BATTERY_FIXTURE = REPO_ROOT / "tests" / "fixtures" / "extractions" / "woodworking-battery"
+
+
+def _open_probe(number: int, category: str = "cat-a", probe: str = "forced-choice", tags: str = "") -> str:
+    """Return one two-line archive entry."""
+    return (
+        f"### Q{number:02d} [{category}] [test] [probe: {probe}]{tags}\n"
+        f"**Q:** question {number}\n"
+        f"**A:** answer {number}\n"
+    )
+
+
+def _battery(
+    number: int,
+    *,
+    heading_tags: str = " [items: 3]",
+    items: int = 3,
+    answers: int = 3,
+    category: str = "cat-a",
+    probe: str = "battery",
+) -> str:
+    """Return one battery entry whose tag, item count, and answer count can each disagree."""
+    item_lines = "\n".join(f"{index}. item {index}" for index in range(1, items + 1))
+    answer_lines = "\n".join(f"{index}. answer {index}" for index in range(1, answers + 1))
+    return (
+        f"### Q{number:02d} [{category}] [test] [probe: {probe}]{heading_tags}\n"
+        f"**Q:** stem\n{item_lines}\n**A:**\n{answer_lines}\n"
+    )
+
+
+def _archive_with(entries: list[str], *, asked: int, extra_sections: str = "", categories: str | None = None) -> str:
+    """Build an archive.md around pre-built entries, with the stated cat-a tally."""
+    category_lines = categories if categories is not None else f"  cat-a: {{asked: {asked}, floor: 1, saturated: true}}"
+    return (
+        "---\ndomain: test\nregisters: [test]\n"
+        f"questions_asked: {len(entries)}\ncategories:\n{category_lines}\nstatus: complete\n---\n\n"
+        f"# Archive: Test\n\n{extra_sections}## Questions\n\n" + "\n".join(entries)
+    )
+
+
+def _validate_archive(markdown: str, tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> tuple[int, str]:
+    """Write markdown as archive.md in a fresh extraction directory and validate it."""
+    extraction_dir = tmp_path / "extraction"
+    extraction_dir.mkdir()
+    (extraction_dir / "archive.md").write_text(markdown, encoding="utf-8")
+    return _run_validator(extraction_dir, capsys)
+
+
+def test_battery_counts_its_items_toward_the_category(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """One open probe plus a five-item battery makes asked=6."""
+    markdown = _archive_with([_open_probe(1), _battery(2, heading_tags=" [items: 5]", items=5, answers=5)], asked=6)
+
+    code, out = _validate_archive(markdown, tmp_path, capsys)
+
+    assert (code, out) == (0, "")
+
+
+def test_battery_tally_counting_entries_instead_of_probes_fails(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """Stating asked=2 for one probe and one battery counts entries, which the probe rule rejects."""
+    markdown = _archive_with([_open_probe(1), _battery(2, heading_tags=" [items: 5]", items=5, answers=5)], asked=2)
+
+    code, out = _validate_archive(markdown, tmp_path, capsys)
+
+    assert code == 1
+    assert _checks(out) == ["archive-category-count"]
+
+
+def test_battery_without_items_tag_fails(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """A battery heading with no [items: n] tag is an archive-battery-items finding."""
+    markdown = _archive_with([_battery(1, heading_tags="")], asked=0)
+
+    code, out = _validate_archive(markdown, tmp_path, capsys)
+
+    assert code == 1
+    assert "archive-battery-items" in _checks(out)
+    assert set(_checks(out)) == {"archive-battery-items"}
+
+
+@pytest.mark.parametrize("item_count", [2, 7])
+def test_battery_items_outside_three_to_six_fail(
+    item_count: int, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """A battery of 2 or 7 items fails even when its tag and body agree."""
+    markdown = _archive_with(
+        [_battery(1, heading_tags=f" [items: {item_count}]", items=item_count, answers=item_count)],
+        asked=item_count,
+    )
+
+    code, out = _validate_archive(markdown, tmp_path, capsys)
+
+    assert code == 1
+    assert _checks(out) == ["archive-battery-items"]
+
+
+@pytest.mark.parametrize(("items", "answers"), [(3, 3), (4, 3)])
+def test_battery_tag_disagreeing_with_body_fails(
+    items: int, answers: int, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """[items: 4] over three items, or over four items with three answers, fails."""
+    markdown = _archive_with([_battery(1, heading_tags=" [items: 4]", items=items, answers=answers)], asked=4)
+
+    code, out = _validate_archive(markdown, tmp_path, capsys)
+
+    assert code == 1
+    assert _checks(out) == ["archive-battery-items"]
+
+
+def test_items_tag_on_a_ladder_probe_fails(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """An [items: 3] tag on a non-battery probe is a finding."""
+    markdown = _archive_with([_open_probe(1, probe="ladder", tags=" [items: 3]")], asked=1)
+
+    code, out = _validate_archive(markdown, tmp_path, capsys)
+
+    assert code == 1
+    assert _checks(out) == ["archive-battery-items"]
+
+
+def test_well_formed_battery_passes(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """A three-item battery with three answers has no finding."""
+    code, out = _validate_archive(_archive_with([_battery(1)], asked=3), tmp_path, capsys)
+
+    assert (code, out) == (0, "")
+
+
+def test_evidence_entry_counts_one_probe(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """An evidence entry raises its category by one."""
+    markdown = _archive_with([_open_probe(1), _open_probe(2, probe="evidence")], asked=2)
+
+    code, out = _validate_archive(markdown, tmp_path, capsys)
+
+    assert (code, out) == (0, "")
+
+
+def test_closing_battery_touches_no_category_count(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """A [closing] battery adds nothing to any category, and the closing tag is not a category."""
+    markdown = _archive_with([_open_probe(1), _battery(2, category="closing")], asked=1)
+
+    code, out = _validate_archive(markdown, tmp_path, capsys)
+
+    assert (code, out) == (0, "")
+
+
+def test_contiguous_optional_section_ids_pass(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """R01, R02 under Open research and E01, E02 under Exports pass."""
+    sections = (
+        "## Open research\n- R01 (Q01): first. Status: unresolved\n- R02 (Q01): second. Status: unresolved\n\n"
+        "## Exports\n- E01 (Q01): first -> unassigned\n- E02 (Q01): second -> unassigned\n\n"
+    )
+
+    code, out = _validate_archive(_archive_with([_open_probe(1)], asked=1, extra_sections=sections), tmp_path, capsys)
+
+    assert (code, out) == (0, "")
+
+
+@pytest.mark.parametrize(
+    ("section", "prefix"),
+    [("Open research", "R"), ("Exports", "E")],
+)
+def test_optional_section_id_gap_names_the_section(
+    section: str, prefix: str, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """An ID run that skips a number is an archive-section-ids finding that names the section."""
+    sections = f"## {section}\n- {prefix}01 (Q01): first\n- {prefix}03 (Q01): third\n\n"
+
+    code, out = _validate_archive(_archive_with([_open_probe(1)], asked=1, extra_sections=sections), tmp_path, capsys)
+
+    assert code == 1
+    assert _checks(out) == ["archive-section-ids"]
+    assert section in out
+
+
+def test_battery_fixture_passes(capsys: pytest.CaptureFixture[str]) -> None:
+    """The woodworking-battery fixture exits 0 with no output."""
+    code, out = _run_validator(BATTERY_FIXTURE, capsys)
+
+    assert (code, out) == (0, "")
+
+
+def test_battery_item_mismatch_fixture_flags_only_the_battery_check(capsys: pytest.CaptureFixture[str]) -> None:
+    """The battery-item-mismatch fixture yields exactly one archive-battery-items finding."""
+    code, out = _run_validator(BAD_FIXTURES / "battery-item-mismatch", capsys)
+
+    assert code == 1
+    assert _checks(out) == ["archive-battery-items"]

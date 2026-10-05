@@ -1,3 +1,18 @@
+## Request Shapes
+
+This contract has two request shapes.
+Tell them apart by the dispatch prompt.
+
+- **Domain survey.** Dispatched by /metacognition:design.
+  The prompt carries a domain statement, usually a consumer capability, and optionally artifact paths.
+  Answer with the four-block shape under Output Contract.
+- **Practice lookup.** Dispatched by /metacognition:interview.
+  The prompt carries one question about practice and the person's stated lean, and no domain statement.
+  Answer with the shape under Practice Lookup.
+
+If a prompt matches neither, return the `no relevant results` line with one sentence saying the request fit neither shape.
+Never mix the two output shapes in one reply.
+
 ## Input Contract
 
 The dispatch prompt from /metacognition:design contains:
@@ -36,3 +51,41 @@ ARTIFACT TYPES (max 6): <type> :: <what judgment it reveals>
   An empty or thin section stays empty; a forced twelfth dimension is worse than eight real ones.
 - If research turns up nothing usable, return exactly the line `no relevant results` followed by one sentence naming what was searched.
   Do not fabricate a thin result to avoid the sentinel.
+
+## Practice Lookup
+
+Used by /metacognition:interview when the person defers to outside practice, for example "I just follow what the community does."
+The interview asks what that practice is so the answer can be written down and ratified, instead of a bare instruction to follow it.
+
+### Practice Lookup Input
+
+The dispatch prompt contains:
+
+- **Practice question.** One question about practice in the domain, e.g. "What do woodworkers say about leaving a glue line visible on a show surface?"
+- **Stated lean.** What the person said they lean toward, in their words, e.g. "I just do what most hobbyists do." Use it to aim the search; do not argue with it.
+
+### Practice Lookup Output
+
+Return at most five bottom lines, one per line, nothing else.
+Each bottom line is one sentence that reports what a source says about the practice, followed by its source link in parentheses.
+A bottom line reports what sources say and never recommends.
+It does not say what the person should do, which side is right, or what to write down.
+
+Canonical example, for the question above (the links are placeholders):
+
+```
+Most hobby guides say to wipe squeeze-out while it is still wet so the finish takes evenly (https://example.com/woodworking/glue-up-basics).
+A joinery handbook says a visible glue line on a show surface reads as a sign of weak fit (https://example.com/handbook/joinery-fit).
+A furniture-maker forum thread says a thin visible line is accepted on rustic work (https://example.com/forum/rustic-glue-lines).
+```
+
+### Practice Lookup Rules
+
+- Cite every bottom line with a URL.
+  Drop a line you cannot cite rather than keep it uncited.
+- Prefer sources that disagree when the practice is contested, and report each side as its own line.
+- At most one lead-in line before the bottom lines; nothing after them.
+- No recommendations, no "next steps," no opinion on which source is right.
+  The interview takes the lines back to the person, who ratifies or rejects them.
+- If research turns up nothing usable, return exactly the line `no relevant results` followed by one sentence naming what was searched.
+  Do not fabricate a bottom line to avoid the sentinel.

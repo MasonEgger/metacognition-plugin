@@ -116,6 +116,7 @@ calibrated: true|false
   Compile stamps the version when it first writes `profile.md`; calibrate restamps it whenever a fold-back materially changes the file.
   Skillify never bumps this or any plugin version; it only reports what the person may want to bump.
 - `token_estimate`: the profile body's estimated size, characters divided by four, no tokenizer dependency, reported by compile and recomputed independently by `python3 scripts/validate_artifacts.py`, which fails above the 10,000 hard ceiling and flags a stored estimate that disagrees with its own recount.
+  The compile and calibrate stages run `python3 scripts/update_token_estimate.py` to keep the stored value current.
 - `calibrated`: `true` once three consecutive calibration rounds show non-increasing correction counts and the most recent round is at or under `calibration_threshold` from `interview-spec.md`, `false` otherwise.
   Calibrate is the only stage that flips this field.
 
@@ -178,6 +179,7 @@ The zero state, for a profile compile has just written and calibrate has never t
 
 Compile targets 2,000 to 4,000 tokens for a single-register profile body, more when the domain carries several registers, with a hard ceiling of 10,000 at any register count.
 Token count is estimated as characters divided by four, deliberately avoiding a tokenizer dependency; compile reports its own estimate in the `token_estimate` frontmatter field, and `python3 scripts/validate_artifacts.py` recomputes the same estimate from the body independently, failing any profile over the 10,000 ceiling and flagging a stored `token_estimate` that disagrees with its own recount.
+The compile and calibrate stages run `python3 scripts/update_token_estimate.py` to keep the stored `token_estimate` current after compile and after each calibration fold-back.
 The ceiling is a padding guard, not a compression target: the keep/cut test and the compile log are what keep a profile honest, and a line that changes downstream output is never cut to make a number.
 `profile.md` is a reference file the produced skill loads on trigger, not the skill body, so size guidance written for a skill body does not apply to it.
 Reference points: a single-register profile measures about 4,900 tokens, and a four-register profile compiled from a 100-question archive measures about 7,500.
