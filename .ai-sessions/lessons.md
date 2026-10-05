@@ -2,6 +2,7 @@
 
 ## Recent
 <!-- 10 most recent lessons, newest first -->
+- The prose gate does not catch a doubled word, so a reviewer found one in a docs page; search the changed docs for repeated adjacent words before finalizing (2026-10-05)
 - Before moving a planning file, search the tests for its path; a guard that lists `plan.md` by name fails once the plan is archived (2026-10-03)
 - A docs theme can hide the header's repo link on narrow screens, and a bare URL is plain text in the built site, so put repo links and the version in the page body and read the built HTML to confirm they are clickable (2026-10-03)
 - Material derived from a real interview is private by default: rewrite it for the public repo with no quoted answers, then search the result and any issue text for private tokens before filing, because the doctrine guard does not scan `.ai-sessions/` or GitHub issues (2026-10-02)
@@ -11,7 +12,6 @@
 - A README's first sentence must agree with its own install section about which surfaces the project supports; check the opening line against the spec's scope statement before finalizing (2026-10-01)
 - When a guard over a docs tree forbids a string the docs must display, keep the string in a file the guard exempts by design and include it at build time with a checked snippet, so the guard stays whole and the build fails if the source section goes missing (2026-10-01)
 - Look up a GitHub Action's commit SHA from the tag ref through the API, dereference annotated tags, and confirm the result against the commits endpoint; never write a SHA from memory (2026-10-01)
-- Once a prose gate scans the repo's own files, every session summary, lesson, and CLAUDE.md edit written afterward is checked by it, so run the gate before committing and never quote the banned list or a dirty fixture's lines in prose; say the rule name instead (2026-10-01)
 
 ## Security
 - Material derived from a real interview is private by default: rewrite it for the public repo with no quoted answers, then search the result and any issue text for private tokens before filing, because the doctrine guard does not scan `.ai-sessions/` or GitHub issues (2026-10-02)
@@ -61,6 +61,7 @@
 - PyYAML's safe_load returns datetime.date for a bare YYYY-MM-DD scalar, so a parser that must match it has to return a date object, and JSON output then needs a default hook to print dates as ISO strings (2026-10-01)
 
 ## Documentation
+- The prose gate does not catch a doubled word, so a reviewer found one in a docs page; search the changed docs for repeated adjacent words before finalizing (2026-10-05)
 - A docs theme can hide the header's repo link on narrow screens, and a bare URL is plain text in the built site, so put repo links and the version in the page body and read the built HTML to confirm they are clickable (2026-10-03)
 - A README's first sentence must agree with its own install section about which surfaces the project supports; check the opening line against the spec's scope statement before finalizing (2026-10-01)
 - When a guard over a docs tree forbids a string the docs must display, keep the string in a file the guard exempts by design and include it at build time with a checked snippet, so the guard stays whole and the build fails if the source section goes missing (2026-10-01)

@@ -17,16 +17,16 @@ Check a step only when every sub-step under it is done.
 
 ## Section 2: Formats and References
 
-- [ ] Step 2: Extend the Archive, Interview Spec, and Technique References (task)
-  - [ ] archive-format.md: optional Open research and Exports sections, battery and evidence entries in the template
-  - [ ] archive-format.md: probe types, items tag, battery body shape, counting rule
-  - [ ] archive-format.md: picker provenance, capture conventions, registers may grow
-  - [ ] interview-spec-format.md: Registers column, floors count probes, artifact availability, README cell rule
-  - [ ] extraction-theory.md: battery and evidence rows in rule 16's table, still sixteen rules
-  - [ ] just sync
-  - [ ] docs/formats/archive.md, docs/formats/interview-spec.md, docs/method.md restate the changes
-  - [ ] Verify: sync check, prose gate, just check
-  - [ ] Document: CLAUDE.md note
+- [x] Step 2: Extend the Archive, Interview Spec, and Technique References (task)
+  - [x] archive-format.md: optional Open research and Exports sections, battery and evidence entries in the template
+  - [x] archive-format.md: probe types, items tag, battery body shape, counting rule
+  - [x] archive-format.md: picker provenance, capture conventions, registers may grow
+  - [x] interview-spec-format.md: Registers column, floors count probes, artifact availability, README cell rule
+  - [x] extraction-theory.md: battery and evidence rows in rule 16's table, still sixteen rules
+  - [x] just sync
+  - [x] docs/formats/archive.md, docs/formats/interview-spec.md, docs/method.md restate the changes
+  - [x] Verify: sync check, prose gate, just check
+  - [x] Document: CLAUDE.md note
 
 ## Section 3: Validator
 

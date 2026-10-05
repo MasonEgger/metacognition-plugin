@@ -32,11 +32,11 @@ created: YYYY-MM-DD
 [3-5, each marked engaged/declined]
 
 ## Category map
-| Category | Maps to generic slot | Floor | Saturation rule |
+| Category | Maps to generic slot | Floor | Registers | Saturation rule |
 
 ## Question seeds
 ### <Category>
-- Seed: <question>  Probe: <forced-choice|ladder|contrast|artifact|critical-incident|triad>
+- Seed: <question>  Probe: <forced-choice|ladder|contrast|artifact|critical-incident|triad|battery>
 
 ## Artifact plan
 [paths, selection instructions, how each artifact is used; in augment mode the target skill's files come first]
@@ -93,7 +93,7 @@ Engaged means you confirmed it belongs in the interview, and it earns a category
 Declined means you ruled it out of scope for this extraction, and the decision is recorded so a later design run does not re-surface the same question without cause.
 
 **Category map.**
-A table naming every category the interview will cover, the generic interview slot it feeds, a floor, and the saturation rule.
+A table naming every category the interview will cover, the generic interview slot it feeds, a floor, the registers that category's questions target, and the saturation rule.
 The generic slots are the seven below, or a sanctioned domain-specific addition:
 
 | Generic slot | Default floor |
@@ -109,17 +109,25 @@ The generic slots are the seven below, or a sanctioned domain-specific addition:
 A domain may rename a slot or add slots, but every one of the seven must map to something in the final table.
 A category maps to a generic interview slot, never to a `profile.md` section.
 Compile turns an answered category into the matching profile section later.
-The floor is the minimum question count per [rule 10](../method.md#10-saturation-not-quotas), and the saturation rule lets interview stop asking early when three consecutive answers add no new constraint.
+The Registers column names which of the spec's registers each category's questions target.
+Every register must appear in at least one row.
+A register no category targets is a design-time error, which design resolves with you before writing the spec.
+A question with no register-specific content takes the first register in the list.
+The floor is the minimum probe count per [rule 10](../method.md#10-saturation-not-quotas).
+A floor counts probes, not turns: an open probe, a forced choice, or an evidence entry counts one, and a battery counts its number of items.
+The default floors do not change.
+The saturation rule lets interview stop asking early when three consecutive answers add no new constraint.
 
 **Question seeds.**
 Grouped under a `### <Category>` heading per category in the map.
-Each seed pairs a starting question with a named probe pattern: `forced-choice`, `ladder`, `contrast`, `artifact`, `critical-incident`, or `triad`.
+Each seed pairs a starting question with a named probe pattern: `forced-choice`, `ladder`, `contrast`, `artifact`, `critical-incident`, `triad`, or `battery`.
 These match the technique index in [rule 16](../method.md#16-elicitation-technique-index).
 Seeds are starting points, not a script.
 Interview follows a thread when something interesting emerges.
 
 **Artifact plan.**
 Paths to every real artifact the interview will ground questions in, selection instructions when a category has more artifacts than the interview needs, and a note on how each artifact gets used: a contrast pair, a single grounding example, or a sorting set.
+Each local path is recorded as available or unavailable, with the reason, so the interview knows which artifacts it can ground a question in.
 In augment mode, the target skill's own files come first.
 
 **Forced-choice bank.**
@@ -142,7 +150,8 @@ There is no `/metacognition:status` command, because this table already answers 
 The columns, in order:
 
 - `design`: whether the interview spec exists and its creation date.
-- `interview n/floor`: questions asked so far over the sum of category floors.
+- `interview n/floor`: probes asked so far over the sum of category floors.
+  The count may exceed the floor sum, and the cell is marked complete when the archive's status flips to `complete`.
 - `compile tokens`: the compiled profile's estimated token count, the figure the structure check recomputes and checks against the 10,000-token ceiling.
 - `calibrate rounds, last count`: how many calibration rounds have run, and the correction count of the most recent one.
 - `skillify -> plugin:skill (mode)`: once skillify has run, the target skill it produced or augmented, and whether it ran in augment or replace mode.
