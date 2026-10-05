@@ -5,7 +5,7 @@ It interviews you, one question or one short battery at a time, compresses the a
 It is for anyone who wants their taste written down in a form Claude can apply, in any field.
 
 <!-- --8<-- [start:beta] -->
-This plugin is in beta at version 0.1.1.
+This plugin is in beta at version 0.2.0.
 Expect rough edges: commands, file formats, and behavior may change between versions.
 The source, releases, and issue tracker are at [MasonEgger/metacognition-plugin](https://github.com/MasonEgger/metacognition-plugin) on GitHub.
 <!-- --8<-- [end:beta] -->

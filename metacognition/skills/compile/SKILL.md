@@ -1,6 +1,6 @@
 ---
 name: compile
-version: 0.1.1
+version: 0.2.0
 description: 'This skill should be used when the user asks to "compile the archive for a domain", "compress the interview into a profile", "compile a domain slug into profile.md", "run compile on the completed interview", or runs `/metacognition:compile`. Compresses a completed interview archive into the compressed `profile.md`, applying the keep/cut test to every candidate line and logging every cut to `compile-log.md`. It never asks the person a new taste question; that is the job of `/metacognition:interview`.'
 compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.12 or newer; without them the skill applies the same rules by hand. It reads the extraction files design and interview wrote and writes profile.md and compile-log.md in the same directory, so it needs file access or the files uploaded to the conversation.'
 ---

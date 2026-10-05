@@ -1,6 +1,6 @@
 ---
 name: design
-version: 0.1.1
+version: 0.2.0
 description: 'This skill should be used when the user asks to "design an interview for a domain", "scope a new taste extraction", "design the extraction for a domain", "build the interview spec for a domain", "design an augment interview against an existing skill", or runs `/metacognition:design`. Produces two artifacts: `interview-spec.md` and the extraction README. It never asks the person a taste question itself; that is the job of /metacognition:interview.'
 compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.12 or newer; without them the skill applies the same rules by hand. Research uses the plugin research agent where the surface loads plugin agents, and otherwise runs in-session; it needs web access, or it continues on the scoping answers alone.'
 ---

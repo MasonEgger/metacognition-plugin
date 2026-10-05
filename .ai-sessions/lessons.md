@@ -2,6 +2,9 @@
 
 ## Recent
 <!-- 10 most recent lessons, newest first -->
+- When an eval must pin one of two verdicts, each verdict needs a fixture that reliably produces it, or the pin passes or fails by chance (2026-10-05)
+- A docs page that restates a reference should not gain a fact its reference lacks; add the fact to the reference in the same pull request, as the profile format page and its source were brought into agreement (2026-10-05)
+- A section with no validator still needs an independent check of the tree before its commit; the orchestrator's own version, source, and zip check was the only second look in Step 14 (2026-10-05)
 - Before a plan step says "the existing fixture demonstrates X", open the fixture and check; the plan assumed a stub skill was well structured, and the eval for that path needed its own fixture (2026-10-05)
 - Two programs that must agree on a derived number need to share the read and the split as well as the arithmetic, because sharing only the final function still lets them disagree on line endings; test the agreement on CRLF, byte-order-mark, and no-trailing-newline inputs (2026-10-05)
 - A round-trip test through the validator passes for inputs the format forbids when the validator does not check that rule, so the writer must enforce the two-line entry body itself (2026-10-05)
@@ -9,15 +12,13 @@
 - The prose gate does not catch a doubled word, so a reviewer found one in a docs page; search the changed docs for repeated adjacent words before finalizing (2026-10-05)
 - Before moving a planning file, search the tests for its path; a guard that lists `plan.md` by name fails once the plan is archived (2026-10-03)
 - A docs theme can hide the header's repo link on narrow screens, and a bare URL is plain text in the built site, so put repo links and the version in the page body and read the built HTML to confirm they are clickable (2026-10-03)
-- Material derived from a real interview is private by default: rewrite it for the public repo with no quoted answers, then search the result and any issue text for private tokens before filing, because the doctrine guard does not scan `.ai-sessions/` or GitHub issues (2026-10-02)
-- When a spec's Roadmap says a follow-up is "tracked as an issue once the phase lands", file that issue in the session that ships the phase; nothing in a plan step carries the promise otherwise (2026-10-02)
-- GitHub Actions runs each `run:` step under `bash -e`, so reading `$?` on the line after a command never happens when that command exits non-zero; capture the code in the same command (`rc=0; cmd || rc=$?`) and test the step's script locally with `bash -e` (2026-10-02)
 
 ## Security
 - Material derived from a real interview is private by default: rewrite it for the public repo with no quoted answers, then search the result and any issue text for private tokens before filing, because the doctrine guard does not scan `.ai-sessions/` or GitHub issues (2026-10-02)
 - A tool that deletes or overwrites files in a directory must check for symlinks at every level it touches, the directory and each entry, and its drift check must not read through a link, or a link passes as a valid copy (2026-10-01)
 
 ## Workflow
+- A section with no validator still needs an independent check of the tree before its commit; the orchestrator's own version, source, and zip check was the only second look in Step 14 (2026-10-05)
 - Before a plan step says "the existing fixture demonstrates X", open the fixture and check; the plan assumed a stub skill was well structured, and the eval for that path needed its own fixture (2026-10-05)
 - Before moving a planning file, search the tests for its path; a guard that lists `plan.md` by name fails once the plan is archived (2026-10-03)
 - When a spec's Roadmap says a follow-up is "tracked as an issue once the phase lands", file that issue in the session that ships the phase; nothing in a plan step carries the promise otherwise (2026-10-02)
@@ -36,6 +37,7 @@
 - A review ruling that contradicts a spec invariant needs a spec edit in the same pass, then `/bpe:plan --regen`, or plan and spec drift (2026-10-01)
 
 ## Testing
+- When an eval must pin one of two verdicts, each verdict needs a fixture that reliably produces it, or the pin passes or fails by chance (2026-10-05)
 - Two programs that must agree on a derived number need to share the read and the split as well as the arithmetic, because sharing only the final function still lets them disagree on line endings; test the agreement on CRLF, byte-order-mark, and no-trailing-newline inputs (2026-10-05)
 - A round-trip test through the validator passes for inputs the format forbids when the validator does not check that rule, so the writer must enforce the two-line entry body itself (2026-10-05)
 - A guard test over an existing tree cannot show RED on the tree itself, so write its detection logic test-first against planted input under tmp_path, then point it at the real tree, and never plant anything in the repo (2026-10-01)
@@ -65,6 +67,7 @@
 - PyYAML's safe_load returns datetime.date for a bare YYYY-MM-DD scalar, so a parser that must match it has to return a date object, and JSON output then needs a default hook to print dates as ISO strings (2026-10-01)
 
 ## Documentation
+- A docs page that restates a reference should not gain a fact its reference lacks; add the fact to the reference in the same pull request, as the profile format page and its source were brought into agreement (2026-10-05)
 - The prose gate does not catch a doubled word, so a reviewer found one in a docs page; search the changed docs for repeated adjacent words before finalizing (2026-10-05)
 - A docs theme can hide the header's repo link on narrow screens, and a bare URL is plain text in the built site, so put repo links and the version in the page body and read the built HTML to confirm they are clickable (2026-10-03)
 - A README's first sentence must agree with its own install section about which surfaces the project supports; check the opening line against the spec's scope statement before finalizing (2026-10-01)

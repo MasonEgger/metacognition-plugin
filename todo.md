@@ -143,9 +143,9 @@ Check a step only when every sub-step under it is done.
 
 ## Section 8: Version and Release Readiness
 
-- [ ] Step 14: Set Version 0.2.0 and Refresh the Release Record (task)
-  - [ ] 0.2.0 in five SKILL.md files, both manifests, pyproject.toml, README beta section
-  - [ ] uv lock
-  - [ ] docs/surface-check.md version and automated-checks record
-  - [ ] Verify: just check, release-dry, claude plugin validate, sync check
-  - [ ] Document: CLAUDE.md note
+- [x] Step 14: Set Version 0.2.0 and Refresh the Release Record (task)
+  - [x] 0.2.0 in five SKILL.md files, both manifests, pyproject.toml, README beta section
+  - [x] uv lock
+  - [x] docs/surface-check.md version and automated-checks record
+  - [x] Verify: just check, release-dry, claude plugin validate, sync check
+  - [x] Document: CLAUDE.md note

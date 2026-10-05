@@ -1,6 +1,6 @@
 ---
 name: calibrate
-version: 0.1.1
+version: 0.2.0
 description: 'This skill should be used when the user asks to "run a calibration round for a domain", "calibrate the profile for a domain", "run calibration against profile.md", "test the compiled profile", "redline this probe artifact", or runs `/metacognition:calibrate`. Runs a probe task against a compiled `profile.md`, takes the person''s redlines, and folds each correction back into the profile per the fold-back decision tree. It never touches the archive and never authors anything that ships.'
 compatibility: 'Runs on Claude Code, Cowork, and claude.ai. The scripts need code execution and Python 3.12 or newer; without them the skill applies the same rules by hand. It reads profile.md and interview-spec.md and writes round files and profile edits in the same extraction directory, so it needs file access or the files uploaded to the conversation.'
 ---

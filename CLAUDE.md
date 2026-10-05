@@ -5,13 +5,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## State of the Repo
 
 The first phase (port from private main, 22 steps) is complete, shipped as `v0.1.0`, and archived under `.ai-sessions/port-from-private/`.
-The repo holds the planning documents, the Python toolchain, the plugin and marketplace manifests, the five skills, the research agent, the three shipped scripts, the build tools, the evals, the docs site, the README, and the CI and release workflows.
+The repo holds the planning documents, the Python toolchain, the plugin and marketplace manifests, the five skills, the research agent, the five shipped scripts, the build tools, the evals, the docs site, the README, and the CI and release workflows.
 `tests/fixtures/` holds the ported woodworking extractions and the woodshop plugin fixture; they are verbatim data, so do not edit them or lint their prose.
 `tests/fixtures/plugins/woodshop-sprawl/` is a second fixture plugin whose skill is badly structured on purpose (a vague description, one oversized `SKILL.md`, no references), so the skillify augment eval has a target to restructure; its defects are deliberate, so do not fix them.
 `tests/fixtures/plugins/woodshop-tidy/` is its opposite, a fixture plugin whose skill is well structured on purpose, so the "structure holds" verdict has a target; do not degrade it.
 `src/scripts/yaml_subset.py` (which also exposes `extract_frontmatter`), `tests/test_yaml_subset.py`, and `tests/test_yaml_parity.py` exist; the parity test holds the parser equal to PyYAML over every fixture frontmatter.
 `src/scripts/resolve_config.py` and `tests/test_resolve_config.py` exist too; tests that run the resolver must isolate HOME, XDG_CONFIG_HOME, and the working directory.
-`src/scripts/validate_artifacts.py` and `tests/test_validate_artifacts.py` exist, so all three scripts are shipped.
+`src/scripts/validate_artifacts.py` and `tests/test_validate_artifacts.py` exist; they are the third of five shipped scripts.
 `woodworking-truncated` fails the validator with `archive-category-count` on purpose (it is the interrupted-interview fixture for the `--resume` eval); a test pins that finding, so do not fix the fixture.
 The archive format now has two optional sections (`## Open research` and `## Exports`) and two more probe types (`battery` with an `[items: n]` tag, and `evidence`); the references and docs pages describe them, and `validate_artifacts.py` enforces them: `archive-category-count` counts probes (a battery counts its `[items: n]`), `archive-battery-items` checks the battery shape, and `archive-section-ids` checks that the optional sections' line IDs run contiguously.
 `src/scripts/archive_append.py` and `tests/test_archive_append.py` exist: the script appends one entry per call (a probe, a battery, or a closing question), with optional saturation and ledger, research, and export lines, and it ships in the interview slice, where it is the interview skill's write path (one call per turn, with a by-hand fallback).
@@ -46,8 +46,11 @@ Material hides the header's repo link on narrow screens, and a bare URL is not a
 Read the spec's Invariants, Non-goals, and Deferred list before changing anything: they are hard constraints, and a step that crosses one needs a spec change first.
 Issue #3 (the profile ceiling raised to 10,000) is done and ships as `0.1.1`.
 The active phase is the interview retro (issue #4), widened to carry issue #9 (a token-estimate script and the Python 3.12 floor) and issue #10 (skillify grounded in the `plugin-dev` baseline): the spec's Goals R1 to R12, Components K and L, and the retro-phase success criteria describe it.
-The spec already states a Python 3.12 floor and five shipped scripts; the repo now runs on the 3.12 floor (CI runs 3.12 and 3.13) and still has three scripts until the plan's later steps land.
-It is specced and planned on the `interview-retro` branch but not built; nothing under `metacognition/`, `src/`, `tests/`, `evals/`, or `docs/` reflects it yet, so do not read the spec's new invariant wording as a description of the shipped skills.
+The phase is built on the `interview-retro` branch, all 14 steps, and the version is `0.2.0` everywhere (five SKILL.md files, both manifests, `pyproject.toml`, `uv.lock`, and the README beta section).
+The repo runs on the Python 3.12 floor (CI runs 3.12 and 3.13) and ships five scripts: `yaml_subset.py`, `resolve_config.py`, `validate_artifacts.py`, `archive_append.py`, and `update_token_estimate.py`.
+The phase added four fixtures: `tests/fixtures/extractions/woodworking-battery` (a valid archive with a battery), `tests/fixtures/extractions-bad/battery-item-mismatch` (a battery whose items disagree with its `[items: n]` tag, on purpose), `tests/fixtures/plugins/woodshop-sprawl`, and `tests/fixtures/plugins/woodshop-tidy`.
+Merging this branch to main publishes a `v0.2.0` pre-release, because the manifest version has no tag.
+The plan is ready to archive after the merge, under `.ai-sessions/`, the way the first phase was.
 Those research files are rewritten from private material and hold no interview answers; keep it that way, and never copy a private retro or archive into this repo verbatim.
 
 ## What Is Being Built
