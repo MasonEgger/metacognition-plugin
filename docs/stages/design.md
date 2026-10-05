@@ -33,6 +33,15 @@ Design records your answers verbatim.
 After scoping it runs research on the domain and shows you the dimensions, schools of thought, vocabulary, and artifact types it found, as one list.
 You can drop or add entries.
 It then names three to five dimensions you may have taste about but did not raise, and you mark each as engaged or declined.
+
+Before it writes the artifact plan, design checks that each local artifact path exists and holds real content.
+A missing path, or a directory or document that holds only scaffolding, is recorded as unavailable with the reason, and design tells you at once so you can supply another.
+Where the surface has no file access, design says the paths could not be checked.
+An unavailable path counts as no artifact when design sets `artifacts_available`.
+
+Every register you named must be targeted by at least one category in the category map.
+When one is not, design raises it with you and either adds questions that target it or drops the register, before it writes anything.
+
 Before writing anything, it closes every open question, so the finished spec has no open questions in it.
 
 ## What It Produces

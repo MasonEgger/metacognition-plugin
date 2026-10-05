@@ -92,7 +92,8 @@ calibrated: true|false
   Calibrate restamps it whenever a fold-back materially changes the file.
   Skillify never bumps this or any plugin version.
 - `token_estimate`: the profile body's estimated size, characters divided by four, with no tokenizer dependency.
-  Compile reports it and the structure check recomputes it independently.
+  Compile reports it, and compile and calibrate keep the line current with `scripts/update_token_estimate.py`.
+  The structure check recomputes it independently.
   The check fails above the 10,000 hard ceiling and flags a stored estimate that disagrees with its own recount.
 - `calibrated`: `true` once three consecutive calibration rounds show non-increasing correction counts and the most recent round is at or under `calibration_threshold` from `interview-spec.md`.
   Otherwise `false`.
@@ -174,7 +175,8 @@ The closing instruction: apply the profile silently, protect your judgment over 
 
 Compile targets 2,000 to 4,000 tokens for a single-register profile body, more when the domain carries several registers, with a hard ceiling of 10,000 at any register count.
 Token count is estimated as characters divided by four, with no tokenizer dependency.
-Compile reports its estimate in the `token_estimate` frontmatter field, and the structure check recomputes the same estimate from the body.
+Compile reports its estimate in the `token_estimate` frontmatter field, and `scripts/update_token_estimate.py` corrects that line after compile and after each calibration fold-back.
+The structure check recomputes the same estimate from the body.
 The ceiling is a padding guard, not a compression target: the keep/cut test and the compile log keep a profile honest, and a line that changes downstream output is never cut to make a number.
 `profile.md` is a reference file the produced skill loads on trigger, not the skill body, so size guidance written for a skill body does not apply to it.
 Reference points: a single-register profile measures about 4,900 tokens, and a four-register profile compiled from a 100-question archive measures about 7,500.

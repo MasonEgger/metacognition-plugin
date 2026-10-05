@@ -3,6 +3,8 @@
 `archive.md` is the running record of the interview: every question asked, every answer given, and every contradiction the interviewer catches.
 [Interview](../stages/interview.md) writes it incrementally, one entry at a time (a battery is one entry), and it is the source of truth for the interview.
 The conversation transcript is not.
+Interview appends each entry with `scripts/archive_append.py`, which updates the counts and the README cell in the same call.
+Where the script cannot run, interview makes the same edits by hand.
 [Compile](../stages/compile.md) reads it to produce `profile.md`.
 [Skillify](../stages/skillify.md) reads its `### Qnn [<category>]` headings to derive a section map for the produced skill.
 

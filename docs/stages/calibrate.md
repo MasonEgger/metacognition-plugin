@@ -33,7 +33,8 @@ When no entry fits, calibrate builds a task that produces something you can redl
 ## What It Produces
 
 - `<root>/<slug>/calibration/round-NN.md`. See [Calibration Round Files](../formats/calibration-round.md).
-- Edits to `profile.md`, each changed line marked with `<!-- calibrated: round N, YYYY-MM-DD -->`, a restamped `version`, and an updated `<calibration_state>` section.
+- Edits to `profile.md`, each changed line marked with `<!-- calibrated: round N, YYYY-MM-DD -->`, a restamped `version`, a refreshed `token_estimate`, and an updated `<calibration_state>` section.
+  After a fold-back, calibrate runs the same script compile uses, `scripts/update_token_estimate.py`, so the estimate matches the edited body.
 - The `calibrate rounds, last count` cell of the extraction README.
 
 Calibrate sets the profile's `calibrated` field.

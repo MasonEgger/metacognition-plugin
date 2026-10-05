@@ -131,15 +131,15 @@ Check a step only when every sub-step under it is done.
   - [x] Compile and calibrate evals: token estimate by script or fallback
   - [x] evals/README.md
   - [x] Verify: test_evals, just check
-- [ ] Step 13: Update the Stage Pages and the Front Door (task)
-  - [ ] docs/stages/interview.md
-  - [ ] docs/stages/design.md, compile.md, calibrate.md, skillify.md
-  - [ ] docs/configuration.md: exemplar as an advanced option
-  - [ ] docs/index.md, docs/stages/index.md, README.md wording
-  - [ ] README.md: plugin-dev as a recommended companion install
-  - [ ] docs/privacy.md: research findings and exports travel with the archive
-  - [ ] Closing sweep: every docs page checked against the changed skills, references, and scripts
-  - [ ] Verify: grep for the old wording, docs build, just check
+- [x] Step 13: Update the Stage Pages and the Front Door (task)
+  - [x] docs/stages/interview.md
+  - [x] docs/stages/design.md, compile.md, calibrate.md, skillify.md
+  - [x] docs/configuration.md: exemplar as an advanced option
+  - [x] docs/index.md, docs/stages/index.md, README.md wording
+  - [x] README.md: plugin-dev as a recommended companion install
+  - [x] docs/privacy.md: research findings and exports travel with the archive
+  - [x] Closing sweep: every docs page checked against the changed skills, references, and scripts
+  - [x] Verify: grep for the old wording, docs build, just check
 
 ## Section 8: Version and Release Readiness
 

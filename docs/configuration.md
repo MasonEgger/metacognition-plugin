@@ -13,9 +13,11 @@ When the script cannot run, because the surface has no code execution or the int
 | Key | Meaning | Default |
 |---|---|---|
 | `extractions_root` | Where extraction directories live. Each extraction is `<root>/<slug>/`. | `extractions` |
-| `exemplar` | Path to a skill, either its directory or its `SKILL.md`, whose shape skillify should match. | none |
+| `exemplar` | Advanced option most people will not set. Path to a skill, either its directory or its `SKILL.md`, whose shape skillify may use. | none |
 
 No other key exists.
+You can leave `exemplar` unset.
+Skillify works without it.
 
 ## The Five Tiers
 
@@ -91,7 +93,7 @@ These are not errors:
 
 - A missing file, at any tier. It is skipped silently.
 - A null value. `exemplar:` with nothing after the colon counts as unset, so the next tier down supplies the value.
-- An exemplar that does not exist. Skillify tells you the exemplar was not found and continues on its built-in scaffold alone.
+- An exemplar that does not exist. The setting resolves normally and is reported as not existing. Skillify skips it silently, with no message, and continues without it.
 
 Every tier is read even when a higher tier already won a key.
 A bad file at a lower tier is therefore an error even when a higher tier would have supplied the value.
@@ -105,3 +107,4 @@ When the same key is set twice, the last one wins.
 Each config file that was actually read is announced with one line: `Loaded config from: <path>`.
 A file that exists but sets nothing is still announced.
 A missing file is not.
+In the by-hand fallback, the stage states the same line for each file it read.
