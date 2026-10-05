@@ -122,15 +122,15 @@ Check a step only when every sub-step under it is done.
 
 ## Section 7: Evals and Docs
 
-- [ ] Step 12: Update the Evals (task)
-  - [ ] Interview evals: battery eval, deferral eval, revised turn expectations
-  - [ ] Design evals: unavailable artifact, register coverage
-  - [ ] Compile eval: exports in the compile log
-  - [ ] New fixture plugin tests/fixtures/plugins/woodshop-sprawl
-  - [ ] Skillify evals: structure holds, structure challenged, silent exemplar skip, install recommendation
-  - [ ] Compile and calibrate evals: token estimate by script or fallback
-  - [ ] evals/README.md
-  - [ ] Verify: test_evals, just check
+- [x] Step 12: Update the Evals (task)
+  - [x] Interview evals: battery eval, deferral eval, revised turn expectations
+  - [x] Design evals: unavailable artifact, register coverage
+  - [x] Compile eval: exports in the compile log
+  - [x] New fixture plugin tests/fixtures/plugins/woodshop-sprawl
+  - [x] Skillify evals: structure holds, structure challenged, silent exemplar skip, install recommendation
+  - [x] Compile and calibrate evals: token estimate by script or fallback
+  - [x] evals/README.md
+  - [x] Verify: test_evals, just check
 - [ ] Step 13: Update the Stage Pages and the Front Door (task)
   - [ ] docs/stages/interview.md
   - [ ] docs/stages/design.md, compile.md, calibrate.md, skillify.md

@@ -16,6 +16,26 @@
         "the transcript shows no Agent dispatch to metacognition:domain-research before the first question (research is step 2, after scope Q&A opens)",
         "git status --short tests/fixtures/ is empty after the run"
       ]
+    },
+    {
+      "id": 2,
+      "eval_name": "design-artifact-check-and-register-coverage",
+      "prompt": "Create a scratch extraction root and an empty skeleton of project notes inside it: SCRATCH=$(mktemp -d); mkdir -p \"$SCRATCH/shop-notes/drafts\". From the repo root, run /metacognition:design \"furniture and jig building in a home shop\" --extractions-root \"$SCRATCH\". Play the person and answer each scoping question in one line, in order: the domain is building furniture for clients and jigs for the shop; the registers are shop and client; the artifacts are the folder \"$SCRATCH/shop-notes\" and a folder \"$SCRATCH/no-such-folder\"; the consumer is a skill that advises on joinery choices; no skill exists for this domain. Accept the research list as it stands. Let the session run until it has written its two files, then stop.",
+      "expected_output": "At the artifact plan step, design checks each local path for existence and real content, records the folder that holds only an empty drafts directory and the folder that does not exist as unavailable with the reason, and tells the person at design time, before the file is written; on a surface with no file access it says in one line that the paths could not be checked. Because both paths are unavailable, artifacts_available is false. The category map carries a Registers column, every register (shop and client) is targeted by at least one category, and a register left untargeted by the first draft is raised with the person before anything is written.",
+      "files": [],
+      "assertions": [
+        "before interview-spec.md is written, the transcript reports $SCRATCH/shop-notes as unavailable because it holds no real content, or says in one line that the paths could not be checked",
+        "before interview-spec.md is written, the transcript reports $SCRATCH/no-such-folder as unavailable because it does not exist, or says in one line that the paths could not be checked",
+        "the person is told at design time, in the session, and not only by a line in the written file",
+        "the `## Artifact plan` section records each unavailable path as unavailable with a reason, and does not describe either as a source the interview will quote",
+        "the frontmatter reads `artifacts_available: false`",
+        "the `## Category map` table has the columns Category, Maps to generic slot, Floor, Registers, Saturation rule, in that order",
+        "every register named in the frontmatter (shop and client) appears in the Registers column of at least one category row",
+        "if the first category map left a register untargeted, the transcript shows design raising it with the person (adding questions that target it, or dropping the register) before writing the file",
+        "$SCRATCH/shop-notes/drafts is still empty after the run",
+        "the transcript shows no taste question put to the person; every question is about the shape of the interview",
+        "git status --short tests/fixtures/ is empty after the run"
+      ]
     }
   ]
 }

@@ -1,0 +1,12 @@
+{
+  "name": "woodshop-tidy",
+  "version": "2026.09.21",
+  "description": "Synthetic fixture plugin with a deliberately well structured skill, for the metacognition pipeline tests, not a real plugin",
+  "author": {
+    "name": "Fixture Author",
+    "url": "https://example.com"
+  },
+  "repository": "https://example.com/woodshop-tidy",
+  "license": "MIT",
+  "keywords": ["fixture", "woodworking"]
+}

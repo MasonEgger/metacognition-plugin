@@ -2,6 +2,7 @@
 
 ## Recent
 <!-- 10 most recent lessons, newest first -->
+- Before a plan step says "the existing fixture demonstrates X", open the fixture and check; the plan assumed a stub skill was well structured, and the eval for that path needed its own fixture (2026-10-05)
 - Two programs that must agree on a derived number need to share the read and the split as well as the arithmetic, because sharing only the final function still lets them disagree on line endings; test the agreement on CRLF, byte-order-mark, and no-trailing-newline inputs (2026-10-05)
 - A round-trip test through the validator passes for inputs the format forbids when the validator does not check that rule, so the writer must enforce the two-line entry body itself (2026-10-05)
 - The prose gate does not flag literal dash and curly-quote codepoints inside .py files, so search for those codepoints before finalizing any script that handles those characters (2026-10-05)
@@ -11,13 +12,13 @@
 - Material derived from a real interview is private by default: rewrite it for the public repo with no quoted answers, then search the result and any issue text for private tokens before filing, because the doctrine guard does not scan `.ai-sessions/` or GitHub issues (2026-10-02)
 - When a spec's Roadmap says a follow-up is "tracked as an issue once the phase lands", file that issue in the session that ships the phase; nothing in a plan step carries the promise otherwise (2026-10-02)
 - GitHub Actions runs each `run:` step under `bash -e`, so reading `$?` on the line after a command never happens when that command exits non-zero; capture the code in the same command (`rc=0; cmd || rc=$?`) and test the step's script locally with `bash -e` (2026-10-02)
-- A step that prepares a manual check must leave every result slot visibly empty and keep automated checks in a separately labeled section, so a prepared checklist is never mistaken for a completed check (2026-10-01)
 
 ## Security
 - Material derived from a real interview is private by default: rewrite it for the public repo with no quoted answers, then search the result and any issue text for private tokens before filing, because the doctrine guard does not scan `.ai-sessions/` or GitHub issues (2026-10-02)
 - A tool that deletes or overwrites files in a directory must check for symlinks at every level it touches, the directory and each entry, and its drift check must not read through a link, or a link passes as a valid copy (2026-10-01)
 
 ## Workflow
+- Before a plan step says "the existing fixture demonstrates X", open the fixture and check; the plan assumed a stub skill was well structured, and the eval for that path needed its own fixture (2026-10-05)
 - Before moving a planning file, search the tests for its path; a guard that lists `plan.md` by name fails once the plan is archived (2026-10-03)
 - When a spec's Roadmap says a follow-up is "tracked as an issue once the phase lands", file that issue in the session that ships the phase; nothing in a plan step carries the promise otherwise (2026-10-02)
 - A step that prepares a manual check must leave every result slot visibly empty and keep automated checks in a separately labeled section, so a prepared checklist is never mistaken for a completed check (2026-10-01)

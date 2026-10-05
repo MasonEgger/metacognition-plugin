@@ -7,6 +7,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 The first phase (port from private main, 22 steps) is complete, shipped as `v0.1.0`, and archived under `.ai-sessions/port-from-private/`.
 The repo holds the planning documents, the Python toolchain, the plugin and marketplace manifests, the five skills, the research agent, the three shipped scripts, the build tools, the evals, the docs site, the README, and the CI and release workflows.
 `tests/fixtures/` holds the ported woodworking extractions and the woodshop plugin fixture; they are verbatim data, so do not edit them or lint their prose.
+`tests/fixtures/plugins/woodshop-sprawl/` is a second fixture plugin whose skill is badly structured on purpose (a vague description, one oversized `SKILL.md`, no references), so the skillify augment eval has a target to restructure; its defects are deliberate, so do not fix them.
+`tests/fixtures/plugins/woodshop-tidy/` is its opposite, a fixture plugin whose skill is well structured on purpose, so the "structure holds" verdict has a target; do not degrade it.
 `src/scripts/yaml_subset.py` (which also exposes `extract_frontmatter`), `tests/test_yaml_subset.py`, and `tests/test_yaml_parity.py` exist; the parity test holds the parser equal to PyYAML over every fixture frontmatter.
 `src/scripts/resolve_config.py` and `tests/test_resolve_config.py` exist too; tests that run the resolver must isolate HOME, XDG_CONFIG_HOME, and the working directory.
 `src/scripts/validate_artifacts.py` and `tests/test_validate_artifacts.py` exist, so all three scripts are shipped.

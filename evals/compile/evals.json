@@ -5,18 +5,39 @@
       "id": 1,
       "eval_name": "compile-woodworking-scratch-profile",
       "prompt": "Create a scratch copy of the woodworking fixture extraction for a clean compile run: SCRATCH=$(mktemp -d); cp -r tests/fixtures/extractions/woodworking \"$SCRATCH/woodworking\"; rm -f \"$SCRATCH/woodworking/profile.md\" \"$SCRATCH/woodworking/compile-log.md\". From the repo root, run /metacognition:compile woodworking --extractions-root \"$SCRATCH\". The scratch copy still carries a complete archive.md (status: complete) and an interview-spec.md with target_skill: null, so compile has everything it needs and nothing to ask the person about.",
-      "expected_output": "profile.md written at $SCRATCH/woodworking/profile.md with the seventeen required XML sections in profile-format.md's fixed order, the priority section reproduced verbatim, a recomputed token estimate at or under the 10,000 ceiling, and a frontmatter token_estimate that matches the recompute; compile-log.md written at $SCRATCH/woodworking/compile-log.md logging every cut with its source Qnn and the reason it failed the keep/cut test; the run ends by naming the files written and the next stage's command; the committed fixture at tests/fixtures/extractions/woodworking/ stays untouched.",
+      "expected_output": "profile.md written at $SCRATCH/woodworking/profile.md with the seventeen required XML sections in profile-format.md's fixed order, the priority section reproduced verbatim, a token estimate at or under the 10,000 ceiling, written to the frontmatter token_estimate line by `scripts/update_token_estimate.py` (or by the stated by-hand fallback when the script cannot run); compile-log.md written at $SCRATCH/woodworking/compile-log.md logging every cut with its source Qnn and the reason it failed the keep/cut test; the run ends by naming the files written and the next stage's command; the committed fixture at tests/fixtures/extractions/woodworking/ stays untouched.",
       "files": [],
       "assertions": [
         "the transcript states the extraction root in one line before any file is read or written",
         "$SCRATCH/woodworking/profile.md exists and its frontmatter parses with domain, registers, consumer, target_skill, version, token_estimate, and calibrated fields",
         "the profile body carries all seventeen sections (usage through final_instruction) in profile-format.md's fixed order, with none missing",
         "the priority section is the fixed text from profile-format.md, ending with the rule to preserve the person's deeper judgment over surface style",
+        "the token_estimate line was corrected by running `python3 scripts/update_token_estimate.py` on profile.md and the value it printed was reported to the person, or the run said the script could not run and used the by-hand fallback it states",
         "every golden_examples entry carries bad, good, and why",
         "the productive_contradictions section encodes the archive's contradiction ledger entry as a tension rather than resolving it",
         "$SCRATCH/woodworking/compile-log.md exists and logs at least one cut with its source Qnn heading and the reason it failed the keep/cut test",
         "the closing self-check, python3 scripts/validate_artifacts.py \"$SCRATCH/woodworking\" run from the compile skill's own directory, exits 0",
         "the run ends by naming profile.md and compile-log.md as the files written and /metacognition:calibrate woodworking as the next stage's command, then stops",
+        "git status --short tests/fixtures/ is empty after the run"
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "compile-battery-evidence-export-open-research",
+      "prompt": "Create a scratch copy of the battery fixture and finish its interview in the copy only: SCRATCH=$(mktemp -d); cp -r tests/fixtures/extractions/woodworking-battery \"$SCRATCH/woodworking-battery\"; sed -i 's/^status: in-progress/status: complete/' \"$SCRATCH/woodworking-battery/archive.md\"; sed -i '/^- R01 /a - R02 (Q04): Whether the studio tradition prefers oil or wax on cabinet interiors. Status: unresolved' \"$SCRATCH/woodworking-battery/archive.md\". The scratch archive now carries an export line (E01), an evidence entry (Q05), a resolved open-research line (R01), an unresolved one (R02), and a three-item battery (Q03). From the repo root, run /metacognition:compile woodworking-battery --extractions-root \"$SCRATCH\".",
+      "expected_output": "profile.md and compile-log.md are written. The archive's Exports list is copied into compile-log.md under its own `## Exports` heading, apart from the cuts, and its content is absent from the profile body. The ratified evidence entry (Q05) compiles to the written practice with its citation, never to a bare instruction to follow community practice. The unresolved Open research line (R02) is listed in the profile's do_not_infer section as not yet settled, and the resolved one (R01) is not. Each verdict in the Q03 battery is its own candidate rule traced to Q03 and its item number. The token estimate is produced by `scripts/update_token_estimate.py` or by the stated by-hand fallback.",
+      "files": [],
+      "assertions": [
+        "$SCRATCH/woodworking-battery/compile-log.md has a `## Exports` heading, separate from the cut entries, that lists E01 with its topic and its `unassigned` destination",
+        "the profile body states no rule about which film finish to choose for a dining table, since that topic was exported",
+        "the profile carries the practice Q05 ratified (the riving knife as required equipment for through cuts) together with its citation, a source named or linked from the Q05 entry",
+        "no line in the profile tells a consumer to follow community practice or the standard without naming the written practice",
+        "the profile's do_not_infer section lists the R02 line (oil or wax on cabinet interiors) as unresolved or not yet settled",
+        "the profile does not list R01 as unresolved, since it resolved in Q05",
+        "each of the three Q03 battery verdicts that survives the keep/cut test is traced to Q03 and its item number, and any cut is logged with its source",
+        "no profile line puts the interviewer's option or item wording in the person's mouth as their phrase",
+        "the profile's frontmatter token_estimate was set by `python3 scripts/update_token_estimate.py` or the by-hand fallback the skill states, and the printed value was reported to the person",
+        "python3 scripts/validate_artifacts.py \"$SCRATCH/woodworking-battery\", run from the compile skill's own directory, exits 0",
         "git status --short tests/fixtures/ is empty after the run"
       ]
     }
