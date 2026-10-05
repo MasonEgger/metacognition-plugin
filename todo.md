@@ -61,14 +61,14 @@ Check a step only when every sub-step under it is done.
   - [x] GREEN: fix what the run exposes
   - [x] REFACTOR: one table for section flags
   - [x] Verify coverage and just check
-- [ ] Step 6: update_token_estimate.py
-  - [ ] RED: arithmetic, current profile untouched, stale rewrite, body line untouched, check mode, three exit-2 cases, several paths, validator agrees, no temp files
-  - [ ] Document: module docstring
-  - [ ] GREEN: the script, one estimate function shared with the validator
-  - [ ] RED: --check over every good-fixture profile, subprocess from another directory
-  - [ ] GREEN: CLI entry point
-  - [ ] REFACTOR: one pure text-in, text-out function
-  - [ ] Verify coverage and just check
+- [x] Step 6: update_token_estimate.py
+  - [x] RED: arithmetic, current profile untouched, stale rewrite, body line untouched, check mode, three exit-2 cases, several paths, validator agrees, no temp files
+  - [x] Document: module docstring
+  - [x] GREEN: the script, one estimate function shared with the validator
+  - [x] RED: --check over every good-fixture profile, subprocess from another directory
+  - [x] GREEN: CLI entry point
+  - [x] REFACTOR: one pure text-in, text-out function
+  - [x] Verify coverage and just check
 
 ## Section 5: Research Contract and Agent
 

@@ -2,6 +2,7 @@
 
 ## Recent
 <!-- 10 most recent lessons, newest first -->
+- Two programs that must agree on a derived number need to share the read and the split as well as the arithmetic, because sharing only the final function still lets them disagree on line endings; test the agreement on CRLF, byte-order-mark, and no-trailing-newline inputs (2026-10-05)
 - A round-trip test through the validator passes for inputs the format forbids when the validator does not check that rule, so the writer must enforce the two-line entry body itself (2026-10-05)
 - The prose gate does not flag literal dash and curly-quote codepoints inside .py files, so search for those codepoints before finalizing any script that handles those characters (2026-10-05)
 - The prose gate does not catch a doubled word, so a reviewer found one in a docs page; search the changed docs for repeated adjacent words before finalizing (2026-10-05)
@@ -11,7 +12,6 @@
 - When a spec's Roadmap says a follow-up is "tracked as an issue once the phase lands", file that issue in the session that ships the phase; nothing in a plan step carries the promise otherwise (2026-10-02)
 - GitHub Actions runs each `run:` step under `bash -e`, so reading `$?` on the line after a command never happens when that command exits non-zero; capture the code in the same command (`rc=0; cmd || rc=$?`) and test the step's script locally with `bash -e` (2026-10-02)
 - A step that prepares a manual check must leave every result slot visibly empty and keep automated checks in a separately labeled section, so a prepared checklist is never mistaken for a completed check (2026-10-01)
-- A README's first sentence must agree with its own install section about which surfaces the project supports; check the opening line against the spec's scope statement before finalizing (2026-10-01)
 
 ## Security
 - Material derived from a real interview is private by default: rewrite it for the public repo with no quoted answers, then search the result and any issue text for private tokens before filing, because the doctrine guard does not scan `.ai-sessions/` or GitHub issues (2026-10-02)
@@ -35,6 +35,7 @@
 - A review ruling that contradicts a spec invariant needs a spec edit in the same pass, then `/bpe:plan --regen`, or plan and spec drift (2026-10-01)
 
 ## Testing
+- Two programs that must agree on a derived number need to share the read and the split as well as the arithmetic, because sharing only the final function still lets them disagree on line endings; test the agreement on CRLF, byte-order-mark, and no-trailing-newline inputs (2026-10-05)
 - A round-trip test through the validator passes for inputs the format forbids when the validator does not check that rule, so the writer must enforce the two-line entry body itself (2026-10-05)
 - A guard test over an existing tree cannot show RED on the tree itself, so write its detection logic test-first against planted input under tmp_path, then point it at the real tree, and never plant anything in the repo (2026-10-01)
 - To hold a block inside one file equal to another file, delimit it with a marker pair that appears exactly once, and have the test fail on a missing, repeated, or empty block, not only on a mismatch (2026-10-01)

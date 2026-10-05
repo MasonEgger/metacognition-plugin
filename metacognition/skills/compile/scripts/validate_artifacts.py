@@ -120,6 +120,24 @@ class Finding(NamedTuple):
     message: str
 
 
+def split_frontmatter(text: str) -> tuple[str, str, str] | None:
+    """Split artifact text on its frontmatter delimiters, the way parse_frontmatter does.
+
+    Args:
+        text: The artifact text with universal newlines already applied (what ``Path.read_text`` returns).
+
+    Returns:
+        A tuple of (preamble, frontmatter, body), or None when there is no closing delimiter. The
+        preamble is whatever precedes the first delimiter (empty for a normal file, a byte-order mark
+        when one is present).
+    """
+    parts = text.split(FRONTMATTER_DELIMITER, 2)
+    if len(parts) < 3:
+        return None
+    preamble, frontmatter, body = parts
+    return preamble, frontmatter, body
+
+
 def parse_frontmatter(path: Path) -> tuple[dict[str, object] | None, str, list[Finding]]:
     """Split a Markdown artifact into its YAML frontmatter and body.
 
@@ -137,8 +155,8 @@ def parse_frontmatter(path: Path) -> tuple[dict[str, object] | None, str, list[F
         the closing delimiter itself could not be found.
     """
     text = path.read_text(encoding="utf-8")
-    parts = text.split(FRONTMATTER_DELIMITER, 2)
-    if len(parts) < 3:
+    parts = split_frontmatter(text)
+    if parts is None:
         return (
             None,
             "",
@@ -306,9 +324,14 @@ def check_archive_optional_section_ids(path: Path, body: str) -> list[Finding]:
     return findings
 
 
+def estimate_tokens(body: str) -> int:
+    """Return the profile token estimate: the body's characters (not bytes) divided by four, rounded down."""
+    return len(body) // 4
+
+
 def check_profile_token_estimate(path: Path, frontmatter: dict[str, object], body: str) -> list[Finding]:
     """Recompute the profile token estimate; flag a ceiling breach or a stale stored value."""
-    estimate = len(body) // 4
+    estimate = estimate_tokens(body)
     findings: list[Finding] = []
     if estimate > TOKEN_CEILING:
         findings.append(
