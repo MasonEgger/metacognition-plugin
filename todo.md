@@ -93,12 +93,12 @@ Check a step only when every sub-step under it is done.
   - [x] just sync
   - [x] Verify: pytest, sync check, claude plugin validate, just check
   - [x] Document: CLAUDE.md note
-- [ ] Step 9: Design Checks Artifacts and Plans Register Coverage (task)
-  - [ ] Category map: Registers column, untargeted register rule, floors count probes
-  - [ ] Seeds and forced-choice bank: concrete scenarios, battery-suited seeds
-  - [ ] Artifact plan: availability check
-  - [ ] Closure pass: register and artifact checks
-  - [ ] Verify: just check, claude plugin validate
+- [x] Step 9: Design Checks Artifacts and Plans Register Coverage (task)
+  - [x] Category map: Registers column, untargeted register rule, floors count probes
+  - [x] Seeds and forced-choice bank: concrete scenarios, battery-suited seeds
+  - [x] Artifact plan: availability check
+  - [x] Closure pass: register and artifact checks
+  - [x] Verify: just check, claude plugin validate
 - [ ] Step 10: Compile and Calibrate Read the New Archive and Use the Estimate Script (task)
   - [ ] MANIFEST and EXPECTED: compile and calibrate gain update_token_estimate.py
   - [ ] Compile: battery verdicts, evidence rule, exports rule, meta-rule routing, picker reading rule

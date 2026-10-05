@@ -90,34 +90,57 @@ A domain may add slots (for example, a "trade-off resolution" slot for a code do
 | Hard nos | Lines they will not cross | 8 |
 | Red flags | What makes them distrust an artifact or a person in this domain | 8 |
 
-Write the final `## Category map` table with columns `Category | Maps to generic slot | Floor | Saturation rule`.
+Write the final `## Category map` table with columns `Category | Maps to generic slot | Floor | Registers | Saturation rule`.
+The Registers column names which of the registers from step 1 each category's questions target, for example `shop` or `shop, client`.
 The saturation rule column carries the standing rule from extraction theory rule 10 (three consecutive answers with no new constraint) unless a category earns a documented exception.
+
+Every register in the frontmatter must be targeted by at least one category.
+When one is not, raise it with the person and either add questions that target it or drop the register, before writing anything.
+
+A floor counts probes, not turns: an open probe, a forced choice, or an evidence entry counts one, and a battery counts its items.
+The default floors do not change.
+`references/interview-spec-format.md` states the rule in full.
 
 ### 5. Question Seeds
 
-Write 5 to 8 seeds per category under `## Question seeds`, each pairing a starting question with a named probe pattern: `forced-choice`, `ladder`, `contrast`, `artifact`, `critical-incident`, or `triad`, matching extraction theory rule 16's technique index.
+Write 5 to 8 seeds per category under `## Question seeds`, each pairing a starting question with a named probe pattern: `forced-choice`, `ladder`, `contrast`, `artifact`, `critical-incident`, `triad`, or `battery`, matching extraction theory rule 16's technique index.
 Seeds are starting points for the interview, never a script.
+
+Write each seed as a concrete scenario, never an abstract framing.
+An abstract framing asks for a principle; a scenario puts a specific object or situation in front of the person.
+Bad: "How do you think about joint strength versus appearance?"
+Good: "Here are two identical boxes, one mitered and glued, one butt-jointed and pinned. Which one ships, and why?"
+Seeds that suit a battery (probe `battery`) are closed verdict items clustered in one category, for example a run of shop-built joints each judged "ship it" or "redo it".
 
 When `target_skill` is set, ground at least one seed per category in the existing skill, for example "your skill says X; is that still true, and when not?", and hold at least one third of all seeds across the whole spec to this grounded pattern.
 Count seeds across every category before closing this step to confirm the floor is met; a spec that falls short goes back and adds seeds rather than shipping under the floor.
 
 ### 6. Artifact Plan
 
+Before writing the plan, check that each local path exists and holds real content.
+Record a missing path, or an empty skeleton, as unavailable with the reason, and tell the person now so they can supply another.
+An empty skeleton is a directory or document that holds only scaffolding and no work product.
+Where the surface has no file access, say in one line that the paths could not be checked.
+This is a check on the artifacts, never a question about taste.
+
 Write `## Artifact plan`: every real artifact the interview will ground questions in, its path or fetch instructions, and how it gets used, a contrast pair, a single grounding example, or a sorting set.
 In augment mode, the target skill's own files come first: extraction theory rule 7 treats an existing skill as itself an artifact, a stated preference from an earlier interview, now probed against what the person says today.
 
-Set `artifacts_available: false` in frontmatter when no real artifacts exist.
+Set `artifacts_available: false` in frontmatter when no real artifacts exist, counting an unavailable path as none.
 This does not skip the section; it records that the interview leans harder on hypotheticals and contrast probing, and the resulting profile carries lower confidence.
 
 ### 7. Forced-Choice Bank
 
 Write 8 to 12 numbered entries (`FC-01`, `FC-02`, and so on) under `## Forced-choice bank`, each a pair of concrete options, plausible on both sides, plus the standard probe: which, why, and what would flip the answer.
+Write each pair as a concrete scenario, as in step 5: "A finish that looks flawless in the shop but yellows within a year" against "A finish that looks plain in the shop but ages evenly for a decade", not "appearance versus durability".
 Draw pairs from the artifact plan where possible; write fresh pairs only where no artifact grounds the choice.
 
 ### 8. Closure Pass
 
 Before writing anything to disk, re-read the whole session and list every question, fork, or ambiguity raised.
 Resolve each one now: ask it if it is still open, or, for anything the person waved off with "whatever" or "you decide", record the concrete choice made with a one-line rationale rather than leaving it phrased as a question.
+Also confirm register coverage (every register in the frontmatter is targeted by at least one category in the map) and artifact availability (every local path is recorded as available or unavailable, with the reason).
+A failure on either goes back to the person now, not into the file.
 `interview-spec.md` never carries an "Open questions" or "TBD" section; every decision the interview needs is closed before step 9 writes the file.
 
 ### 9. Write the Artifacts
