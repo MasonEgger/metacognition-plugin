@@ -72,12 +72,12 @@ Check a step only when every sub-step under it is done.
 
 ## Section 5: Research Contract and Agent
 
-- [ ] Step 7: Add the Practice Lookup to the Research Contract and the Agent
-  - [ ] RED: both request shapes named, practice lookup input, output, and no-results line
-  - [ ] Document: research-contract.md practice lookup with one canonical example
-  - [ ] GREEN: copy into the agent block, update the agent description and body
-  - [ ] just sync
-  - [ ] Verify: just check, claude plugin validate
+- [x] Step 7: Add the Practice Lookup to the Research Contract and the Agent
+  - [x] RED: both request shapes named, practice lookup input, output, and no-results line
+  - [x] Document: research-contract.md practice lookup with one canonical example
+  - [x] GREEN: copy into the agent block, update the agent description and body
+  - [x] just sync
+  - [x] Verify: just check, claude plugin validate
 
 ## Section 6: The Skills
 
