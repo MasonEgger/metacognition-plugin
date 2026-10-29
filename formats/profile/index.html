@@ -1113,7 +1113,7 @@ token_estimate: &lt;int&gt;
 <li><code>token_estimate</code>: the profile body's estimated size, characters divided by four, with no tokenizer dependency.
   Compile reports it, and compile and calibrate keep the line current with <code>scripts/update_token_estimate.py</code>.
   The structure check recomputes it independently.
-  The check fails above the 10,000 hard ceiling and flags a stored estimate that disagrees with its own recount.</li>
+  The check fails above the extraction's token ceiling (10,000 unless the interview spec's <code>token_ceiling</code> field sets another bound) and flags a stored estimate that disagrees with its own recount.</li>
 <li><code>calibrated</code>: <code>true</code> once three consecutive calibration rounds show non-increasing correction counts and the most recent round is at or under <code>calibration_threshold</code> from <code>interview-spec.md</code>.
   Otherwise <code>false</code>.
   Calibrate is the only stage that flips this field.</li>
@@ -1172,7 +1172,9 @@ The zero state, for a profile compile has just written, is <code>&lt;rounds&gt;0
 <p><strong>final_instruction.</strong>
 The closing instruction: apply the profile silently, protect your judgment over surface style when rules conflict per the priority block, and flag rather than guess when a case falls outside what the profile covers.</p>
 <h2 id="the-token-contract">The Token Contract<a class="headerlink" href="#the-token-contract" title="Permanent link">&para;</a></h2>
-<p>Compile targets 2,000 to 4,000 tokens for a single-register profile body, more when the domain carries several registers, with a hard ceiling of 10,000 at any register count.
+<p>Compile targets 2,000 to 4,000 tokens for a single-register profile body, more when the domain carries several registers, with a hard ceiling of 10,000 by default.
+A domain whose register count earns more room raises the ceiling explicitly, with a <code>token_ceiling</code> field design records in the interview spec's frontmatter; the structure check bounds the profile against that value instead.
+The override is a deliberate decision made at design time, never a number a later stage bumps to make a profile fit.
 Token count is estimated as characters divided by four, with no tokenizer dependency.
 Compile reports its estimate in the <code>token_estimate</code> frontmatter field, and <code>scripts/update_token_estimate.py</code> corrects that line after compile and after each calibration fold-back.
 The structure check recomputes the same estimate from the body.

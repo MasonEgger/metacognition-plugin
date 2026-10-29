@@ -1090,7 +1090,10 @@ Probe: which, why, and what would flip your answer
 <li><code>artifacts_available</code>: whether you have real artifacts (repositories, past reviews, decision logs) to ground the interview against, per <a href="../../method/#7-artifact-grounding">rule 7</a>.
   <code>false</code> does not skip the Artifact plan section.
   It records that the interview leans harder on hypotheticals and contrast probing instead.</li>
-<li><code>calibration_threshold</code>: the correction count calibrate treats as acceptable for a round to count toward the calibrated state, which the <a href="../profile/">profile.md</a> page defines.
+<li><code>calibration_threshold</code>: the correction count calibrate treats as acceptable for a round to count toward the calibrated state, which the <a href="../profile/">profile.md</a> page defines.</li>
+<li><code>token_ceiling</code>: optional, the profile body's token ceiling for this extraction.
+  Absent means the default 10,000, which fits up to roughly four registers; design sets the field, with your agreement, when a domain's register count earns more room.
+  The value must be a positive integer, and raising it later is a deliberate spec edit, never a number another stage bumps to make a profile fit.
   The default is <code>3</code>.
   A domain can raise or lower it in the spec, but the field must be present and explicit.</li>
 <li><code>created</code>: the date design wrote the spec, <code>YYYY-MM-DD</code>.</li>
@@ -1190,7 +1193,7 @@ There is no <code>/metacognition:status</code> command, because this table alrea
 <li><code>design</code>: whether the interview spec exists and its creation date.</li>
 <li><code>interview n/floor</code>: probes asked so far over the sum of category floors.
   The count may exceed the floor sum, and the cell is marked complete when the archive's status flips to <code>complete</code>.</li>
-<li><code>compile tokens</code>: the compiled profile's estimated token count, the figure the structure check recomputes and checks against the 10,000-token ceiling.</li>
+<li><code>compile tokens</code>: the compiled profile's estimated token count, the figure the structure check recomputes and checks against the extraction's token ceiling.</li>
 <li><code>calibrate rounds, last count</code>: how many calibration rounds have run, and the correction count of the most recent one.</li>
 <li><code>skillify -&gt; plugin:skill (mode)</code>: once skillify has run, the target skill it produced or augmented, and whether it ran in augment or replace mode.</li>
 </ul>
