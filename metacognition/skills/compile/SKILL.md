@@ -98,13 +98,13 @@ The `<why>` names the specific rule or judgment the bad-to-good change demonstra
 
 Write `<extractions-root>/<slug>/profile.md` per the fenced template and section order in `references/profile-format.md`: frontmatter (`domain`, `registers`, `consumer`, `target_skill`, `version` stamped `YYYY.MM.DD`, `token_estimate`, `calibrated: false`, since no calibration round has run yet), then the seventeen fixed sections in order.
 The `priority` section is fixed text, reproduced verbatim per `references/profile-format.md`; nothing in compile edits it.
-Target the profile body at 2,000 to 4,000 tokens for a single-register domain, more for several registers, with a hard ceiling of 10,000.
+Target the profile body at 2,000 to 4,000 tokens for a single-register domain, more for several registers, with a hard ceiling of 10,000 unless the spec's optional `token_ceiling` field sets another bound.
 Write `profile.md` with a `token_estimate` line, then correct that line by command, never by eyeballing the file: run `python3 scripts/update_token_estimate.py <extractions-root>/<slug>/profile.md`.
 The script requires the line to exist, counts everything after the closing frontmatter delimiter in characters divided by four, the number `scripts/validate_artifacts.py` recounts independently, and rewrites the line when it is stale.
 It prints `<path>: updated <old> -> <new>` or `<path>: current (<n>)`.
 When the script cannot run (no code execution, or an interpreter older than Python 3.12), compute the same figure by hand and write it to the line: `python3 -c "import pathlib; print(len(pathlib.Path('<extractions-root>/<slug>/profile.md').read_text(encoding='utf-8').split('---\n', 2)[2]) // 4)"`, or equivalently `wc -m` on the same tail slice.
 Report the value the script printed to the person directly at the end of the run, alongside the compiled section count, so they see the number compile is claiming before they ever open the file.
-A profile over the 10,000-token ceiling means step 3 kept biography or self-description; return to step 3 and re-read the log, but never cut a line that passes the keep/cut test to make the number, and never merge two laws into one to save space, since a merged law is applied less reliably than two atomic ones.
+A profile over the ceiling means step 3 kept biography or self-description; return to step 3 and re-read the log, but never cut a line that passes the keep/cut test to make the number, and never merge two laws into one to save space, since a merged law is applied less reliably than two atomic ones.
 Update the extraction README's `compile tokens` cell with the same figure, per `references/interview-spec-format.md`'s standing rule that every pipeline stage updates the table as its last action.
 Set the body's `<calibration_state>` section to `profile-format.md`'s zero state, since no calibration round has run yet: `<rounds>0</rounds>`, `<last_date>none</last_date>`, `<last_correction_count>none</last_correction_count>`.
 
@@ -118,7 +118,7 @@ An `## Open research` line still marked `unresolved` is listed here as not yet s
 
 After `profile.md` and `compile-log.md` are both written, run `python3 scripts/validate_artifacts.py <extractions-root>/<slug>` against the extraction and resolve every finding it reports before telling the person compile is done.
 A finding here, a missing section, an out-of-order section, an incomplete golden example, a stale `token_estimate`, means the just-written `profile.md` does not satisfy the structural contract downstream stages assume; fix it now, while this session's context is still loaded, rather than leaving it for calibrate or skillify to trip over.
-When the script cannot run (no code execution, or an interpreter older than Python 3.12), say so in one line and check the same things by hand against `references/profile-format.md`: the frontmatter parses, the body stays at or under the 10,000-token ceiling counted as characters divided by four, the stored `token_estimate` equals that same count, all seventeen sections are present in the fixed order, and every golden example carries `<bad>`, `<good>`, and `<why>`.
+When the script cannot run (no code execution, or an interpreter older than Python 3.12), say so in one line and check the same things by hand against `references/profile-format.md`: the frontmatter parses, the body stays at or under the extraction's token ceiling (10,000 unless the spec's `token_ceiling` field sets another bound) counted as characters divided by four, the stored `token_estimate` equals that same count, all seventeen sections are present in the fixed order, and every golden example carries `<bad>`, `<good>`, and `<why>`.
 
 ## Finish
 

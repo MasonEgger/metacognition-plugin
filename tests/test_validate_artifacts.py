@@ -267,6 +267,68 @@ def test_profile_one_token_over_the_ceiling_fails(tmp_path: Path, capsys: pytest
     assert _checks(out) == ["profile-token-ceiling"]
 
 
+def _spec_markdown_with_ceiling(token_ceiling: str) -> str:
+    """Build a minimal interview-spec.md whose frontmatter carries the given token_ceiling line value."""
+    return f"---\ndomain: test\ntoken_ceiling: {token_ceiling}\n---\n\nbody\n"
+
+
+def test_spec_token_ceiling_raises_the_ceiling(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """A profile over the default ceiling passes when the spec's token_ceiling covers it."""
+    extraction_dir = tmp_path / "raised-ceiling"
+    extraction_dir.mkdir()
+    (extraction_dir / "interview-spec.md").write_text(_spec_markdown_with_ceiling("12000"), encoding="utf-8")
+    (extraction_dir / "profile.md").write_text(_profile_markdown_of_size(11000), encoding="utf-8")
+
+    code, out = _run_validator(extraction_dir, capsys)
+
+    assert code == 0, out
+
+
+def test_spec_token_ceiling_still_bounds_the_profile(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """A profile over the spec's raised ceiling is flagged against that ceiling, not the default."""
+    extraction_dir = tmp_path / "over-raised-ceiling"
+    extraction_dir.mkdir()
+    (extraction_dir / "interview-spec.md").write_text(_spec_markdown_with_ceiling("12000"), encoding="utf-8")
+    (extraction_dir / "profile.md").write_text(_profile_markdown_of_size(12001), encoding="utf-8")
+
+    code, out = _run_validator(extraction_dir, capsys)
+
+    assert code == 1
+    assert _checks(out) == ["profile-token-ceiling"]
+    assert "12000 ceiling" in out
+
+
+def test_spec_token_ceiling_can_lower_the_ceiling(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """A spec token_ceiling below the default bounds the profile at the lower value."""
+    extraction_dir = tmp_path / "lowered-ceiling"
+    extraction_dir.mkdir()
+    (extraction_dir / "interview-spec.md").write_text(_spec_markdown_with_ceiling("5000"), encoding="utf-8")
+    (extraction_dir / "profile.md").write_text(_profile_markdown_of_size(7500), encoding="utf-8")
+
+    code, out = _run_validator(extraction_dir, capsys)
+
+    assert code == 1
+    assert _checks(out) == ["profile-token-ceiling"]
+    assert "5000 ceiling" in out
+
+
+@pytest.mark.parametrize("bad_value", ['"plenty"', "0", "-200", "true"])
+def test_invalid_spec_token_ceiling_flags_and_keeps_the_default(
+    bad_value: str, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """A token_ceiling that is not a positive integer is flagged, and the default still bounds the profile."""
+    extraction_dir = tmp_path / "bad-ceiling"
+    extraction_dir.mkdir()
+    (extraction_dir / "interview-spec.md").write_text(_spec_markdown_with_ceiling(bad_value), encoding="utf-8")
+    (extraction_dir / "profile.md").write_text(_profile_markdown_of_size(10001), encoding="utf-8")
+
+    code, out = _run_validator(extraction_dir, capsys)
+
+    assert code == 1
+    assert _checks(out) == ["interview-spec-token-ceiling", "profile-token-ceiling"]
+    assert "10000 ceiling" in out
+
+
 def test_missing_section_flags_missing_required_xml_section(
     capsys: pytest.CaptureFixture[str],
 ) -> None:

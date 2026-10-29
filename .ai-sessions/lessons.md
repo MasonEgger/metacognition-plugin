@@ -2,6 +2,9 @@
 
 ## Recent
 <!-- 10 most recent lessons, newest first -->
+- A validator bound raised once will be challenged again; the second challenge is the signal to parameterize it at the artifact that knows the context (the interview spec's token_ceiling), not to re-bump the constant (2026-10-29)
+- When a hard-coded validator bound becomes configurable, an invalid override must be flagged and fall back to the stricter default, so a typo never widens the guard (2026-10-29)
+- yaml_subset rejects a zero-padded scalar like 01, so the calibration round file template's round: NN frontmatter fails frontmatter-parse at round 01 unless the value is quoted; fix the template or document the quoting (2026-10-29)
 - When an eval must pin one of two verdicts, each verdict needs a fixture that reliably produces it, or the pin passes or fails by chance (2026-10-05)
 - A docs page that restates a reference should not gain a fact its reference lacks; add the fact to the reference in the same pull request, as the profile format page and its source were brought into agreement (2026-10-05)
 - A section with no validator still needs an independent check of the tree before its commit; the orchestrator's own version, source, and zip check was the only second look in Step 14 (2026-10-05)
@@ -9,9 +12,6 @@
 - Two programs that must agree on a derived number need to share the read and the split as well as the arithmetic, because sharing only the final function still lets them disagree on line endings; test the agreement on CRLF, byte-order-mark, and no-trailing-newline inputs (2026-10-05)
 - A round-trip test through the validator passes for inputs the format forbids when the validator does not check that rule, so the writer must enforce the two-line entry body itself (2026-10-05)
 - The prose gate does not flag literal dash and curly-quote codepoints inside .py files, so search for those codepoints before finalizing any script that handles those characters (2026-10-05)
-- The prose gate does not catch a doubled word, so a reviewer found one in a docs page; search the changed docs for repeated adjacent words before finalizing (2026-10-05)
-- Before moving a planning file, search the tests for its path; a guard that lists `plan.md` by name fails once the plan is archived (2026-10-03)
-- A docs theme can hide the header's repo link on narrow screens, and a bare URL is plain text in the built site, so put repo links and the version in the page body and read the built HTML to confirm they are clickable (2026-10-03)
 
 ## Security
 - Material derived from a real interview is private by default: rewrite it for the public repo with no quoted answers, then search the result and any issue text for private tokens before filing, because the doctrine guard does not scan `.ai-sessions/` or GitHub issues (2026-10-02)
@@ -46,6 +46,9 @@
 - pytest exits 5 when it collects no tests; a goal run whose early steps have no tests needs a verification command that accepts exit 5 (2026-10-01)
 
 ## Tooling
+- A validator bound raised once will be challenged again; the second challenge is the signal to parameterize it at the artifact that knows the context (the interview spec's token_ceiling), not to re-bump the constant (2026-10-29)
+- When a hard-coded validator bound becomes configurable, an invalid override must be flagged and fall back to the stricter default, so a typo never widens the guard (2026-10-29)
+- yaml_subset rejects a zero-padded scalar like 01, so the calibration round file template's round: NN frontmatter fails frontmatter-parse at round 01 unless the value is quoted; fix the template or document the quoting (2026-10-29)
 - A packaging tool should collect and report every refusal in one run, write to a temporary name and rename it, and be tested for leaving an existing artifact untouched when it refuses (2026-10-01)
 - mypy exits 2 when a directory listed in its configured `files` holds no .py files, so an empty tools/ broke `just check`; the recipe was narrowed until Step 14 added tools/sync_skills.py and is plain `uv run mypy` again (2026-10-01)
 - Start the `/bpe:review` server with the 2-hour background limit (`timeout: 7200000`); the 30-minute default kills it mid-review (2026-10-01)

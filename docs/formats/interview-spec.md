@@ -70,6 +70,9 @@ Probe: which, why, and what would flip your answer
   `false` does not skip the Artifact plan section.
   It records that the interview leans harder on hypotheticals and contrast probing instead.
 - `calibration_threshold`: the correction count calibrate treats as acceptable for a round to count toward the calibrated state, which the [profile.md](profile.md) page defines.
+- `token_ceiling`: optional, the profile body's token ceiling for this extraction.
+  Absent means the default 10,000, which fits up to roughly four registers; design sets the field, with your agreement, when a domain's register count earns more room.
+  The value must be a positive integer, and raising it later is a deliberate spec edit, never a number another stage bumps to make a profile fit.
   The default is `3`.
   A domain can raise or lower it in the spec, but the field must be present and explicit.
 - `created`: the date design wrote the spec, `YYYY-MM-DD`.
@@ -152,7 +155,7 @@ The columns, in order:
 - `design`: whether the interview spec exists and its creation date.
 - `interview n/floor`: probes asked so far over the sum of category floors.
   The count may exceed the floor sum, and the cell is marked complete when the archive's status flips to `complete`.
-- `compile tokens`: the compiled profile's estimated token count, the figure the structure check recomputes and checks against the 10,000-token ceiling.
+- `compile tokens`: the compiled profile's estimated token count, the figure the structure check recomputes and checks against the extraction's token ceiling.
 - `calibrate rounds, last count`: how many calibration rounds have run, and the correction count of the most recent one.
 - `skillify -> plugin:skill (mode)`: once skillify has run, the target skill it produced or augmented, and whether it ran in augment or replace mode.
 
