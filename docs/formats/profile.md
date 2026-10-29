@@ -94,7 +94,7 @@ calibrated: true|false
 - `token_estimate`: the profile body's estimated size, characters divided by four, with no tokenizer dependency.
   Compile reports it, and compile and calibrate keep the line current with `scripts/update_token_estimate.py`.
   The structure check recomputes it independently.
-  The check fails above the 10,000 hard ceiling and flags a stored estimate that disagrees with its own recount.
+  The check fails above the extraction's token ceiling (10,000 unless the interview spec's `token_ceiling` field sets another bound) and flags a stored estimate that disagrees with its own recount.
 - `calibrated`: `true` once three consecutive calibration rounds show non-increasing correction counts and the most recent round is at or under `calibration_threshold` from `interview-spec.md`.
   Otherwise `false`.
   Calibrate is the only stage that flips this field.
@@ -173,7 +173,9 @@ The closing instruction: apply the profile silently, protect your judgment over 
 
 ## The Token Contract
 
-Compile targets 2,000 to 4,000 tokens for a single-register profile body, more when the domain carries several registers, with a hard ceiling of 10,000 at any register count.
+Compile targets 2,000 to 4,000 tokens for a single-register profile body, more when the domain carries several registers, with a hard ceiling of 10,000 by default.
+A domain whose register count earns more room raises the ceiling explicitly, with a `token_ceiling` field design records in the interview spec's frontmatter; the structure check bounds the profile against that value instead.
+The override is a deliberate decision made at design time, never a number a later stage bumps to make a profile fit.
 Token count is estimated as characters divided by four, with no tokenizer dependency.
 Compile reports its estimate in the `token_estimate` frontmatter field, and `scripts/update_token_estimate.py` corrects that line after compile and after each calibration fold-back.
 The structure check recomputes the same estimate from the body.

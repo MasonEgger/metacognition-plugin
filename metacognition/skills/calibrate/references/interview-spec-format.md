@@ -69,6 +69,9 @@ Probe: which, why, and what would flip your answer
   `false` does not skip the Artifact plan section; it records that the interview leans harder on hypotheticals and contrast probing instead.
 - `calibration_threshold`: the correction count calibrate treats as acceptable for a round to count toward the calibrated state, the state `profile-format.md`'s `calibrated` frontmatter field entry defines.
   Default `3`; a domain can raise or lower it in the spec if the standard 3 does not fit, but the field must be present and explicit rather than left to calibrate's own default.
+- `token_ceiling`: optional, the profile body's token ceiling for this extraction, the bound `python3 scripts/validate_artifacts.py` checks `profile.md` against.
+  Absent means the default 10,000, which fits up to roughly four registers; design sets the field, with the person's agreement, when a domain's register count earns more room (a six-register domain fits comfortably at 12,000).
+  The value must be a positive integer, and raising it later is a deliberate spec edit, never a number another stage bumps to make a profile fit.
 - `created`: the date design wrote the spec, `YYYY-MM-DD`.
 
 ## Section Reference
@@ -115,7 +118,7 @@ Columns, in order:
 - `design`: whether the interview spec exists and its creation date.
 - `interview n/floor`: probes asked so far over the sum of category floors, so a glance shows how far the interview has to go.
   The count may exceed the floor sum, and the cell is marked complete when the archive's `status` flips to `complete`.
-- `compile tokens`: the compiled profile's estimated token count, the same figure `python3 scripts/validate_artifacts.py` recomputes and checks against the 10,000-token ceiling.
+- `compile tokens`: the compiled profile's estimated token count, the same figure `python3 scripts/validate_artifacts.py` recomputes and checks against the extraction's token ceiling (10,000 unless the spec's `token_ceiling` field sets another bound).
 - `calibrate rounds, last count`: how many calibration rounds have run, and the correction count of the most recent one, the number that has to trend down for the profile to reach the calibrated state.
 - `skillify -> plugin:skill (mode)`: once skillify has run, the target skill it produced or augmented, and whether it ran in augment or replace mode.
 

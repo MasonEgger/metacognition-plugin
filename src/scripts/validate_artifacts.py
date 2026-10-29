@@ -20,8 +20,12 @@ and exits 1 with a findings list when any fail (exit 0 when clean):
   present, its line IDs (``R01``, ``E01``) run contiguously from 1 with no gap and no repeat; the
   message names the section. Neither section is ever required.
 - **profile-token-ceiling**: the profile body (everything after the closing frontmatter delimiter
-  through end of file), recomputed as characters divided by four, does not exceed the token ceiling.
-  The ceiling is 10,000 at any register count.
+  through end of file), recomputed as characters divided by four, does not exceed the extraction's
+  token ceiling. The ceiling defaults to 10,000; an ``interview-spec.md`` whose frontmatter carries
+  a positive-integer ``token_ceiling`` field sets the ceiling for its extraction instead, the way
+  design records it for a domain whose register count earns the room.
+- **interview-spec-token-ceiling**: a ``token_ceiling`` field that is present but not a positive
+  integer is flagged, and the default ceiling bounds the profile check instead.
 - **profile-token-estimate-mismatch**: the frontmatter's stored ``token_estimate`` matches that same
   recompute, flagged even when the profile is comfortably under the ceiling.
 - **profile-missing-section**: every required top-level XML section from the profile format
@@ -67,7 +71,7 @@ except ModuleNotFoundError:
         parse,
     )
 
-TOKEN_CEILING = 10000
+DEFAULT_TOKEN_CEILING = 10000
 FRONTMATTER_DELIMITER = "---\n"
 
 # The profile.md section order, sourced from the profile format's "Section
@@ -329,16 +333,40 @@ def estimate_tokens(body: str) -> int:
     return len(body) // 4
 
 
-def check_profile_token_estimate(path: Path, frontmatter: dict[str, object], body: str) -> list[Finding]:
+def resolve_token_ceiling(spec_path: Path, spec_frontmatter: dict[str, object] | None) -> tuple[int, list[Finding]]:
+    """Return the extraction's profile token ceiling and any finding its spec field raised.
+
+    The ceiling is the interview spec's ``token_ceiling`` frontmatter field when it is a positive
+    integer, and the default otherwise. A field that is present but not a positive integer earns an
+    ``interview-spec-token-ceiling`` finding, and the default still bounds the profile check, so an
+    invalid override never widens the guard.
+    """
+    if spec_frontmatter is None or "token_ceiling" not in spec_frontmatter:
+        return DEFAULT_TOKEN_CEILING, []
+    value = spec_frontmatter["token_ceiling"]
+    if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+        return DEFAULT_TOKEN_CEILING, [
+            Finding(
+                "interview-spec-token-ceiling",
+                str(spec_path),
+                f"token_ceiling {value!r} is not a positive integer; the default {DEFAULT_TOKEN_CEILING} applies",
+            )
+        ]
+    return value, []
+
+
+def check_profile_token_estimate(
+    path: Path, frontmatter: dict[str, object], body: str, ceiling: int = DEFAULT_TOKEN_CEILING
+) -> list[Finding]:
     """Recompute the profile token estimate; flag a ceiling breach or a stale stored value."""
     estimate = estimate_tokens(body)
     findings: list[Finding] = []
-    if estimate > TOKEN_CEILING:
+    if estimate > ceiling:
         findings.append(
             Finding(
                 "profile-token-ceiling",
                 str(path),
-                f"recomputed token estimate {estimate} exceeds the {TOKEN_CEILING} ceiling",
+                f"recomputed token estimate {estimate} exceeds the {ceiling} ceiling",
             )
         )
     stored = frontmatter.get("token_estimate")
@@ -467,9 +495,12 @@ def validate_extraction(extraction_dir: Path) -> list[Finding]:
     findings: list[Finding] = []
 
     interview_spec_path = extraction_dir / "interview-spec.md"
+    token_ceiling = DEFAULT_TOKEN_CEILING
     if interview_spec_path.is_file():
-        _, _, interview_spec_findings = parse_frontmatter(interview_spec_path)
+        spec_frontmatter, _, interview_spec_findings = parse_frontmatter(interview_spec_path)
         findings.extend(interview_spec_findings)
+        token_ceiling, ceiling_findings = resolve_token_ceiling(interview_spec_path, spec_frontmatter)
+        findings.extend(ceiling_findings)
 
     archive_path = extraction_dir / "archive.md"
     if archive_path.is_file():
@@ -488,7 +519,9 @@ def validate_extraction(extraction_dir: Path) -> list[Finding]:
         findings.extend(check_profile_required_sections(profile_path, profile_body))
         findings.extend(check_golden_examples(profile_path, profile_body))
         if profile_frontmatter is not None:
-            findings.extend(check_profile_token_estimate(profile_path, profile_frontmatter, profile_body))
+            findings.extend(
+                check_profile_token_estimate(profile_path, profile_frontmatter, profile_body, token_ceiling)
+            )
 
     calibration_dir = extraction_dir / "calibration"
     findings.extend(check_calibration_round_contiguity(calibration_dir))

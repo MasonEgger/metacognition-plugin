@@ -27,7 +27,7 @@ Every extraction lives in its own directory, `<root>/<slug>/`:
 The extraction README status table is described at the end of the [interview-spec.md](interview-spec.md#extraction-readme-status-table) page.
 
 A structure check, `python3 scripts/validate_artifacts.py <root>/<slug>`, runs at the end of interview, compile, and calibrate.
-It checks structure only: a missing or empty directory, frontmatter that does not parse, archive question numbering and category counts, battery items, the ids in the optional Open research and Exports sections, the profile token ceiling and estimate, missing or misordered profile sections, incomplete golden examples, and gaps in calibration round numbers.
+It checks structure only: a missing or empty directory, frontmatter that does not parse, archive question numbering and category counts, battery items, the ids in the optional Open research and Exports sections, the profile token ceiling (the spec's `token_ceiling` field, or the 10,000 default) and estimate, missing or misordered profile sections, incomplete golden examples, and gaps in calibration round numbers.
 
 Two other scripts write files for you.
 `scripts/archive_append.py` appends each interview entry and updates the counts and the README cell.

@@ -115,7 +115,7 @@ calibrated: true|false
 - `version`: a CalVer stamp, `YYYY.MM.DD`, with `.N` appended for a second stamp the same day.
   Compile stamps the version when it first writes `profile.md`; calibrate restamps it whenever a fold-back materially changes the file.
   Skillify never bumps this or any plugin version; it only reports what the person may want to bump.
-- `token_estimate`: the profile body's estimated size, characters divided by four, no tokenizer dependency, reported by compile and recomputed independently by `python3 scripts/validate_artifacts.py`, which fails above the 10,000 hard ceiling and flags a stored estimate that disagrees with its own recount.
+- `token_estimate`: the profile body's estimated size, characters divided by four, no tokenizer dependency, reported by compile and recomputed independently by `python3 scripts/validate_artifacts.py`, which fails above the extraction's token ceiling (10,000 unless the interview spec's `token_ceiling` field sets another bound) and flags a stored estimate that disagrees with its own recount.
   The compile and calibrate stages run `python3 scripts/update_token_estimate.py` to keep the stored value current.
 - `calibrated`: `true` once three consecutive calibration rounds show non-increasing correction counts and the most recent round is at or under `calibration_threshold` from `interview-spec.md`, `false` otherwise.
   Calibrate is the only stage that flips this field.
@@ -177,8 +177,10 @@ The zero state, for a profile compile has just written and calibrate has never t
 
 ## The Token Contract
 
-Compile targets 2,000 to 4,000 tokens for a single-register profile body, more when the domain carries several registers, with a hard ceiling of 10,000 at any register count.
-Token count is estimated as characters divided by four, deliberately avoiding a tokenizer dependency; compile reports its own estimate in the `token_estimate` frontmatter field, and `python3 scripts/validate_artifacts.py` recomputes the same estimate from the body independently, failing any profile over the 10,000 ceiling and flagging a stored `token_estimate` that disagrees with its own recount.
+Compile targets 2,000 to 4,000 tokens for a single-register profile body, more when the domain carries several registers, with a hard ceiling of 10,000 by default.
+A domain whose register count earns more room raises the ceiling explicitly: design records a `token_ceiling` field in `interview-spec.md`'s frontmatter, and the validator bounds the profile against that value instead.
+The override is a deliberate, logged decision made at design time, never a number a later stage bumps to make a profile fit.
+Token count is estimated as characters divided by four, deliberately avoiding a tokenizer dependency; compile reports its own estimate in the `token_estimate` frontmatter field, and `python3 scripts/validate_artifacts.py` recomputes the same estimate from the body independently, failing any profile over the extraction's ceiling and flagging a stored `token_estimate` that disagrees with its own recount.
 The compile and calibrate stages run `python3 scripts/update_token_estimate.py` to keep the stored `token_estimate` current after compile and after each calibration fold-back.
 The ceiling is a padding guard, not a compression target: the keep/cut test and the compile log are what keep a profile honest, and a line that changes downstream output is never cut to make a number.
 `profile.md` is a reference file the produced skill loads on trigger, not the skill body, so size guidance written for a skill body does not apply to it.
